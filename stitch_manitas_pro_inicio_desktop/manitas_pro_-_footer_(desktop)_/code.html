@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Footer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0F766E", 
+              "accent": "#F97316",
+              "background-light": "#F3F4F6",
+              "background-dark": "#1F2937",
+              "text-light-primary": "#374151",
+              "text-light-secondary": "#6B7281",
+              "text-dark-primary": "#F9FAFB",
+              "text-dark-secondary": "#D1D5DB"
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-800">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-white dark:bg-gray-800 font-display" style='font-family: Inter, "Noto Sans", sans-serif;'>
+<div class="layout-container flex h-full grow flex-col">
+<!-- This is a placeholder for the page content, the footer will be at the bottom -->
+<main class="flex-grow">
+</main>
+<!-- Footer Section -->
+<footer class="bg-background-light dark:bg-background-dark text-text-light-primary dark:text-dark-primary">
+<div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+<div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+<!-- Column 1: Brand -->
+<div class="md:col-span-2 lg:col-span-5">
+<a class="flex items-center gap-2 text-xl font-bold text-text-light-primary dark:text-dark-primary" href="#">
+<span class="material-symbols-outlined text-primary text-3xl">build</span>
+<span>Manitas Pro</span>
+</a>
+<p class="mt-4 text-sm leading-6 text-text-light-secondary dark:text-dark-secondary">
+              Soluciones confiables y de calidad para todas las reparaciones de tu hogar.
+            </p>
+</div>
+<!-- Spacer Column for layout -->
+<div class="hidden lg:col-span-2 lg:block"></div>
+<!-- Column 2: Navigation -->
+<div class="lg:col-span-2">
+<h3 class="text-sm font-semibold leading-6 text-text-light-primary dark:text-dark-primary">Navegación</h3>
+<ul class="mt-4 space-y-3" role="list">
+<li><a class="text-sm leading-6 text-text-light-secondary hover:text-primary dark:text-dark-secondary dark:hover:text-primary" href="#">Inicio</a></li>
+<li><a class="text-sm leading-6 text-text-light-secondary hover:text-primary dark:text-dark-secondary dark:hover:text-primary" href="#">Sobre Nosotros</a></li>
+<li><a class="text-sm leading-6 text-text-light-secondary hover:text-primary dark:text-dark-secondary dark:hover:text-primary" href="#">Servicios</a></li>
+<li><a class="text-sm leading-6 text-text-light-secondary hover:text-primary dark:text-dark-secondary dark:hover:text-primary" href="#">Contacto</a></li>
+</ul>
+</div>
+<!-- Column 3: Social & Legal -->
+<div class="lg:col-span-3">
+<h3 class="text-sm font-semibold leading-6 text-text-light-primary dark:text-dark-primary">Síguenos</h3>
+<div class="mt-4 flex space-x-5">
+<a class="text-text-light-secondary hover:text-accent dark:text-dark-secondary dark:hover:text-accent" href="#">
+<span class="sr-only">Facebook</span>
+<!-- I cannot use the custom data-icon attribute, so I will replace it with Material Symbols -->
+<span class="material-symbols-outlined">social_leaderboard</span>
+</a>
+<a class="text-text-light-secondary hover:text-accent dark:text-dark-secondary dark:hover:text-accent" href="#">
+<span class="sr-only">Instagram</span>
+<!-- I cannot use the custom data-icon attribute, so I will replace it with an appropriate span -->
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.525c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.884 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0-2a7 7 0 110 14 7 7 0 010-14zm6.406-2.31a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-text-light-secondary hover:text-accent dark:text-dark-secondary dark:hover:text-accent" href="#">
+<span class="sr-only">WhatsApp</span>
+<!-- I cannot use the custom data-icon attribute, so I will replace it with an appropriate span -->
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.7-.8.9-.1.1-.3.2-.5.1-.2-.1-.9-.3-1.8-1.1-.7-.6-1.1-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.2.4-.4.1-.1.2-.2.2-.4.1-.1.1-.3 0-.4-.1-.1-.6-1.4-.8-2-.2-.5-.4-.5-.5-.5h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.5 2.3 3.7 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.4-.1.4-.2 1.2-.5 1.4-1 .2-.5.2-.9.1-1zM12 2a10 10 0 00-10 10c0 5.5 4.5 10 10 10 1.7 0 3.4-.4 4.9-1.3l-1.6-2.9c-1 .6-2.2.9-3.4.9-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7c0 1.2-.3 2.4-.9 3.4l2.9 1.6C21.6 15.4 22 13.7 22 12A10 10 0 0012 2z"></path></svg>
+</a>
+</div>
+<h3 class="mt-8 text-sm font-semibold leading-6 text-text-light-primary dark:text-dark-primary">Legal</h3>
+<ul class="mt-4 space-y-3" role="list">
+<li><a class="text-sm leading-6 text-text-light-secondary hover:text-primary dark:text-dark-secondary dark:hover:text-primary" href="#">Aviso de privacidad</a></li>
+<li><a class="text-sm leading-6 text-text-light-secondary hover:text-primary dark:text-dark-secondary dark:hover:text-primary" href="#">Términos y condiciones</a></li>
+</ul>
+</div>
+</div>
+<div class="mt-10 border-t border-gray-900/10 dark:border-gray-200/10 pt-8">
+<p class="text-xs leading-5 text-text-light-secondary dark:text-dark-secondary text-center">© 2024 Manitas Pro. Todos los derechos reservados.</p>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

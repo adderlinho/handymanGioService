@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Servicios - Manitas Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F766E", // Teal/Deep Green from user prompt
+                        "accent": "#F97316", // Warm Orange from user prompt
+                        "background-light": "#F3F4F6", // Light Gray from user prompt
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light-primary": "#111827",
+                        "text-dark-primary": "#F9FAFB",
+                        "text-light-secondary": "#6B7280",
+                        "text-dark-secondary": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
+                    },
+                    fontFamily: {
+                        "display": ["Poppins", "Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light-primary dark:text-text-dark-primary">
+<header class="bg-card-light dark:bg-card-dark shadow-sm sticky top-0 z-50">
+<div class="container mx-auto flex items-center justify-between p-4">
+<a class="flex items-center gap-2" href="#">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-8" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCWHMyea-PzpWOTYyEly9ALzkW4y6Dly6MaUh1mN9NF_qiwu1ZB0ob1Z6PzgaJYzCJoiIzfWHEUmn3DpCVmCeGzUWOTfSWSoUhXtyplGfo9bur05AzshLezRTuBtkhCN2SMQOBJgVu3pwbLQZffiAExv1UlunSzu9-0d9a_zGMmEUMMwbn1rDOxEwYs4sMCGG3KG85V1Djvrb90o_ucnt29Gja48_KC6H3NcHVrAufLjX3FeSmZPNSK5Q2BcRehNdnQyXAkFLVRwhs9");'></div>
+<span class="text-xl font-bold text-primary">Manitas Pro</span>
+</a>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary" href="#">Inicio</a>
+<a class="text-sm font-medium text-primary" href="#">Servicios</a>
+<a class="text-sm font-medium hover:text-primary" href="#">Sobre Nosotros</a>
+<a class="text-sm font-medium hover:text-primary" href="#">Contacto</a>
+</nav>
+<button class="md:hidden">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main>
+<section class="py-16 sm:py-24" id="servicios">
+<div class="container mx-auto px-4">
+<div class="text-center max-w-2xl mx-auto">
+<h2 class="text-sm font-bold uppercase tracking-wider text-primary">Nuestros Servicios</h2>
+<p class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">Soluciones expertas para tu hogar</p>
+<p class="mt-4 text-lg text-text-light-secondary dark:text-text-dark-secondary">
+                        Ofrecemos una amplia gama de servicios de reparación y mantenimiento para mantener tu hogar en perfectas condiciones.
+                    </p>
+</div>
+<div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+<div class="flex flex-col rounded-xl bg-card-light dark:bg-card-dark shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+<div class="p-8 flex-grow">
+<div class="flex items-center justify-center size-12 rounded-full bg-primary/10 mb-4">
+<span class="material-symbols-outlined text-primary !text-3xl">plumbing</span>
+</div>
+<h3 class="text-xl font-semibold mb-2">Fontanería</h3>
+<p class="text-text-light-secondary dark:text-text-dark-secondary">
+                                Reparación de fugas, instalación de grifos, desatascos y mantenimiento general de tuberías.
+                            </p>
+</div>
+<div class="p-6 pt-0">
+<a class="font-semibold text-primary hover:text-accent transition-colors" href="#">
+                                Ver detalles <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col rounded-xl bg-card-light dark:bg-card-dark shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+<div class="p-8 flex-grow">
+<div class="flex items-center justify-center size-12 rounded-full bg-primary/10 mb-4">
+<span class="material-symbols-outlined text-primary !text-3xl">electrical_services</span>
+</div>
+<h3 class="text-xl font-semibold mb-2">Electricidad</h3>
+<p class="text-text-light-secondary dark:text-text-dark-secondary">
+                                Instalación de lámparas, reparación de enchufes, solución de cortocircuitos y más.
+                            </p>
+</div>
+<div class="p-6 pt-0">
+<a class="font-semibold text-primary hover:text-accent transition-colors" href="#">
+                                Ver detalles <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col rounded-xl bg-card-light dark:bg-card-dark shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+<div class="p-8 flex-grow">
+<div class="flex items-center justify-center size-12 rounded-full bg-primary/10 mb-4">
+<span class="material-symbols-outlined text-primary !text-3xl">format_paint</span>
+</div>
+<h3 class="text-xl font-semibold mb-2">Pintura</h3>
+<p class="text-text-light-secondary dark:text-text-dark-secondary">
+                                Pintura de interiores y exteriores, preparación de superficies y acabados profesionales.
+                            </p>
+</div>
+<div class="p-6 pt-0">
+<a class="font-semibold text-primary hover:text-accent transition-colors" href="#">
+                                Ver detalles <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col rounded-xl bg-card-light dark:bg-card-dark shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+<div class="p-8 flex-grow">
+<div class="flex items-center justify-center size-12 rounded-full bg-primary/10 mb-4">
+<span class="material-symbols-outlined text-primary !text-3xl">chair</span>
+</div>
+<h3 class="text-xl font-semibold mb-2">Montaje de Muebles</h3>
+<p class="text-text-light-secondary dark:text-text-dark-secondary">
+                                Ensamblaje profesional de todo tipo de muebles, rápido y sin complicaciones.
+                            </p>
+</div>
+<div class="p-6 pt-0">
+<a class="font-semibold text-primary hover:text-accent transition-colors" href="#">
+                                Ver detalles <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col rounded-xl bg-card-light dark:bg-card-dark shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+<div class="p-8 flex-grow">
+<div class="flex items-center justify-center size-12 rounded-full bg-primary/10 mb-4">
+<span class="material-symbols-outlined text-primary !text-3xl">build</span>
+</div>
+<h3 class="text-xl font-semibold mb-2">Pequeñas Reparaciones</h3>
+<p class="text-text-light-secondary dark:text-text-dark-secondary">
+                                Colgar cuadros, instalar estanterías, reparar persianas y otras tareas del hogar.
+                            </p>
+</div>
+<div class="p-6 pt-0">
+<a class="font-semibold text-primary hover:text-accent transition-colors" href="#">
+                                Ver detalles <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+<div class="flex flex-col rounded-xl bg-card-light dark:bg-card-dark shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+<div class="p-8 flex-grow">
+<div class="flex items-center justify-center size-12 rounded-full bg-primary/10 mb-4">
+<span class="material-symbols-outlined text-primary !text-3xl">yard</span>
+</div>
+<h3 class="text-xl font-semibold mb-2">Jardinería Básica</h3>
+<p class="text-text-light-secondary dark:text-text-dark-secondary">
+                                Mantenimiento de jardines, corte de césped y cuidado de plantas para un exterior impecable.
+                            </p>
+</div>
+<div class="p-6 pt-0">
+<a class="font-semibold text-primary hover:text-accent transition-colors" href="#">
+                                Ver detalles <span aria-hidden="true">→</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-16 text-center">
+<a class="inline-block rounded-full bg-accent px-8 py-3 text-base font-semibold text-white shadow-sm hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" href="#">
+                        Solicita un presupuesto
+                    </a>
+</div>
+</div>
+</section>
+</main>
+
+</body></html>

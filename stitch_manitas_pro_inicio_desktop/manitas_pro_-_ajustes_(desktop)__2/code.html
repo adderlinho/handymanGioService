@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Reparaciones para tu hogar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F766E", // Teal/Deep Green
+                        "accent": "#F97316", // Warm Orange
+                        "background-light": "#F3F4F6", // Light Gray
+                        "background-dark": "#111827",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#1F2937",
+                        "text-light-primary": "#111827",
+                        "text-dark-primary": "#F9FAFB",
+                        "text-light-secondary": "#6B7280",
+                        "text-dark-secondary": "#9CA3AF",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#374151",
+                    },
+                    fontFamily: {
+                        "display": ["Poppins", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light text-text-light-primary antialiased">
+<div class="flex min-h-screen flex-col">
+<header class="bg-card-light/80 sticky top-0 z-50 w-full backdrop-blur-md">
+<div class="container mx-auto flex h-20 items-center justify-between px-4">
+<a class="flex items-center gap-2" href="#">
+<span class="material-symbols-outlined !text-4xl text-primary">construction</span>
+<span class="text-xl font-bold text-primary">Manitas Pro</span>
+</a>
+<button aria-label="Abrir menú" class="rounded-lg p-2 md:hidden">
+<span class="material-symbols-outlined !text-3xl">menu</span>
+</button>
+<nav class="hidden items-center gap-6 md:flex">
+<a class="text-sm font-medium text-text-light-secondary transition-colors hover:text-primary" href="#">Inicio</a>
+<a class="text-sm font-medium text-text-light-secondary transition-colors hover:text-primary" href="#">Servicios</a>
+<a class="text-sm font-medium text-text-light-secondary transition-colors hover:text-primary" href="#">Sobre Nosotros</a>
+<a class="text-sm font-medium text-text-light-secondary transition-colors hover:text-primary" href="#">Contacto</a>
+<a class="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90" href="#">
+                        Agendar Visita
+                    </a>
+</nav>
+</div>
+</header>
+<main class="flex-1">
+<section class="bg-card-light py-16 sm:py-24">
+<div class="container mx-auto grid grid-cols-1 gap-12 px-4 text-center lg:grid-cols-2 lg:items-center lg:gap-16 lg:text-left">
+<div class="flex flex-col items-center lg:items-start">
+<h1 class="mb-4 text-4xl font-extrabold leading-tight tracking-tighter text-text-light-primary sm:text-5xl md:text-6xl">
+                            Reparaciones confiables para tu hogar
+                        </h1>
+<p class="mb-8 max-w-xl text-lg text-text-light-secondary">
+                            Electricidad, plomería, pintura y mantenimiento general para hogares y pequeños negocios.
+                        </p>
+<div class="flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
+<a class="rounded-lg bg-primary px-8 py-3 text-base font-semibold text-white shadow-sm transition-transform hover:scale-105" href="#">
+                                Agenda tu visita
+                            </a>
+<a class="rounded-lg bg-transparent px-8 py-3 text-base font-semibold text-primary ring-1 ring-inset ring-primary transition-transform hover:scale-105 hover:bg-primary/5" href="#">
+                                Ver trabajos realizados
+                            </a>
+</div>
+</div>
+<div class="flex justify-center">
+<div class="bg-center bg-no-repeat aspect-[4/3] w-full max-w-md rounded-xl bg-cover shadow-lg" data-alt="Ilustración de un técnico amigable de Manitas Pro trabajando en un hogar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4HOu9bblkkOYwRy4UZxOgmOXkykct7mob7Okgp8nu7sa5Spz_E2P6KORzAVgF_HvFAEvXo65NDMBf2b5F8rphh3a3dMbPTJzP_Eca2Xd69X2nWK5SW6UFoXAKbe4k9ERNiRoGZ3dFk95u3aFIYutxvNlbULdJYPwduE2PU7o8RG2wORRKTVEWARuc7osHnjmRm4UWyQjrEvEz1OPs10oYQheipgPadbD2FJUECUEPGguoAME_5kKvKdNOD7s93Aus0tpy0J48flJ6");'></div>
+</div>
+</div>
+</section>
+</main>
+</div>
+
+</body></html>

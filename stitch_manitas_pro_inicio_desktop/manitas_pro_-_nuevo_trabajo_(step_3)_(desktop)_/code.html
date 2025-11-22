@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Nuevo Trabajo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0F766E", // Teal from user request
+            "accent": "#F97316", // Orange from user request
+            "background-light": "#F8FAFC",
+            "background-dark": "#112120",
+            "card-light": "#FFFFFF",
+            "card-dark": "#1F2937",
+            "text-light-primary": "#1F2937",
+            "text-dark-primary": "#F8FAFC",
+            "text-light-secondary": "#64748B",
+            "text-dark-secondary": "#94A3B8",
+            "border-light": "#CBD5E1",
+            "border-dark": "#475569",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem", // Larger default for a softer look
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex flex-col w-64 bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark p-4 shrink-0">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Manitas Pro company logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAtlebTTeUrRHsdBToS8uVU6A4eL3Za6BCsIMgX9hqisJKovoyvVXbtPAFlbsvxHMPav4RpMgk60unhnNwWT6VG2VCtjy6NJKyhQpjU9K_w95WRSY7FDeT0PavBXqCwt9WMDfdhftOTWEEDFynTr1xusD9x9TNuG06blKziob5m-fUhKWl8fPeDUh_6vZQAXB37-I0qXNkCLIO_iWu1107J34AtkhZ6nprIXOf2f4sgVOESdwZRLYwXmiNv3piJscs6xxRDJdDctJCO");'></div>
+<div class="flex flex-col">
+<h1 class="text-text-light-primary dark:text-dark-primary text-base font-bold leading-normal">Manitas Pro</h1>
+<p class="text-text-light-secondary dark:text-dark-secondary text-sm font-normal leading-normal">Panel de control</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-light-primary dark:text-dark-primary hover:bg-primary/10" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-sm font-medium leading-normal">Inicio</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">construction</span>
+<p class="text-sm font-bold leading-normal">Trabajos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-light-primary dark:text-dark-primary hover:bg-primary/10" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Clientes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-light-primary dark:text-dark-primary hover:bg-primary/10" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<p class="text-sm font-medium leading-normal">Inventario</p>
+</a>
+</nav>
+<div class="flex flex-col gap-2">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Nuevo trabajo</span>
+</button>
+<div class="flex flex-col mt-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-light-primary dark:text-dark-primary hover:bg-primary/10" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Ajustes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-text-light-primary dark:text-dark-primary hover:bg-primary/10" href="#">
+<span class="material-symbols-outlined">help</span>
+<p class="text-sm font-medium leading-normal">Ayuda</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 md:p-8 lg:p-10">
+<div class="max-w-4xl mx-auto">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 mb-6">
+<p class="text-text-light-primary dark:text-dark-primary text-4xl font-black leading-tight tracking-[-0.033em]">Nuevo trabajo</p>
+</div>
+<!-- Main Card -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-sm overflow-hidden">
+<!-- Tabs as Stepper -->
+<div class="border-b border-border-light dark:border-border-dark px-4 md:px-6">
+<div class="flex gap-4 sm:gap-8">
+<a class="flex items-center gap-2 justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
+<div class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-xs font-bold">1</div>
+<p class="hidden sm:block text-sm font-bold leading-normal tracking-[0.015em]">Cliente y Servicio</p>
+</a>
+<a class="flex items-center gap-2 justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
+<div class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-xs font-bold">2</div>
+<p class="hidden sm:block text-sm font-bold leading-normal tracking-[0.015em]">Agendar</p>
+</a>
+<a class="flex items-center gap-2 justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4" href="#">
+<div class="flex items-center justify-center size-6 rounded-full bg-primary text-white text-xs font-bold">3</div>
+<p class="hidden sm:block text-sm font-bold leading-normal tracking-[0.015em]">Materiales e inventario</p>
+</a>
+</div>
+</div>
+<div class="p-6 md:p-8">
+<!-- ProgressBar -->
+<div class="flex flex-col gap-2 mb-8">
+<div class="flex gap-6 justify-between">
+<p class="text-text-light-primary dark:text-dark-primary text-base font-medium leading-normal">Paso 3 de 3: Materiales e inventario</p>
+</div>
+<div class="rounded-full bg-primary/20 h-2">
+<div class="h-2 rounded-full bg-primary" style="width: 100%;"></div>
+</div>
+</div>
+<!-- SectionHeader -->
+<h2 class="text-text-light-primary dark:text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">Materiales utilizados</h2>
+<!-- Materials Table -->
+<div class="overflow-x-auto">
+<div class="min-w-[600px]">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 pb-2 border-b border-border-light dark:border-border-dark">
+<p class="col-span-4 text-text-light-secondary dark:text-dark-secondary text-xs font-semibold uppercase tracking-wider">Artículo de inventario</p>
+<p class="col-span-2 text-text-light-secondary dark:text-dark-secondary text-xs font-semibold uppercase tracking-wider">Cantidad</p>
+<p class="col-span-2 text-text-light-secondary dark:text-dark-secondary text-xs font-semibold uppercase tracking-wider text-right">Costo unitario</p>
+<p class="col-span-3 text-text-light-secondary dark:text-dark-secondary text-xs font-semibold uppercase tracking-wider text-right">Costo total</p>
+<div class="col-span-1"></div>
+</div>
+<!-- Table Body -->
+<div class="flex flex-col gap-4 mt-4">
+<!-- Table Row 1 -->
+<div class="grid grid-cols-12 gap-4 items-center">
+<div class="col-span-4">
+<select class="w-full h-10 px-3 py-2 text-sm bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-text-light-primary dark:text-dark-primary">
+<option>Tornillo para madera 1"</option>
+<option>Taquete de plástico 1/4"</option>
+<option>Cinta de teflón</option>
+</select>
+</div>
+<div class="col-span-2">
+<input class="w-full h-10 px-3 py-2 text-sm bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-text-light-primary dark:text-dark-primary" type="number" value="10"/>
+</div>
+<p class="col-span-2 text-text-light-primary dark:text-dark-primary text-sm text-right">$0.50</p>
+<p class="col-span-3 text-text-light-primary dark:text-dark-primary text-sm font-medium text-right">$5.00</p>
+<div class="col-span-1 flex justify-end">
+<button class="p-2 text-text-light-secondary dark:text-dark-secondary hover:text-red-500 rounded-full hover:bg-red-500/10">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</div>
+<!-- Table Row 2 -->
+<div class="grid grid-cols-12 gap-4 items-center">
+<div class="col-span-4">
+<select class="w-full h-10 px-3 py-2 text-sm bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-text-light-primary dark:text-dark-primary">
+<option>Taquete de plástico 1/4"</option>
+<option>Tornillo para madera 1"</option>
+<option>Cinta de teflón</option>
+</select>
+</div>
+<div class="col-span-2">
+<input class="w-full h-10 px-3 py-2 text-sm bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-text-light-primary dark:text-dark-primary" type="number" value="1"/>
+</div>
+<p class="col-span-2 text-text-light-primary dark:text-dark-primary text-sm text-right">$12.00</p>
+<p class="col-span-3 text-text-light-primary dark:text-dark-primary text-sm font-medium text-right">$12.00</p>
+<div class="col-span-1 flex justify-end">
+<button class="p-2 text-text-light-secondary dark:text-dark-secondary hover:text-red-500 rounded-full hover:bg-red-500/10">
+<span class="material-symbols-outlined text-base">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Add Item Button -->
+<div class="mt-6">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-primary border-2 border-primary rounded-lg hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">add</span>
+                    Agregar material
+                </button>
+</div>
+<!-- Total Summary -->
+<div class="flex justify-end mt-8 pt-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-baseline gap-4">
+<p class="text-text-light-secondary dark:text-dark-secondary font-medium">Costo total de materiales:</p>
+<p class="text-accent text-2xl font-bold">$17.00</p>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex justify-between items-center p-6 bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark">
+<button class="px-6 py-2.5 text-sm font-bold text-text-light-primary dark:text-dark-primary bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">Atrás</button>
+<button class="px-6 py-2.5 text-sm font-bold text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors">Siguiente</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

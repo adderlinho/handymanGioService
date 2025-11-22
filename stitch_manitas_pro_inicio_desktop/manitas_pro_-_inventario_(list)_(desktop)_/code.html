@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Inventario</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0F766E",
+            "accent": "#F97316",
+            "background-light": "#F8FAFC",
+            "background-dark": "#112120",
+            "card-light": "#FFFFFF",
+            "card-dark": "#1E293B",
+            "text-light": "#1E293B",
+            "text-dark": "#E2E8F0",
+            "text-secondary-light": "#64748B",
+            "text-secondary-dark": "#94A3B8",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 bg-card-light dark:bg-card-dark p-4 flex flex-col justify-between border-r border-slate-200 dark:border-slate-700">
+<div>
+<div class="flex items-center gap-3 p-2 mb-6">
+<div class="bg-primary/20 text-primary p-2 rounded-lg">
+<span class="material-symbols-outlined">construction</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-text-light dark:text-text-dark text-base font-bold leading-normal">Manitas Pro</h1>
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-normal leading-normal">Administrador</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-100 dark:hover:bg-slate-700 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-sm font-medium leading-normal">Inicio</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-100 dark:hover:bg-slate-700 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<p class="text-sm font-medium leading-normal">Agenda</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-100 dark:hover:bg-slate-700 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Clientes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined fill">inventory_2</span>
+<p class="text-sm font-bold leading-normal">Inventario</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-100 dark:hover:bg-slate-700 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<p class="text-sm font-medium leading-normal">Reportes</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-100 dark:hover:bg-slate-700 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Ajustes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-secondary-light dark:text-text-secondary-dark hover:bg-slate-100 dark:hover:bg-slate-700 rounded-DEFAULT" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Salir</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-10">
+<div class="mx-auto max-w-7xl">
+<!-- PageHeading -->
+<header class="flex flex-col md:flex-row flex-wrap justify-between items-center gap-4 mb-8">
+<h1 class="text-text-light dark:text-text-dark text-4xl font-black tracking-tight">Inventario</h1>
+<div class="flex gap-3">
+<button class="flex h-11 items-center justify-center gap-x-2 rounded-DEFAULT border border-slate-300 dark:border-slate-600 bg-transparent px-4 text-sm font-semibold text-text-light dark:text-text-dark hover:bg-slate-100 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined text-base">ios_share</span>
+              Exportar
+            </button>
+<button class="flex h-11 items-center justify-center gap-x-2 rounded-DEFAULT bg-primary px-4 text-sm font-semibold text-white hover:opacity-90">
+<span class="material-symbols-outlined text-base">add</span>
+              Nuevo artículo
+            </button>
+</div>
+</header>
+<!-- Filters & Search Bar -->
+<div class="mb-6 rounded-lg bg-card-light dark:bg-card-dark p-4 shadow-sm border border-slate-200 dark:border-slate-700">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+<div class="md:col-span-2">
+<label class="flex flex-col w-full">
+<div class="flex w-full flex-1 items-stretch rounded-DEFAULT h-11">
+<span class="text-text-secondary-light dark:text-text-secondary-dark flex items-center justify-center pl-3 pr-2 bg-slate-100 dark:bg-slate-700 rounded-l-DEFAULT border border-r-0 border-slate-300 dark:border-slate-600 material-symbols-outlined">search</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none rounded-r-DEFAULT text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-l-0 border-slate-300 dark:border-slate-600 bg-card-light dark:bg-card-dark h-full placeholder:text-text-secondary-light dark:placeholder:text-text-secondary-dark pl-2 text-sm font-normal" placeholder="Buscar por nombre o código..."/>
+</div>
+</label>
+</div>
+<button class="flex h-11 w-full shrink-0 items-center justify-between gap-x-2 rounded-DEFAULT bg-slate-100 dark:bg-slate-700 px-3 border border-slate-300 dark:border-slate-600">
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium">Categoría: Todas</p>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark !text-xl">expand_more</span>
+</button>
+<button class="flex h-11 w-full shrink-0 items-center justify-between gap-x-2 rounded-DEFAULT bg-slate-100 dark:bg-slate-700 px-3 border border-slate-300 dark:border-slate-600">
+<p class="text-text-secondary-light dark:text-text-secondary-dark text-sm font-medium">Estado: Todos</p>
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark !text-xl">expand_more</span>
+</button>
+</div>
+<div class="mt-4 border-t border-slate-200 dark:border-slate-700 pt-4">
+<div class="flex items-center gap-4 justify-start">
+<div class="flex items-center gap-3">
+<label class="relative flex h-6 w-11 cursor-pointer items-center rounded-full border-none bg-slate-200 dark:bg-slate-600 p-0.5 has-[:checked]:justify-end has-[:checked]:bg-accent">
+<div class="h-5 w-5 rounded-full bg-white shadow-sm"></div>
+<input class="invisible absolute" type="checkbox"/>
+</label>
+<p class="text-text-light dark:text-text-dark text-sm font-medium flex-1 truncate">Mostrar solo inventario bajo</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Inventory Table -->
+<div class="overflow-x-auto rounded-lg bg-card-light dark:bg-card-dark shadow-sm border border-slate-200 dark:border-slate-700">
+<table class="w-full text-left text-sm">
+<thead class="bg-slate-50 dark:bg-slate-800 text-xs text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider">
+<tr>
+<th class="px-6 py-3 font-medium" scope="col">Código / SKU</th>
+<th class="px-6 py-3 font-medium" scope="col">Nombre del artículo</th>
+<th class="px-6 py-3 font-medium" scope="col">Categoría</th>
+<th class="px-6 py-3 font-medium" scope="col">En existencia</th>
+<th class="px-6 py-3 font-medium" scope="col">Unidad</th>
+<th class="px-6 py-3 font-medium" scope="col">Estado</th>
+<th class="px-6 py-3 font-medium" scope="col">Stock Mínimo</th>
+<th class="px-6 py-3 font-medium" scope="col">Ubicación</th>
+<th class="px-6 py-3 font-medium text-right" scope="col">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 bg-accent/10 dark:bg-accent/20">
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">TAL-BOS-001</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">Taladro Percutor Bosch</td>
+<td class="px-6 py-4 whitespace-nowrap"><span class="bg-sky-100 dark:bg-sky-900 text-sky-800 dark:text-sky-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Herramienta</span></td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-2 text-accent font-bold">
+<span class="material-symbols-outlined !text-base">warning</span>2
+                  </div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">pza</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">En uso</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">3</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">Vehículo 1</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined !text-xl">edit</span></button>
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-red-500"><span class="material-symbols-outlined !text-xl">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">TOR-MAD-034</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">Tornillos para madera 1"</td>
+<td class="px-6 py-4 whitespace-nowrap"><span class="bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Consumible</span></td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">250</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">pza</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">Nuevo</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">50</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">Almacén A</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined !text-xl">edit</span></button>
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-red-500"><span class="material-symbols-outlined !text-xl">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">LLAV-GRI-002</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">Llave de grifo universal</td>
+<td class="px-6 py-4 whitespace-nowrap"><span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Repuesto</span></td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">12</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">pza</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">Nuevo</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">5</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">Almacén B</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined !text-xl">edit</span></button>
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-red-500"><span class="material-symbols-outlined !text-xl">delete</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50">
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">BRO-MUL-010</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">Juego de brocas multiusos</td>
+<td class="px-6 py-4 whitespace-nowrap"><span class="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-300 text-xs font-medium px-2.5 py-0.5 rounded-full">Accesorio</span></td>
+<td class="px-6 py-4 whitespace-nowrap text-text-light dark:text-text-dark font-medium">8</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">caja</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">En uso</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">2</td>
+<td class="px-6 py-4 whitespace-nowrap text-text-secondary-light dark:text-text-secondary-dark">Vehículo 2</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary"><span class="material-symbols-outlined !text-xl">edit</span></button>
+<button class="p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-red-500"><span class="material-symbols-outlined !text-xl">delete</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<nav aria-label="Table navigation" class="flex items-center justify-between p-4 border-t border-slate-200 dark:border-slate-700">
+<span class="text-sm font-normal text-text-secondary-light dark:text-text-secondary-dark">Mostrando <span class="font-semibold text-text-light dark:text-text-dark">1-4</span> de <span class="font-semibold text-text-light dark:text-text-dark">100</span></span>
+<div class="inline-flex -space-x-px text-sm h-8">
+<a class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-text-secondary-light dark:text-text-secondary-dark bg-card-light dark:bg-card-dark border border-slate-300 dark:border-slate-600 rounded-l-DEFAULT hover:bg-slate-100 dark:hover:bg-slate-700" href="#">Anterior</a>
+<a class="flex items-center justify-center px-3 h-8 leading-tight text-text-secondary-light dark:text-text-secondary-dark bg-card-light dark:bg-card-dark border border-slate-300 dark:border-slate-600 rounded-r-DEFAULT hover:bg-slate-100 dark:hover:bg-slate-700" href="#">Siguiente</a>
+</div>
+</nav>
+</div>
+</div>
+</main>
+</div>
+</body></html>

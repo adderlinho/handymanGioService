@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Trabajos Realizados</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0d776e",
+              "background-light": "#f6f8f8",
+              "background-dark": "#112120",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        font-size: 1.25rem;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<main class="flex flex-1 justify-center py-12 sm:py-16 md:py-20">
+<div class="layout-content-container flex w-full max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
+<!-- SectionHeader -->
+<div class="flex flex-col items-center text-center">
+<h2 class="text-3xl font-bold tracking-tight text-[#111827] dark:text-white sm:text-4xl">Trabajos realizados</h2>
+<p class="mt-2 text-lg text-[#6B7280] dark:text-gray-300">Explora la calidad y el cuidado que ponemos en cada proyecto.</p>
+</div>
+<!-- Chips -->
+<div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary/90">Todos</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-gray-700/50 px-4 text-sm font-medium text-[#111827] dark:text-gray-200 shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">Plomería</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-gray-700/50 px-4 text-sm font-medium text-[#111827] dark:text-gray-200 shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">Electricidad</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-gray-700/50 px-4 text-sm font-medium text-[#111827] dark:text-gray-200 shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">Pintura</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-gray-700/50 px-4 text-sm font-medium text-[#111827] dark:text-gray-200 shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">Carpintería</button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-gray-700/50 px-4 text-sm font-medium text-[#111827] dark:text-gray-200 shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700">Montaje</button>
+</div>
+<!-- ImageGrid -->
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="relative">
+<div class="w-full bg-cover bg-center aspect-video" data-alt="Modern kitchen sink with a new faucet installed" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDbKce4XjmHYAuvpp-Xw33bk6WY4glCokzmFmLdNZlU4_LOakQmU23C4cyuaOfb3r5oRFWjHDGl5W_1-UPsrUVqgSn_P2jIQUw77gW1oj53W7Vo_MSh5ltAvw-dN1Evv2HZ_T2oRaAWX6YPSBx0u7OhSAxwQ8gzDm_UFRt4_q6wQBK7ZIyC9O8J3LBezakjbuY0IYkc8xXUtyFCmQsmLJSt_v8kPEUBT8pn2VNPN2pZNkHJelTWlQKZgN3dQXkNhOSyQc7kJnJ3jreW");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="rounded-full bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Antes</span>
+<span class="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Después</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-5">
+<p class="text-base font-semibold leading-normal text-[#111827] dark:text-white">Cambio de grifo de cocina</p>
+<div class="flex items-center gap-1.5 text-sm text-[#6B7280] dark:text-gray-400">
+<span class="material-symbols-outlined !text-base" data-icon="location_on">location_on</span>
+<p>Palermo, Buenos Aires</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="relative">
+<div class="w-full bg-cover bg-center aspect-video" data-alt="Newly installed laminate flooring in a living room" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDx9GfOG_TPZFYZPTW1YUg02rwrwH1FADy4xpifkIFQAdQ4mHc3HV0byiw1DE3Lqf6lqgitej9oTZ8L3GfnnTmwGwFqUTQtE7Mkz--e59QjalRn0DznLpPwZ3Oz8FGWAIEHL2kbhPzzlT9YTOIjpS1VLivvNKpKZAUFrsPA_8Jl3MsOanvWgqPLVv0pUJLloz1xVVyPUYr5xQLZZjFP1Htq8IZ1OASZvPFhnT-Lw6fN7ZhPv1MkjtaSIQmdXtu1Yv5DzqvIvHYJZQVn");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="rounded-full bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Antes</span>
+<span class="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Después</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-5">
+<p class="text-base font-semibold leading-normal text-[#111827] dark:text-white">Instalación de piso flotante</p>
+<div class="flex items-center gap-1.5 text-sm text-[#6B7280] dark:text-gray-400">
+<span class="material-symbols-outlined !text-base" data-icon="location_on">location_on</span>
+<p>Caballito, Buenos Aires</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="relative">
+<div class="w-full bg-cover bg-center aspect-video" data-alt="Close-up of a new light switch installed on a wall" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBDzvEpr98Wyn3uPyfbXNJ188yplIjUP38lGCtuMwCpZcifFX4l0VYWAHCwt2ZMSBLAkNZpMkj8Jp6YgKGfmpwG1ZgpJOb13e4mBdwxiOZr4NdsjhVwzHgVtU1NEHF5oyG0ZV0fy1YqQk5Wcvd-x6iR_PkzlFzqji7Y3IenoICOM7oPTAlVe-AuHHel6fokNuNdzgc7EhruJNlYHmto7fHYeaYLLN_Rc7HvLqlAWTxcyC5wuteIxeowxoxbZNWqBGwWVGk8Nj-mssFy");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="rounded-full bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Antes</span>
+<span class="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Después</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-5">
+<p class="text-base font-semibold leading-normal text-[#111827] dark:text-white">Reemplazo de tomacorriente</p>
+<div class="flex items-center gap-1.5 text-sm text-[#6B7280] dark:text-gray-400">
+<span class="material-symbols-outlined !text-base" data-icon="location_on">location_on</span>
+<p>Recoleta, Buenos Aires</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="relative">
+<div class="w-full bg-cover bg-center aspect-video" data-alt="A freshly painted accent wall in a deep blue color" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBFJVxf80x87XFJedG9RxYSn3ShL84qeq90X9mkf_un47mamaDpX-dICtBVW0AAAEJAMUxWAJ5CM8oUht3VRZo4vWkaBnoB2SH4f1XJ-dASMqur_LJZMoFbFZffIxEoDW_I75xhvZ5fEgwu2l48jf_0j2j5KjyNbibsp3jNvADV7U34qgXjZ1w_GCat6qSA9h5fBXiQ8WnJZtX3eyQmvzpgu3UILKUPyX0jFLLSX7NBBB1h5Io4hfMBSqB2GHTgTdbVdy-T4ReVBAnx");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="rounded-full bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Antes</span>
+<span class="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Después</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-5">
+<p class="text-base font-semibold leading-normal text-[#111827] dark:text-white">Pintura de pared de acento</p>
+<div class="flex items-center gap-1.5 text-sm text-[#6B7280] dark:text-gray-400">
+<span class="material-symbols-outlined !text-base" data-icon="location_on">location_on</span>
+<p>Almagro, Buenos Aires</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="relative">
+<div class="w-full bg-cover bg-center aspect-video" data-alt="A newly assembled floating shelf on a wall" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUmKjTDvcjT7qBJaQLDixuX6yFw1Ckr5f7ai_UUrw7PEoi9fI68WKhTl4GYdzvlYFBZZ7tA1tT4QR-7dDDD_mB4QEoQPv9QDBNlIvDHiBw35VE2PHoxSTN-rr6rEVmy2BnsKWvdPgKTzjDzUYtVWjmvSPdnyDulJd4IAXnEtB7-fpFD_i2jepDvVd366j57IrOXar8-ilJW3HV6p6FUCRefuBDAOyJ5sZT7BW1_obawD5tWnPdWMPctV30shsOL01VXQgGdU_XFSeR");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="rounded-full bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Antes</span>
+<span class="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Después</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-5">
+<p class="text-base font-semibold leading-normal text-[#111827] dark:text-white">Montaje de estantería flotante</p>
+<div class="flex items-center gap-1.5 text-sm text-[#6B7280] dark:text-gray-400">
+<span class="material-symbols-outlined !text-base" data-icon="location_on">location_on</span>
+<p>Belgrano, Buenos Aires</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="relative">
+<div class="w-full bg-cover bg-center aspect-video" data-alt="A repaired ceiling showing no signs of previous water damage" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0nRG1sIc7rT7S8fQV-O4k1snuHaHljH5W6CfdG4AI5UN_GAY50zm54wH8wPMo_1u1AAhwPFgEq6QJXHnt-gMwlK7KLfHhbCpcbckOZixCZD4NILgJQZ4PfblCHIknkvtjulwggLXjWwvrFO0rtIJcF1DGLGk-QEvI-0Rc_ycpRwcSAxFZ1EjZN5WgGvsas26omvyH3wyrU1V_nXLDaqidUAoPLAL3p3zFM57OdqPHXhJMTZX-533_JvpVURZ726-27ooKoH07kvSp");'></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="rounded-full bg-black/50 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">Antes</span>
+<span class="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">Después</span>
+</div>
+</div>
+<div class="flex flex-col gap-1 p-5">
+<p class="text-base font-semibold leading-normal text-[#111827] dark:text-white">Reparación de filtración en techo</p>
+<div class="flex items-center gap-1.5 text-sm text-[#6B7280] dark:text-gray-400">
+<span class="material-symbols-outlined !text-base" data-icon="location_on">location_on</span>
+<p>Villa Crespo, Buenos Aires</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

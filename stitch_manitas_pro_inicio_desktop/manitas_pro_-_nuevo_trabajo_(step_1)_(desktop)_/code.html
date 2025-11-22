@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crear Nuevo Trabajo - Manitas Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F766E", 
+                        "background-light": "#F3F4F6",
+                        "background-dark": "#1F2937", 
+                        "accent": "#F97316",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem", 
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<div class="flex h-full w-full flex-1">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col gap-8 border-r border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800 lg:flex hidden">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl">construction</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-gray-900 dark:text-white text-base font-bold leading-normal">Manitas Pro</h1>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal">Panel Interno</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-md px-3 py-2 text-primary bg-primary/10 dark:text-white dark:bg-primary/30" href="#">
+<span class="material-symbols-outlined text-xl !fill-1">work</span>
+<p class="text-sm font-medium leading-normal">Trabajos</p>
+</a>
+<a class="flex items-center gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<p class="text-sm font-medium leading-normal">Clientes</p>
+</a>
+<a class="flex items-center gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<p class="text-sm font-medium leading-normal">Ajustes</p>
+</a>
+</nav>
+</div>
+<div class="mt-auto">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="truncate">Nuevo trabajo</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+<div class="mx-auto max-w-4xl">
+<!-- PageHeading -->
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+<h1 class="text-gray-900 dark:text-white text-3xl font-black leading-tight tracking-tight">Crear Nuevo Trabajo</h1>
+</div>
+<!-- Tabs / Stepper -->
+<div class="mb-6">
+<div class="flex border-b border-gray-200 dark:border-gray-700 gap-4 sm:gap-8">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-3 pt-2" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em] text-center">1. Datos del cliente</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-3 pt-2" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em] text-center">2. Detalles del trabajo</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-gray-500 dark:text-gray-400 pb-3 pt-2" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em] text-center">3. Agendar</p>
+</a>
+</div>
+</div>
+<!-- Form Card -->
+<div class="flex flex-col rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
+<div class="p-6 border-b border-gray-200 dark:border-gray-700">
+<h2 class="text-gray-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Paso 1: Datos del cliente</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal mt-1">Completa la información del cliente para continuar.</p>
+</div>
+<!-- Form Fields -->
+<div class="p-6">
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+<!-- Nombre del cliente -->
+<div class="md:col-span-2">
+<label class="flex flex-col">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal pb-2">Nombre del cliente</p>
+<div class="relative flex w-full flex-1 items-stretch">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">person</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-primary/50 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 pl-10 pr-3 text-base font-normal leading-normal" placeholder="Introduce el nombre completo" value=""/>
+</div>
+</label>
+</div>
+<!-- Teléfono / WhatsApp -->
+<div>
+<label class="flex flex-col">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal pb-2">Teléfono / WhatsApp</p>
+<div class="relative flex w-full flex-1 items-stretch">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">phone</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-primary/50 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 pl-10 pr-3 text-base font-normal leading-normal" placeholder="Ej: +34 600 123 456" value=""/>
+</div>
+</label>
+</div>
+<!-- Correo electrónico -->
+<div>
+<label class="flex flex-col">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal pb-2">Correo electrónico</p>
+<div class="relative flex w-full flex-1 items-stretch">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">mail</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-primary/50 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 pl-10 pr-3 text-base font-normal leading-normal" placeholder="cliente@email.com" type="email" value=""/>
+</div>
+</label>
+</div>
+<!-- Dirección del inmueble -->
+<div class="md:col-span-2">
+<label class="flex flex-col">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal pb-2">Dirección del inmueble</p>
+<div class="relative flex w-full flex-1 items-stretch">
+<span class="material-symbols-outlined text-gray-400 dark:text-gray-500 absolute left-3 top-1/2 -translate-y-1/2">location_on</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-primary/50 h-12 placeholder:text-gray-400 dark:placeholder:text-gray-500 pl-10 pr-3 text-base font-normal leading-normal" placeholder="Calle, número, piso, puerta, código postal y ciudad" value=""/>
+</div>
+</label>
+</div>
+<!-- Notas del cliente -->
+<div class="md:col-span-2">
+<label class="flex flex-col">
+<div class="flex items-center justify-between pb-2">
+<p class="text-gray-800 dark:text-gray-200 text-sm font-medium leading-normal">Notas del cliente</p>
+<p class="text-gray-400 dark:text-gray-500 text-xs font-normal">(Opcional)</p>
+</div>
+<textarea class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-primary/50 p-3 placeholder:text-gray-400 dark:placeholder:text-gray-500 text-base font-normal leading-normal" placeholder="Añade cualquier detalle relevante sobre el cliente o el acceso a la propiedad..." rows="4"></textarea>
+</label>
+</div>
+</div>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg">
+<button class="flex w-full sm:w-auto cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-transparent text-gray-700 dark:text-gray-300 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600">
+<span class="truncate">Volver</span>
+</button>
+<button class="flex w-full sm:w-auto cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-6 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90">
+<span class="truncate">Siguiente</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

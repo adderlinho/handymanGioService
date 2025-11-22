@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Detalles del Trabajo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": {
+              DEFAULT: "#0F766E",
+              light: "#e7f3f2"
+            },
+            "accent": "#F97316",
+            "background-light": "#F3F4F6",
+            "background-dark": "#111827",
+            "card-light": "#FFFFFF",
+            "card-dark": "#1F2937",
+            "text-light": "#111827",
+            "text-dark": "#F9FAFB",
+            "text-secondary-light": "#6B7280",
+            "text-secondary-dark": "#9CA3AF"
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="w-64 flex-shrink-0 bg-card-light dark:bg-card-dark p-4 hidden lg:flex flex-col justify-between border-r border-gray-200 dark:border-gray-700">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Manitas Pro company logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2CFMPeHSEAwRkWI2P3d_giHYhh1Fqfy98nQD3CIVlYb2cYzNQVP09QezaTbzNbBA98sxvew-z-W8hLOgW6ikrC5pqzwMERWqAkPOLFb1nG3e01wIFSYcMl9HwHozUInAWn47dpTCyqcuqd6ujv4xPfxbGQR2-npZs3gokhMU4kgcFK1rEfKw6ACsR0yEGaVS8DbGFD73f_wnr_3qytLYDB-dI3GZfCGSYZYXfq-Di9nw0iQxjp_eWK8ZuumSxazo3uy5yXkhQ5hTf");'></div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold">Manitas Pro</h1>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Panel Interno</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-light dark:bg-primary/30 text-primary dark:text-white" href="#">
+<span class="material-symbols-outlined text-xl !font-bold" style="font-variation-settings: 'FILL' 1;">work</span>
+<p class="text-sm font-bold">Trabajos</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">group</span>
+<p class="text-sm font-medium">Clientes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+<p class="text-sm font-medium">Inventario</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">bar_chart</span>
+<p class="text-sm font-medium">Reportes</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<p class="text-sm font-medium">Ajustes</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-primary-light dark:hover:bg-primary/20 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">logout</span>
+<p class="text-sm font-medium">Salir</p>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-4 sm:p-6 lg:p-8">
+<div class="max-w-7xl mx-auto">
+<!-- Breadcrumbs -->
+<nav class="flex flex-wrap gap-2 items-center mb-4">
+<a class="text-sm font-medium text-primary hover:underline" href="#">Dashboard</a>
+<span class="text-sm text-text-secondary-light dark:text-text-secondary-dark">/</span>
+<a class="text-sm font-medium text-primary hover:underline" href="#">Trabajos</a>
+<span class="text-sm text-text-secondary-light dark:text-text-secondary-dark">/</span>
+<span class="text-sm font-medium text-text-light dark:text-text-dark">Detalles del Trabajo #1234</span>
+</nav>
+<!-- Page Heading -->
+<header class="flex flex-wrap justify-between items-center gap-4 mb-6">
+<h1 class="text-3xl lg:text-4xl font-black tracking-tighter">Detalles del Trabajo #1234</h1>
+<div class="flex h-9 items-center justify-center gap-x-2 rounded-full bg-green-100 dark:bg-green-900 px-4">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<p class="text-sm font-semibold text-green-800 dark:text-green-200">Completado</p>
+</div>
+</header>
+<!-- Two-column layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+<!-- Left Column (Main Content) -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<!-- Resumen del trabajo Card -->
+<section class="bg-card-light dark:bg-card-dark rounded-xl shadow-sm p-6">
+<h2 class="text-xl font-bold tracking-tight mb-6">Resumen del trabajo</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">calendar_month</span>
+<div>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Fecha</p>
+<p class="font-semibold">15 de Julio, 2024</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">person</span>
+<div>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Cliente</p>
+<p class="font-semibold">Ana García</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">paid</span>
+<div>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Total</p>
+<p class="font-semibold">$250.00 USD</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">location_on</span>
+<div>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Dirección</p>
+<p class="font-semibold">Calle Falsa 123, Springfield</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Materiales utilizados Card -->
+<section class="bg-card-light dark:bg-card-dark rounded-xl shadow-sm p-6">
+<h2 class="text-xl font-bold tracking-tight mb-4">Materiales utilizados</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="border-b border-gray-200 dark:border-gray-700">
+<tr>
+<th class="py-3 pr-4 font-semibold text-sm">Artículo</th>
+<th class="py-3 px-4 font-semibold text-sm text-center">Cantidad</th>
+<th class="py-3 pl-4 font-semibold text-sm text-right">Subtotal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-gray-200 dark:border-gray-700">
+<td class="py-4 pr-4">Tornillos para madera (caja)</td>
+<td class="py-4 px-4 text-center">1</td>
+<td class="py-4 pl-4 text-right">$15.00</td>
+</tr>
+<tr class="border-b border-gray-200 dark:border-gray-700">
+<td class="py-4 pr-4">Pintura blanca (1 galón)</td>
+<td class="py-4 px-4 text-center">1</td>
+<td class="py-4 pl-4 text-right">$35.00</td>
+</tr>
+<tr>
+<td class="py-4 pr-4">Lija de grano fino</td>
+<td class="py-4 px-4 text-center">3</td>
+<td class="py-4 pl-4 text-right">$5.00</td>
+</tr>
+</tbody>
+<tfoot class="border-t-2 border-gray-300 dark:border-gray-600">
+<tr>
+<td class="pt-4 pr-4 font-bold text-base" colspan="2">Total Materiales</td>
+<td class="pt-4 pl-4 text-right font-bold text-base">$55.00</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</section>
+<!-- Evidencia Card -->
+<section class="bg-card-light dark:bg-card-dark rounded-xl shadow-sm p-6">
+<h2 class="text-xl font-bold tracking-tight mb-4">Evidencia</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="relative group aspect-square">
+<img class="w-full h-full object-cover rounded-lg" data-alt="A cracked wall before repair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd7I6hpYzaKZNCxXdhFpfKcZEliufK7Pfeez_DIWj5xuJyL5KsTzstm_OtrpD25bFOPy-Cw5JtLO6kQ9e951CjyDTSruVxTkUEcBGc8trcmYKmNi3sI6rNRJAff2A964uUd9a1dWl2o7aw_iQ2KSREw8nqSS_KeNFE-SPPKuFwh9AZ5ADX24MPEJVRD7oFP8JWOEft3ii3w5CPuIqaU6-_U5sj5cPTNjWMtDKw_CHyq6K7fUCRe8tOFm38gGu3NZvTj4p35TesEQ23"/>
+<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer">
+<p class="text-white text-sm font-bold">Antes</p>
+</div>
+</div>
+<div class="relative group aspect-square">
+<img class="w-full h-full object-cover rounded-lg" data-alt="A newly painted and repaired wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmQTa1EtN3xNCYrLY0SZ_9wCsAI_CzlX2qU30OTRmlhEZRTWTrN-0TN7lbdvqjnWrbw5WkGlsH7GMWqeg6Aok57lCJDKyie2vQB4uxR7TwfHEyeSpHH9nuZDhVd3ANy1XvHHMRmMYKT0PeWPAsSRW0RK21STIT3eHSszJm-aNbUV2NgTMMA2atVJD-VOm8k4NMz1sC0AqNTEivp08rRq1Z0pF92Bz6OKX-_XNHl-2KreEOLtFSX87ViMBwDQuF085MqIVd05kxT9r4"/>
+<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer">
+<p class="text-white text-sm font-bold">Después</p>
+</div>
+</div>
+<div class="relative group aspect-square">
+<img class="w-full h-full object-cover rounded-lg" data-alt="A dripping faucet before repair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAErx10OhV5CYu03e7Qal9D7Awg_Lsx6OpDWnPkapnJk3WI_j5GwopUrPGsC0z2SxXobzMU280pSVEo6cV8pDJEbDDT1re7KO3s_4m9arDZiR6CVZ35JUIe4_sx6ePEi4jffGHqwWXiqcBeAq_tRv4lY2MUehGXoQBhkIrHwNrjWkaISVmSQfk0UXrfoDIDxeVED1VpVQqDd8AcuYiBCbwKyJCqhwkuKXdKE62fGLGp-xV0cjmc0cLsEAAgQwbmwooXwy2_knJqpyyb"/>
+<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer">
+<p class="text-white text-sm font-bold">Antes</p>
+</div>
+</div>
+<div class="relative group aspect-square">
+<img class="w-full h-full object-cover rounded-lg" data-alt="A shiny new faucet after installation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr9l12FMw_MLIyW3wk75pi-5jmfHz9pRddPUig4VSLXxGcwUnH3jF-hvb8WjJgxuvmKra2ixnOPOrzVXuFWpVL7kOhV--tj0wOyewDBa7bjxWEhfmeqS2Osj7vwkwfUzpfnG0NtgcHYoptSTxI33kqZ6etNFhYehF6Zk6TSUI_5oyrTYTl0B5eZksKaZeQHnjuuMC6xLYMe31NEMUKPZJsMiYVjvGogaC9jYIfUOrGhf9Udl97BE-LkahRRhsyWa14VkCVeaDEO4Sr"/>
+<div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg cursor-pointer">
+<p class="text-white text-sm font-bold">Después</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (Action Panel) -->
+<aside class="lg:col-span-1">
+<div class="sticky top-8 bg-card-light dark:bg-card-dark rounded-xl shadow-sm p-6 flex flex-col gap-6">
+<h2 class="text-xl font-bold tracking-tight">Compartir con el cliente</h2>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-3">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">email</span>
+                  Enviar por correo
+                </button>
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-text-light dark:text-text-dark rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+<span class="material-symbols-outlined text-xl">send</span>
+                  Enviar por WhatsApp
+                </button>
+</div>
+<!-- Preview Card -->
+<div>
+<p class="text-sm font-medium mb-2 text-text-secondary-light dark:text-text-secondary-dark">Vista previa del mensaje:</p>
+<div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-background-light dark:bg-background-dark">
+<p class="text-sm leading-relaxed">
+                    Hola Ana, aquí tienes el resumen del trabajo realizado en Calle Falsa 123.
+                    <br/><br/>
+<strong>Estado:</strong> Completado
+                    <br/>
+<strong>Total:</strong> $250.00
+                    <br/><br/>
+                    ¡Gracias por confiar en Manitas Pro!
+                  </p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+</div>
+</body></html>

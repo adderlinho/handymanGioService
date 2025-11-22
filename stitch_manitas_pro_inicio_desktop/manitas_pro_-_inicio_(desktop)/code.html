@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Reparaciones Confiables para tu Hogar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0F766E",
+            "accent": "#F97316",
+            "background-light": "#F8FAFC",
+            "background-dark": "#111827",
+            "text-light": "#1F2937",
+            "text-dark": "#F3F4F6",
+            "border-light": "#E5E7EB",
+            "border-dark": "#374151"
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: inherit;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full border-b border-border-light/80 bg-background-light/90 backdrop-blur-sm dark:border-border-dark/80 dark:bg-background-dark/90">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-20 items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">construction</span>
+<h2 class="text-xl font-bold tracking-tight text-text-light dark:text-text-dark">Manitas Pro</h2>
+</div>
+<nav class="hidden items-center gap-8 md:flex">
+<a class="text-sm font-medium text-text-light transition-colors hover:text-primary dark:text-text-dark dark:hover:text-primary" href="#">Inicio</a>
+<a class="text-sm font-medium text-text-light transition-colors hover:text-primary dark:text-text-dark dark:hover:text-primary" href="#">Servicios</a>
+<a class="text-sm font-medium text-text-light transition-colors hover:text-primary dark:text-text-dark dark:hover:text-primary" href="#">Trabajos realizados</a>
+<a class="text-sm font-medium text-text-light transition-colors hover:text-primary dark:text-text-dark dark:hover:text-primary" href="#">Contacto</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined text-base">calendar_month</span>
+<span class="truncate">Agenda tu visita</span>
+</button>
+<button class="md:hidden">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- HeroSection -->
+<main class="flex-grow">
+<section class="py-20 md:py-32">
+<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2 md:gap-8 lg:gap-16">
+<div class="flex flex-col items-center gap-8 text-center md:items-start md:text-left">
+<div class="flex flex-col gap-4">
+<h1 class="text-4xl font-black tracking-tighter text-text-light dark:text-text-dark sm:text-5xl lg:text-6xl">Reparaciones confiables para tu hogar</h1>
+<p class="max-w-xl text-lg text-text-light/80 dark:text-text-dark/80">Electricidad, plomería, pintura y mantenimiento general para hogares y pequeños negocios. Soluciones rápidas y profesionales a tu alcance.</p>
+</div>
+<div class="flex flex-col gap-4 sm:flex-row">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-accent px-8 py-4 text-base font-bold text-white shadow-lg shadow-accent/20 transition-transform hover:scale-105 active:scale-95">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="truncate">Agenda tu visita</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full border border-border-light bg-background-light px-8 py-4 text-base font-bold text-primary shadow-sm transition-colors hover:bg-primary/10 dark:border-border-dark dark:bg-background-dark dark:hover:bg-primary/20">
+<span class="material-symbols-outlined">visibility</span>
+<span class="truncate">Ver trabajos realizados</span>
+</button>
+</div>
+</div>
+<div class="flex justify-center">
+<img class="aspect-square w-full max-w-md rounded-xl object-cover shadow-2xl shadow-primary/10 lg:aspect-auto lg:max-w-none" data-alt="A friendly and professional handyman working on a home repair project" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuQeMCEqJ49gsG3ELUHWpb_QRedJNHgpJd_kO3PXp36RKa9RBUFCJK_xBIZciulqP262AibZGAGE3h2KAqyEIUhh5k-J8kYEDLXacsZWRndfy6crxn5mNLzcnJ4KxM7gXXQ1N31Cv-BDytI0xkD1Dpsj1ccSc3G1g45__9qn0jLdD5Oz3knJyoWWoF0_e1enK2IdZ8LoVjOl9UFCnKMpt_Rv888ZKxuFxGHw9kw2BO5R7zeAc0MxiD-2eVeDeFuwXxJiTTOF58sjpK"/>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>

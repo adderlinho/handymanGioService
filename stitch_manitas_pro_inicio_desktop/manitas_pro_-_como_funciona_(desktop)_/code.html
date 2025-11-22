@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - ¿Cómo funciona?</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0d776e",
+              "background-light": "#f6f8f8",
+              "background-dark": "#112120",
+              "accent": "#F97316",
+              "content-light": "#ffffff",
+              "content-dark": "#1a2c2b",
+              "text-primary-light": "#1f2937",
+              "text-primary-dark": "#e5e7eb",
+              "text-secondary-light": "#4b5563",
+              "text-secondary-dark": "#9ca3af",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<section class="w-full py-16 sm:py-24 lg:py-32">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+<!-- SectionHeader -->
+<div class="text-center mb-12 lg:mb-16">
+<h2 class="text-3xl font-bold tracking-tight text-primary sm:text-4xl lg:text-5xl">¿Cómo funciona?</h2>
+<p class="mt-4 max-w-2xl text-lg text-text-secondary-light dark:text-text-secondary-dark">Nuestro proceso es simple y transparente, diseñado para tu tranquilidad.</p>
+</div>
+<!-- TextGrid -->
+<div class="relative w-full max-w-5xl">
+<!-- Dashed connecting line for desktop -->
+<div aria-hidden="true" class="absolute top-1/2 left-0 hidden w-full -translate-y-1/2 lg:block">
+<div class="w-full border-t-2 border-dashed border-gray-300 dark:border-gray-600"></div>
+</div>
+<div class="relative grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-8">
+<!-- Step 1 Card -->
+<div class="flex flex-col items-center text-center">
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-white shadow-lg mb-6 ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-symbols-outlined !text-4xl">calendar_month</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark">1. Agenda tu cita</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark">
+                                        Explícanos qué necesitas y elige el día y la hora que mejor te convenga a través de nuestra web o por teléfono.
+                                    </p>
+</div>
+</div>
+<!-- Step 2 Card -->
+<div class="flex flex-col items-center text-center">
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-white shadow-lg mb-6 ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-symbols-outlined !text-4xl">handyman</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark">2. Visitamos tu hogar</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark">
+                                        Uno de nuestros profesionales calificados llegará puntualmente para evaluar la situación y realizar el trabajo con eficiencia.
+                                    </p>
+</div>
+</div>
+<!-- Step 3 Card -->
+<div class="flex flex-col items-center text-center">
+<div class="flex h-16 w-16 items-center justify-center rounded-full bg-accent text-white shadow-lg mb-6 ring-8 ring-background-light dark:ring-background-dark">
+<span class="material-symbols-outlined !text-4xl">thumb_up</span>
+</div>
+<div class="flex flex-col gap-2">
+<h3 class="text-xl font-bold text-text-primary-light dark:text-text-primary-dark">3. Recibes el trabajo terminado</h3>
+<p class="text-text-secondary-light dark:text-text-secondary-dark">
+                                        Revisamos contigo el trabajo final para asegurar tu completa satisfacción con los resultados.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</body></html>

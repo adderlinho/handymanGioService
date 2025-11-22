@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Manitas Pro - Servicios de Reparación del Hogar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    }
+  </style>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0F766E",
+            "accent": "#F97316",
+            "background-light": "#F8FAFC",
+            "background-dark": "#112120",
+            "text-light": "#1F2937",
+            "text-dark": "#E2E8F0",
+            "card-light": "#FFFFFF",
+            "card-dark": "#182c2b",
+            "border-light": "#E2E8F0",
+            "border-dark": "#334155"
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "0.75rem",
+            "xl": "1rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full border-b border-border-light/80 dark:border-border-dark/20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="container mx-auto flex items-center justify-between whitespace-nowrap px-4 py-3 lg:px-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_330)">
+<path clip-rule="evenodd" d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clippath id="clip0_6_330">
+<rect fill="white" height="48" width="48"></rect>
+</clippath>
+</defs>
+</svg>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Manitas Pro</h1>
+</div>
+<nav class="hidden items-center gap-8 md:flex">
+<a class="text-sm font-medium transition-colors hover:text-accent dark:hover:text-accent" href="#">Inicio</a>
+<a class="text-sm font-medium text-primary dark:text-white" href="#">Servicios</a>
+<a class="text-sm font-medium transition-colors hover:text-accent dark:hover:text-accent" href="#">Sobre Nosotros</a>
+<a class="text-sm font-medium transition-colors hover:text-accent dark:hover:text-accent" href="#">Contacto</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm transition-transform hover:scale-105 active:scale-95 sm:flex">
+<span class="truncate">Solicitar Presupuesto</span>
+</button>
+<button class="md:hidden flex items-center justify-center size-10 rounded-lg border border-border-light dark:border-border-dark">
+<span class="material-symbols-outlined text-xl">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1">
+<div class="container mx-auto px-4 py-16 sm:py-24 lg:px-8">
+<div class="mx-auto flex max-w-3xl flex-col items-center text-center">
+<!-- SectionHeader -->
+<h2 class="text-3xl font-bold tracking-tighter text-text-light dark:text-text-dark sm:text-4xl md:text-5xl">Nuestros Servicios</h2>
+<!-- BodyText -->
+<p class="mt-4 text-lg text-text-light/80 dark:text-text-dark/80">Soluciones profesionales y confiables para todas las reparaciones y mejoras de tu hogar.</p>
+</div>
+<!-- TextGrid (Service Cards) -->
+<div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-8">
+<!-- Card 1: Electricidad -->
+<div class="group flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined !text-3xl">lightbulb</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Electricidad</h3>
+<p class="text-text-light/80 dark:text-text-dark/80">Instalaciones, reparaciones y mantenimiento de sistemas eléctricos para garantizar tu seguridad y confort.</p>
+</div>
+<a class="mt-auto text-sm font-semibold text-primary transition-colors hover:text-accent dark:hover:text-accent" href="#">
+              Ver detalles
+            </a>
+</div>
+<!-- Card 2: Plomería -->
+<div class="group flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined !text-3xl">plumbing</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Plomería</h3>
+<p class="text-text-light/80 dark:text-text-dark/80">Soluciones expertas para fugas, atascos y nuevas instalaciones de tuberías y grifería.</p>
+</div>
+<a class="mt-auto text-sm font-semibold text-primary transition-colors hover:text-accent dark:hover:text-accent" href="#">
+              Ver detalles
+            </a>
+</div>
+<!-- Card 3: Pintura -->
+<div class="group flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined !text-3xl">format_paint</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Pintura</h3>
+<p class="text-text-light/80 dark:text-text-dark/80">Servicios de pintura interior y exterior para renovar y proteger tus espacios con acabados profesionales.</p>
+</div>
+<a class="mt-auto text-sm font-semibold text-primary transition-colors hover:text-accent dark:hover:text-accent" href="#">
+              Ver detalles
+            </a>
+</div>
+<!-- Card 4: Mantenimiento General -->
+<div class="group flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined !text-3xl">construction</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Mantenimiento General</h3>
+<p class="text-text-light/80 dark:text-text-dark/80">Tareas de reparación y montaje general para mantener tu hogar en perfectas condiciones siempre.</p>
+</div>
+<a class="mt-auto text-sm font-semibold text-primary transition-colors hover:text-accent dark:hover:text-accent" href="#">
+              Ver detalles
+            </a>
+</div>
+<!-- Card 5: Carpintería -->
+<div class="group flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined !text-3xl">carpenter</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Carpintería</h3>
+<p class="text-text-light/80 dark:text-text-dark/80">Reparación y fabricación de muebles a medida, instalación de puertas, ventanas y suelos de madera.</p>
+</div>
+<a class="mt-auto text-sm font-semibold text-primary transition-colors hover:text-accent dark:hover:text-accent" href="#">
+              Ver detalles
+            </a>
+</div>
+<!-- Card 6: Montaje de Muebles -->
+<div class="group flex flex-col gap-4 rounded-xl border border-border-light dark:border-border-dark bg-card-light dark:bg-card-dark p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+<div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-primary/20">
+<span class="material-symbols-outlined !text-3xl">chair</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="text-xl font-bold text-text-light dark:text-text-dark">Montaje de Muebles</h3>
+<p class="text-text-light/80 dark:text-text-dark/80">Montamos todo tipo de muebles de forma rápida y eficiente, para que disfrutes de tu hogar sin complicaciones.</p>
+</div>
+<a class="mt-auto text-sm font-semibold text-primary transition-colors hover:text-accent dark:hover:text-accent" href="#">
+              Ver detalles
+            </a>
+</div>
+</div>
+<!-- SingleButton (CTA) -->
+<div class="mt-16 flex justify-center">
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-8 bg-primary text-white text-base font-bold shadow-lg shadow-primary/30 transition-transform hover:scale-105 active:scale-95">
+<span class="truncate">Solicita tu Presupuesto Gratis</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>
