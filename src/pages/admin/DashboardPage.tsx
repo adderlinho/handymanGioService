@@ -4,7 +4,6 @@ import { mockJobs } from '../../data/jobs';
 export default function DashboardPage() {
   const todayJobs = mockJobs.filter(job => job.status === 'en-curso').length;
   const completedJobs = mockJobs.filter(job => job.status === 'completado').length;
-  const pendingJobs = mockJobs.filter(job => job.status === 'pendiente').length;
   const totalRevenue = mockJobs.reduce((sum, job) => sum + job.totalAmount, 0);
 
   const upcomingJobs = mockJobs.slice(0, 3);
