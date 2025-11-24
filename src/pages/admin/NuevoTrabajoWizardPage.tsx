@@ -97,8 +97,8 @@ export default function NuevoTrabajoWizardPage() {
           worker_id: workerId,
           hours_regular: 0,
           hours_overtime: 0,
-          labor_rate: null,
-          labor_cost: null
+          labor_rate: undefined,
+          labor_cost: undefined
         });
       }
 

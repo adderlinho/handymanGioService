@@ -48,7 +48,10 @@ export default function InventarioDetailPage() {
     if (!id || !item) return;
     
     try {
-      const updated = await inventoryService.updateInventoryItem(id, editData);
+      const cleanData = Object.fromEntries(
+        Object.entries(editData).filter(([_, value]) => value !== null)
+      );
+      const updated = await inventoryService.updateInventoryItem(id, cleanData);
       setItem(updated);
       setEditing(false);
     } catch (error) {

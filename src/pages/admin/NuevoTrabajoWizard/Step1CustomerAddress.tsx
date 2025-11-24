@@ -206,7 +206,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
             type="tel"
             value={data.customer_phone}
             onChange={(e) => updateData({ customer_phone: e.target.value })}
-            disabled={!isNewClient && selectedClient}
+            disabled={!isNewClient && !!selectedClient}
             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-slate-50 disabled:text-slate-500"
           />
         </div>
@@ -219,7 +219,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
             type="email"
             value={data.customer_email}
             onChange={(e) => updateData({ customer_email: e.target.value })}
-            disabled={!isNewClient && selectedClient}
+            disabled={!isNewClient && !!selectedClient}
             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-slate-50 disabled:text-slate-500"
           />
         </div>
@@ -232,7 +232,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
             type="text"
             value={data.address_street}
             onChange={(e) => updateData({ address_street: e.target.value })}
-            disabled={!isNewClient && selectedClient}
+            disabled={!isNewClient && !!selectedClient}
             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-slate-50 disabled:text-slate-500"
           />
         </div>
