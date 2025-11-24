@@ -12,11 +12,9 @@ export const mockJobs: Job[] = [
     labor_total: 120,
     other_fees: 30,
     total_amount: 150,
-    materialsUsed: ['Tubería PVC', 'Codos', 'Sellador'],
-    evidenceImages: [],
-    internalNotes: 'Cliente muy satisfecho',
-    clientNotes: 'Excelente trabajo',
-    assignedWorkers: ['worker1']
+    title: 'Reparación de tubería en cocina',
+    created_at: '2024-01-15T10:00:00Z',
+    updated_at: '2024-01-15T10:00:00Z'
   },
   {
     id: '#10523',
@@ -29,11 +27,9 @@ export const mockJobs: Job[] = [
     labor_total: 200,
     other_fees: 75.50,
     total_amount: 275.50,
-    materialsUsed: ['Tomas eléctricas', 'Cable', 'Cajas de registro'],
-    evidenceImages: [],
-    internalNotes: 'Trabajo en progreso',
-    clientNotes: '',
-    assignedWorkers: ['worker2']
+    title: 'Instalación de tomas eléctricas',
+    created_at: '2024-01-14T10:00:00Z',
+    updated_at: '2024-01-14T10:00:00Z'
   },
   {
     id: '#10522',
@@ -46,11 +42,9 @@ export const mockJobs: Job[] = [
     labor_total: 600,
     other_fees: 250,
     total_amount: 850,
-    materialsUsed: ['Pintura blanca', 'Rodillos', 'Brochas'],
-    evidenceImages: [],
-    internalNotes: 'Factura enviada',
-    clientNotes: 'Muy contenta con el resultado',
-    assignedWorkers: ['worker1', 'worker3']
+    title: 'Pintura completa de salón',
+    created_at: '2024-01-12T10:00:00Z',
+    updated_at: '2024-01-12T10:00:00Z'
   },
   {
     id: '#10521',
@@ -63,10 +57,8 @@ export const mockJobs: Job[] = [
     labor_total: 350,
     other_fees: 70,
     total_amount: 420,
-    materialsUsed: ['Madera', 'Bisagras', 'Barniz'],
-    evidenceImages: [],
-    internalNotes: 'Pendiente de confirmación',
-    clientNotes: '',
-    assignedWorkers: ['worker2']
+    title: 'Reparación de puerta principal',
+    created_at: '2024-01-11T10:00:00Z',
+    updated_at: '2024-01-11T10:00:00Z'
   }
 ];
