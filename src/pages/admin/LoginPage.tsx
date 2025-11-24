@@ -12,11 +12,17 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
     
+    console.log('Password entered:', credentials.password);
+    console.log('Expected password: Gi0S5055576');
+    
     // Temporary hardcoded authentication
     if (credentials.password === 'Gi0S5055576') {
+      console.log('Password correct, setting auth');
       localStorage.setItem('adminAuth', 'true');
+      console.log('Auth set, navigating to /admin');
       navigate('/admin');
     } else {
+      console.log('Password incorrect');
       setError('Contraseña incorrecta');
     }
     

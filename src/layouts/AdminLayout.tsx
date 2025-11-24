@@ -1,6 +1,5 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import AuthGuard from '../components/admin/AuthGuard';
 
 export default function AdminLayout() {
   const location = useLocation();
@@ -13,8 +12,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <AuthGuard>
-      <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+    <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
       {/* TopNavBar */}
       <header className="sticky top-0 z-10 w-full bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -197,7 +195,6 @@ export default function AdminLayout() {
       <main className="flex-1 overflow-x-hidden">
         <Outlet />
       </main>
-      </div>
-    </AuthGuard>
+    </div>
   );
 }
