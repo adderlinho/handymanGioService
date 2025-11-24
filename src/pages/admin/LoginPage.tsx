@@ -1,20 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabaseClient';
 
 export default function LoginPage() {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [credentials, setCredentials] = useState({ password: '' });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (credentials.username === 'giosinay' && credentials.password === 'Gi0S5055576') {
-      const expirationTime = Date.now() + (40 * 60 * 1000); // 40 minutes
-      localStorage.setItem('adminAuth', 'true');
-      localStorage.setItem('adminAuthExpiry', expirationTime.toString());
-      navigate('/admin');
-    } else {
-      setError('Usuario o contraseña incorrectos');
+    setLoading(true);
+    setError('');
+    
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: 'admin@gioservice.com',
+        password: credentials.password,
+      });
+      
+      if (error) {
+        setError('Contraseña incorrecta');
+      } else {
+        navigate('/admin');
+      }
+    } catch (err) {
+      setError('Error al iniciar sesión');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,19 +43,7 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              Usuario
-            </label>
-            <input
-              type="text"
-              value={credentials.username}
-              onChange={(e) => setCredentials(prev => ({ ...prev, username: e.target.value }))}
-              className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary"
-              placeholder="Ingresa tu usuario"
-              required
-            />
-          </div>
+
 
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -66,9 +67,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+            disabled={loading || !credentials.password}
+            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
-            Iniciar Sesión
+            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
         </form>
       </div>

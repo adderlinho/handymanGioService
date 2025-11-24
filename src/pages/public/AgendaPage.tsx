@@ -1,29 +1,122 @@
 import { useState } from 'react';
+import { createLeadFromPublicForm } from '../../services/jobsService';
+import { getServiceAreaByZip } from '../../services/serviceAreasService';
 
 export default function AgendaPage() {
   const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    address: '',
-    jobType: '',
-    preferredDate: '',
-    preferredTime: '',
-    description: ''
+    customer_name: '',
+    customer_phone: '',
+    customer_email: '',
+    address_street: '',
+    address_unit: '',
+    city: 'Chicago',
+    state: 'IL',
+    zip: '',
+    service_type: '',
+    scheduled_date: '',
+    time_window: '',
+    description: '',
+    contact_preference: 'phone'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [serviceArea, setServiceArea] = useState<{ id: string; name: string } | null>(null);
+  const [zipWarning, setZipWarning] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleZipCheck = async (zipCode: string) => {
+    if (!zipCode || zipCode.length < 5) {
+      setServiceArea(null);
+      setZipWarning(false);
+      return;
+    }
+    
+    try {
+      const area = await getServiceAreaByZip(zipCode);
+      if (area) {
+        setServiceArea({ id: area.id, name: area.name });
+        setZipWarning(false);
+      } else {
+        setServiceArea(null);
+        setZipWarning(true);
+      }
+    } catch (error) {
+      console.error('Error checking ZIP:', error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // TODO: Handle form submission
+    
+    if (!formData.customer_name.trim() || !formData.customer_phone.trim() || 
+        !formData.service_type || !formData.description.trim()) {
+      setError('Por favor completa todos los campos requeridos');
+      return;
+    }
+
+    if (formData.customer_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email)) {
+      setError('Por favor ingresa un correo electrónico válido');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await createLeadFromPublicForm({
+        customer_name: formData.customer_name.trim(),
+        customer_phone: formData.customer_phone.trim(),
+        customer_email: formData.customer_email.trim() || undefined,
+        address_street: formData.address_street.trim() || undefined,
+        address_unit: formData.address_unit.trim() || undefined,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip.trim() || undefined,
+        service_area_id: serviceArea?.id || null,
+        service_type: formData.service_type,
+        description: formData.description.trim(),
+        scheduled_date: formData.scheduled_date || null,
+        time_window: formData.time_window || null
+      });
+
+      setSuccess(true);
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setError('Hubo un error al enviar tu solicitud. Por favor inténtalo de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'zip') {
+      handleZipCheck(value);
+    }
   };
+
+  if (success) {
+    return (
+      <div className="py-12 sm:py-16 lg:py-20">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-green-50 border border-green-200 rounded-xl p-8">
+            <div className="text-green-600 text-6xl mb-4">✓</div>
+            <h1 className="text-2xl font-bold text-green-800 mb-4">¡Gracias por tu solicitud!</h1>
+            <p className="text-green-700 mb-6">
+              Hemos recibido tu solicitud de servicio. Nuestro equipo la revisará y te contactaremos pronto 
+              para confirmar los detalles y programar tu cita.
+            </p>
+            <p className="text-sm text-green-600">
+              Tiempo estimado de respuesta: 2-4 horas durante horario laboral
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-12 sm:py-16 lg:py-20">
@@ -39,18 +132,24 @@ export default function AgendaPage() {
             </p>
           </div>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
           {/* Booking Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
-              {/* Full Name */}
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Nombre completo
+                    Nombre completo *
                   </p>
                   <input
-                    name="fullName"
-                    value={formData.fullName}
+                    name="customer_name"
+                    value={formData.customer_name}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
                     placeholder="Ingresa tu nombre completo"
@@ -60,123 +159,159 @@ export default function AgendaPage() {
                 </label>
               </div>
 
-              {/* Phone */}
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Teléfono / WhatsApp
+                    Teléfono / WhatsApp *
                   </p>
                   <input
-                    name="phone"
-                    value={formData.phone}
+                    name="customer_phone"
+                    value={formData.customer_phone}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
-                    placeholder="Ej. 55 1234 5678"
+                    placeholder="Ej. (312) 555-0123"
                     type="tel"
                     required
                   />
                 </label>
               </div>
 
-              {/* Email */}
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
                     Correo electrónico
                   </p>
                   <input
-                    name="email"
-                    value={formData.email}
+                    name="customer_email"
+                    value={formData.customer_email}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
                     placeholder="tucorreo@ejemplo.com"
                     type="email"
-                    required
                   />
                 </label>
               </div>
 
-              {/* Address */}
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Dirección del inmueble
+                    Calle y número
                   </p>
                   <input
-                    name="address"
-                    value={formData.address}
+                    name="address_street"
+                    value={formData.address_street}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
-                    placeholder="Calle, número, colonia, ciudad"
+                    placeholder="123 Main Street"
+                    type="text"
+                  />
+                </label>
+              </div>
+
+              <div>
+                <label className="flex flex-col">
+                  <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
+                    Apto / Unidad
+                  </p>
+                  <input
+                    name="address_unit"
+                    value={formData.address_unit}
+                    onChange={handleChange}
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
+                    placeholder="Apt 2B"
+                    type="text"
+                  />
+                </label>
+              </div>
+
+              <div>
+                <label className="flex flex-col">
+                  <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
+                    Código postal *
+                  </p>
+                  <input
+                    name="zip"
+                    value={formData.zip}
+                    onChange={handleChange}
+                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
+                    placeholder="60614"
                     type="text"
                     required
                   />
                 </label>
+                {serviceArea && (
+                  <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-700">
+                    ✓ Zona de servicio: {serviceArea.name}
+                  </div>
+                )}
+                {zipWarning && (
+                  <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded text-sm text-amber-700">
+                    ⚠️ Este código postal puede estar fuera de nuestra área de servicio. Igualmente revisaremos tu solicitud.
+                  </div>
+                )}
               </div>
 
-              {/* Job Type */}
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Tipo de trabajo
+                    Tipo de servicio *
                   </p>
                   <select
-                    name="jobType"
-                    value={formData.jobType}
+                    name="service_type"
+                    value={formData.service_type}
                     onChange={handleChange}
                     className="form-select flex w-full min-w-0 flex-1 overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 px-4 text-base font-normal leading-normal"
                     required
                   >
                     <option value="">Selecciona un servicio</option>
-                    <option value="plomeria">Plomería</option>
-                    <option value="electricidad">Electricidad</option>
-                    <option value="pintura">Pintura</option>
-                    <option value="carpinteria">Carpintería</option>
-                    <option value="albanileria">Albañilería</option>
-                    <option value="otro">Otro</option>
+                    <option value="plumbing">Plomería</option>
+                    <option value="electrical">Electricidad</option>
+                    <option value="drywall_paint">Drywall y Pintura</option>
+                    <option value="carpentry">Carpintería</option>
+                    <option value="flooring">Pisos</option>
+                    <option value="other">Otro</option>
                   </select>
                 </label>
               </div>
 
-              {/* Preferred Date */}
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
                     Fecha preferida
                   </p>
                   <input
-                    name="preferredDate"
-                    value={formData.preferredDate}
+                    name="scheduled_date"
+                    value={formData.scheduled_date}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
                     type="date"
-                    required
                   />
                 </label>
               </div>
 
-              {/* Preferred Time */}
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Hora preferida
+                    Franja horaria preferida
                   </p>
-                  <input
-                    name="preferredTime"
-                    value={formData.preferredTime}
+                  <select
+                    name="time_window"
+                    value={formData.time_window}
                     onChange={handleChange}
-                    className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
-                    type="time"
-                    required
-                  />
+                    className="form-select flex w-full min-w-0 flex-1 overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 px-4 text-base font-normal leading-normal"
+                  >
+                    <option value="">Selecciona una franja</option>
+                    <option value="Morning">Mañana (8:00 AM - 12:00 PM)</option>
+                    <option value="Afternoon">Tarde (12:00 PM - 5:00 PM)</option>
+                    <option value="Evening">Noche (5:00 PM - 8:00 PM)</option>
+                  </select>
                 </label>
               </div>
 
-              {/* Description */}
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Descripción del trabajo
+                    Descripción del trabajo *
                   </p>
                   <textarea
                     name="description"
@@ -185,7 +320,26 @@ export default function AgendaPage() {
                     className="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary placeholder:text-slate-500 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-normal"
                     placeholder="Describe brevemente el problema o lo que necesitas."
                     rows={4}
+                    required
                   />
+                </label>
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="flex flex-col">
+                  <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
+                    ¿Cómo prefieres que te contactemos?
+                  </p>
+                  <select
+                    name="contact_preference"
+                    value={formData.contact_preference}
+                    onChange={handleChange}
+                    className="form-select flex w-full min-w-0 flex-1 overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 px-4 text-base font-normal leading-normal"
+                  >
+                    <option value="phone">Teléfono</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="email">Correo electrónico</option>
+                  </select>
                 </label>
               </div>
             </div>
@@ -194,9 +348,11 @@ export default function AgendaPage() {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
+                disabled={loading}
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors disabled:opacity-50"
               >
-                Enviar solicitud
+                {loading && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}
+                {loading ? 'Enviando...' : 'Enviar solicitud'}
               </button>
             </div>
           </form>
@@ -206,7 +362,7 @@ export default function AgendaPage() {
             <p className="text-sm text-gray-600 dark:text-gray-400">¿Prefieres contactarnos directamente?</p>
             <a
               className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 transition-colors"
-              href="https://wa.me/5551234567"
+              href="https://wa.me/13125550123"
               target="_blank"
               rel="noopener noreferrer"
             >

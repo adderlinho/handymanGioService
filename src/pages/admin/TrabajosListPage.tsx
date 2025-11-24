@@ -1,37 +1,90 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { mockJobs } from '../../data/jobs';
+import { getJobs } from '../../services/jobsService';
+import type { Job, JobStatus } from '../../types/job';
 
 export default function TrabajosListPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'leads' | 'no-leads'>('all');
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const getStatusBadge = (status: string) => {
+  useEffect(() => {
+    loadJobs();
+  }, []);
+
+  const loadJobs = async () => {
+    try {
+      setLoading(true);
+      const data = await getJobs();
+      setJobs(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error loading jobs');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStatusBadge = (status: JobStatus) => {
     const statusConfig = {
-      'completado': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-      'en-curso': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-      'facturado': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300',
-      'pendiente': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300'
+      'lead': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
+      'scheduled': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+      'in_progress': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
+      'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+      'invoiced': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300',
+      'paid': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300'
     };
 
     const statusLabels = {
-      'completado': 'Completado',
-      'en-curso': 'En curso',
-      'facturado': 'Facturado',
-      'pendiente': 'Pendiente'
+      'lead': 'Lead',
+      'scheduled': 'Programado',
+      'in_progress': 'En Progreso',
+      'completed': 'Completado',
+      'invoiced': 'Facturado',
+      'paid': 'Pagado'
     };
 
     return (
-      <span className={`inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium ${statusConfig[status as keyof typeof statusConfig]}`}>
-        {statusLabels[status as keyof typeof statusLabels]}
+      <span className={`inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium ${statusConfig[status]}`}>
+        {statusLabels[status]}
       </span>
     );
   };
 
-  const filteredJobs = mockJobs.filter(job =>
-    job.clientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    job.id.toLowerCase().includes(searchTerm.toLowerCase())
+  let filteredJobs = jobs.filter(job =>
+    job.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (job.address_street?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+    job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (job.city?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+    (job.zip?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false)
   );
+
+  // Apply status filter
+  if (statusFilter === 'leads') {
+    filteredJobs = filteredJobs.filter(job => job.status === 'lead');
+  } else if (statusFilter === 'no-leads') {
+    filteredJobs = filteredJobs.filter(job => job.status !== 'lead');
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-slate-600 dark:text-slate-400">Cargando trabajos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
+        Error: {error}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -67,11 +120,16 @@ export default function TrabajosListPage() {
             </label>
           </div>
 
-          {/* Filter Buttons */}
-          <button className="flex h-11 shrink-0 items-center justify-between gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800/50 px-4 border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-            <p className="text-sm font-medium">Estado</p>
-            <span className="material-symbols-outlined !text-xl text-slate-600 dark:text-slate-400">expand_more</span>
-          </button>
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as 'all' | 'leads' | 'no-leads')}
+            className="flex h-11 shrink-0 items-center rounded-lg bg-slate-100 dark:bg-slate-800/50 px-4 border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-sm font-medium"
+          >
+            <option value="all">Todos los trabajos</option>
+            <option value="leads">Solo leads</option>
+            <option value="no-leads">Sin leads</option>
+          </select>
           <button className="flex h-11 shrink-0 items-center justify-between gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800/50 px-4 border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
             <p className="text-sm font-medium">Tipo de trabajo</p>
             <span className="material-symbols-outlined !text-xl text-slate-600 dark:text-slate-400">expand_more</span>
@@ -85,12 +143,12 @@ export default function TrabajosListPage() {
           <table className="w-full text-sm text-left">
             <thead className="bg-slate-50 dark:bg-slate-800/50 text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wider">
               <tr>
-                <th className="px-6 py-4 font-medium" scope="col">Código / ID</th>
-                <th className="px-6 py-4 font-medium" scope="col">Fecha</th>
+                <th className="px-6 py-4 font-medium" scope="col">Título</th>
                 <th className="px-6 py-4 font-medium" scope="col">Cliente</th>
-                <th className="px-6 py-4 font-medium" scope="col">Dirección</th>
-                <th className="px-6 py-4 font-medium" scope="col">Tipo de trabajo</th>
+                <th className="px-6 py-4 font-medium" scope="col">Ciudad/ZIP</th>
+                <th className="px-6 py-4 font-medium" scope="col">Tipo de servicio</th>
                 <th className="px-6 py-4 font-medium" scope="col">Estado</th>
+                <th className="px-6 py-4 font-medium" scope="col">Fecha programada</th>
                 <th className="px-6 py-4 font-medium text-right" scope="col">Total</th>
                 <th className="px-6 py-4 font-medium text-center" scope="col">Acciones</th>
               </tr>
@@ -98,17 +156,17 @@ export default function TrabajosListPage() {
             <tbody>
               {filteredJobs.map((job) => (
                 <tr key={job.id} className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50">
-                  <td className="px-6 py-4 font-mono text-primary font-medium">{job.id}</td>
-                  <td className="px-6 py-4">{job.date}</td>
-                  <td className="px-6 py-4 font-medium">{job.clientName}</td>
-                  <td className="px-6 py-4">{job.address}</td>
-                  <td className="px-6 py-4">{job.jobType}</td>
+                  <td className="px-6 py-4 font-medium">{job.title}</td>
+                  <td className="px-6 py-4 font-medium">{job.customer_name}</td>
+                  <td className="px-6 py-4">{job.city && job.zip ? `${job.city}, ${job.zip}` : job.city || job.zip || '-'}</td>
+                  <td className="px-6 py-4">{job.service_type}</td>
                   <td className="px-6 py-4">{getStatusBadge(job.status)}</td>
-                  <td className="px-6 py-4 text-right font-medium">€{job.totalAmount.toFixed(2)}</td>
+                  <td className="px-6 py-4">{job.scheduled_date ? new Date(job.scheduled_date).toLocaleDateString() : '-'}</td>
+                  <td className="px-6 py-4 text-right font-medium">${job.total_amount?.toFixed(2) || '0.00'}</td>
                   <td className="px-6 py-4 text-center">
                     <div className="flex justify-center gap-2">
                       <Link
-                        to={`/admin/trabajos/${job.id.replace('#', '')}`}
+                        to={`/admin/trabajos/${job.id}`}
                         className="p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700"
                       >
                         <span className="material-symbols-outlined !text-xl text-slate-600 dark:text-slate-400">visibility</span>
@@ -127,7 +185,7 @@ export default function TrabajosListPage() {
         {/* Pagination */}
         <div className="flex items-center justify-between p-4 border-t border-slate-200 dark:border-slate-700">
           <span className="text-sm text-slate-600 dark:text-slate-400">
-            Mostrando <span className="font-semibold">1</span>-<span className="font-semibold">{filteredJobs.length}</span> de <span className="font-semibold">{mockJobs.length}</span> trabajos
+            Mostrando <span className="font-semibold">1</span>-<span className="font-semibold">{filteredJobs.length}</span> de <span className="font-semibold">{jobs.length}</span> trabajos
           </span>
           <div className="inline-flex items-center gap-2">
             <button className="inline-flex items-center justify-center rounded-lg border border-slate-300 dark:border-slate-600 h-9 px-3 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
