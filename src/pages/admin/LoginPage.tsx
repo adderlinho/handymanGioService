@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabaseClient';
 
 export default function LoginPage() {
   const [credentials, setCredentials] = useState({ password: '' });
@@ -12,14 +13,23 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
     
-    if (credentials.password === 'Gi0S5055576') {
-      localStorage.setItem('adminAuth', 'true');
-      navigate('/admin');
-    } else {
-      setError('Contraseña incorrecta');
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: 'admin@gioservice.com',
+        password: credentials.password,
+      });
+      
+      if (error) {
+        setError('Contraseña incorrecta');
+      } else {
+        localStorage.setItem('adminAuth', 'true');
+        navigate('/admin');
+      }
+    } catch (err) {
+      setError('Error al iniciar sesión');
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
