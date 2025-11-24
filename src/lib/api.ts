@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from './supabaseClient';
 import type { ServiceArea, Worker, Job, JobWorker } from '../types/database';
 
 // Service Areas
