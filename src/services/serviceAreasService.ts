@@ -49,7 +49,7 @@ export const getServiceAreaByZip = async (zipCode: string): Promise<ServiceArea 
       .single();
     
     if (error) throw error;
-    return data?.service_areas as ServiceArea || null;
+    return (data?.service_areas as any) || null;
   } catch (error) {
     console.error('Error fetching service area by zip:', error);
     return null;
