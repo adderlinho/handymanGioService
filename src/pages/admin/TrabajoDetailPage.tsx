@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getJobById, updateJob } from '../../services/jobsService';
-import { getJobWorkersByJob, updateJobWorker, assignWorkerToJob, removeJobWorker } from '../../services/jobWorkersService';
+import { getJobWorkersByJob } from '../../services/jobWorkersService';
 import { getWorkers } from '../../services/workersService';
 import { getServiceAreas } from '../../services/serviceAreasService';
 import { jobMaterialsService } from '../../services/jobMaterialsService';
@@ -24,7 +24,7 @@ export default function TrabajoDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<Job | null>(null);
   const [jobWorkers, setJobWorkers] = useState<JobWorker[]>([]);
-  const [workers, setWorkers] = useState<Worker[]>([]);
+  const [, setWorkers] = useState<Worker[]>([]);
   const [serviceAreas, setServiceAreas] = useState<ServiceArea[]>([]);
   const [jobMaterials, setJobMaterials] = useState<JobMaterialWithItem[]>([]);
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
@@ -142,31 +142,7 @@ export default function TrabajoDetailPage() {
     return tag ? colors[tag] : 'bg-gray-100 text-gray-800';
   };
 
-  const getStatusBadge = (status: JobStatus) => {
-    const statusConfig = {
-      'lead': 'bg-gray-100 text-gray-800',
-      'scheduled': 'bg-blue-100 text-blue-800',
-      'in_progress': 'bg-amber-100 text-amber-800',
-      'completed': 'bg-green-100 text-green-800',
-      'invoiced': 'bg-cyan-100 text-cyan-800',
-      'paid': 'bg-emerald-100 text-emerald-800'
-    };
 
-    const statusLabels = {
-      'lead': 'Lead',
-      'scheduled': 'Programado',
-      'in_progress': 'En Progreso',
-      'completed': 'Completado',
-      'invoiced': 'Facturado',
-      'paid': 'Pagado'
-    };
-
-    return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusConfig[status]}`}>
-        {statusLabels[status]}
-      </span>
-    );
-  };
 
   const getServiceTypeLabel = (serviceType: string) => {
     const labels: Record<string, string> = {

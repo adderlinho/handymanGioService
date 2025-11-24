@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getJobs } from '../../services/jobsService';
-import type { Job, JobStatus } from '../../types/job';
+import type { Job } from '../../types/job';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';

@@ -1,12 +1,11 @@
-import { Link } from 'react-router-dom';
 import { mockJobs } from '../../data/jobs';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 
 export default function DashboardPage() {
-  const todayJobs = mockJobs.filter(job => job.status === 'en-curso').length;
-  const completedJobs = mockJobs.filter(job => job.status === 'completado').length;
-  const totalRevenue = mockJobs.reduce((sum, job) => sum + job.totalAmount, 0);
+  const todayJobs = mockJobs.filter(job => job.status === 'in_progress').length;
+  const completedJobs = mockJobs.filter(job => job.status === 'completed').length;
+  const totalRevenue = mockJobs.reduce((sum, job) => sum + (job.total_amount || 0), 0);
   const upcomingJobs = mockJobs.slice(0, 3);
 
   return (
@@ -81,13 +80,13 @@ export default function DashboardPage() {
                   <span className="text-lg">🔧</span>
                 </div>
                 <div>
-                  <p className="font-medium text-slate-900">{job.clientName}</p>
-                  <p className="text-sm text-slate-600">{job.jobType} • {job.address}</p>
+                  <p className="font-medium text-slate-900">{job.customer_name}</p>
+                  <p className="text-sm text-slate-600">{job.service_type} • {job.address_street}</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className="font-medium text-slate-900">${job.totalAmount}</p>
-                <p className="text-sm text-slate-600">{job.date}</p>
+                <p className="font-medium text-slate-900">${job.total_amount || 0}</p>
+                <p className="text-sm text-slate-600">{job.scheduled_date ? new Date(job.scheduled_date).toLocaleDateString() : '-'}</p>
               </div>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { payrollService } from '../../services/payrollService';
-import type { PayrollPeriod, PayrollPeriodStatus, PayrollPeriodType } from '../../types/payroll';
+import type { PayrollPeriod, PayrollPeriodType } from '../../types/payroll';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
@@ -57,7 +57,7 @@ export default function NominaOverviewPage() {
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-[17px] text-slate-600">Cargando nóminas...</p>
+            <p className="text-slate-600">Cargando nóminas...</p>
           </div>
         </div>
       </AdminPageLayout>
@@ -81,7 +81,7 @@ export default function NominaOverviewPage() {
             <h3 className="text-xl font-semibold text-slate-900 mb-2">
               No hay períodos de nómina
             </h3>
-            <p className="text-[17px] text-slate-600 mb-6">
+            <p className="text-slate-600 mb-6">
               Comienza generando tu primer período de nómina
             </p>
             <button

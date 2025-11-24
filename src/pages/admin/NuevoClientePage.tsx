@@ -134,7 +134,6 @@ export default function NuevoClientePage() {
           <div className="flex flex-col gap-3 pt-6 sm:flex-row sm:gap-4">
             <AdminButton
               variant="secondary"
-              size="large"
               onClick={() => navigate('/admin/clientes')}
               icon="←"
             >
@@ -142,7 +141,6 @@ export default function NuevoClientePage() {
             </AdminButton>
             <AdminButton
               variant="primary"
-              size="large"
               type="submit"
               disabled={loading || !formData.fullName || !formData.phone}
               icon="✓"

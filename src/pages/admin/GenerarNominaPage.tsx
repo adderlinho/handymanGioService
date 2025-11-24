@@ -29,7 +29,7 @@ export default function GenerarNominaPage() {
 
   // Step 2 data
   const [workers, setWorkers] = useState<Worker[]>([]);
-  const [aggregatedHours, setAggregatedHours] = useState<AggregatedHoursPerWorker[]>([]);
+  const [, setAggregatedHours] = useState<AggregatedHoursPerWorker[]>([]);
   const [payrollData, setPayrollData] = useState<WorkerPayrollData[]>([]);
 
   useEffect(() => {

@@ -2,11 +2,10 @@ import { supabase } from '../lib/supabaseClient';
 
 export const uploadJobPhoto = async (file: File, jobId: string): Promise<{ url: string; path: string }> => {
   const timestamp = Date.now();
-  const fileExt = file.name.split('.').pop();
   const fileName = `${timestamp}-${file.name}`;
   const filePath = `job-${jobId}/${fileName}`;
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from('job-photos')
     .upload(filePath, file);
 
