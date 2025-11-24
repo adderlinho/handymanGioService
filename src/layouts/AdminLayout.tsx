@@ -14,181 +14,177 @@ export default function AdminLayout() {
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
       {/* TopNavBar */}
-      <header className="sticky top-0 z-10 w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700">
+      <header className="sticky top-0 z-10 w-full bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link to="/admin" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-              <span className="material-symbols-outlined text-primary text-3xl">construction</span>
-              <h1 className="text-xl font-bold tracking-tight">Manitas Pro</h1>
-            </Link>
-            <nav className="hidden md:flex items-center gap-8">
+            <div className="flex items-center gap-3">
+              {/* Mobile menu button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden flex items-center justify-center rounded-lg h-10 w-10 hover:bg-slate-100 transition-colors"
+              >
+                <span className="text-xl">{mobileMenuOpen ? '✕' : '☰'}</span>
+              </button>
+              
+              <Link to="/admin" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <span className="text-2xl">🔨</span>
+                <h1 className="text-xl font-bold tracking-tight text-slate-900">Manitas Pro</h1>
+              </Link>
+            </div>
+            
+            <nav className="hidden md:flex items-center gap-1">
               <Link 
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
                   isActive('/admin') 
-                    ? 'text-primary border-b-2 border-primary font-bold' 
-                    : 'hover:text-primary'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin"
               >
-                Dashboard
+                <span>📊</span> Dashboard
               </Link>
               <Link 
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
                   location.pathname.startsWith('/admin/trabajos') 
-                    ? 'text-primary border-b-2 border-primary font-bold' 
-                    : 'hover:text-primary'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/trabajos"
               >
-                Trabajos
+                <span>🛠️</span> Trabajos
               </Link>
               <Link 
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
                   location.pathname.startsWith('/admin/trabajadores') 
-                    ? 'text-primary border-b-2 border-primary font-bold' 
-                    : 'hover:text-primary'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/trabajadores"
               >
-                Trabajadores
+                <span>👷</span> Trabajadores
               </Link>
               <Link 
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
                   location.pathname.startsWith('/admin/clientes') 
-                    ? 'text-primary border-b-2 border-primary font-bold' 
-                    : 'hover:text-primary'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/clientes"
               >
-                Clientes
+                <span>👥</span> Clientes
               </Link>
               <Link 
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
                   location.pathname.startsWith('/admin/inventario') 
-                    ? 'text-primary border-b-2 border-primary font-bold' 
-                    : 'hover:text-primary'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/inventario"
               >
-                Inventario
+                <span>📦</span> Inventario
               </Link>
               <Link 
-                className={`text-sm font-medium transition-colors ${
+                className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
                   location.pathname.startsWith('/admin/nomina') 
-                    ? 'text-primary border-b-2 border-primary font-bold' 
-                    : 'hover:text-primary'
+                    ? 'bg-blue-50 text-blue-700' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/nomina"
               >
-                Nómina
+                <span>🧾</span> Nómina
               </Link>
             </nav>
-            
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex items-center justify-center rounded-lg h-10 w-10 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-            >
-              <span className="material-symbols-outlined text-slate-600 dark:text-slate-400">
-                {mobileMenuOpen ? 'close' : 'menu'}
-              </span>
-            </button>
-            <div className="flex items-center gap-4">
-              <Link to="/" className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary transition-colors">
-                <span className="material-symbols-outlined text-base">public</span>
+
+            <div className="flex items-center gap-3">
+              <Link to="/" className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                <span>🌐</span>
                 <span className="hidden sm:inline">Sitio Público</span>
               </Link>
-              <button className="flex items-center justify-center rounded-full h-10 w-10 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                <span className="material-symbols-outlined text-slate-600 dark:text-slate-400">notifications</span>
-              </button>
-              <button className="flex items-center justify-center rounded-full h-10 w-10 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-                <span className="material-symbols-outlined text-slate-600 dark:text-slate-400">settings</span>
-              </button>
               <button 
                 onClick={() => {
                   localStorage.removeItem('adminAuth');
                   localStorage.removeItem('adminAuthExpiry');
                   navigate('/admin/login');
                 }}
-                className="flex items-center justify-center rounded-full h-10 w-10 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
                 title="Cerrar sesión"
               >
-                <span className="material-symbols-outlined text-slate-600 dark:text-slate-400">logout</span>
+                <span>🚪</span>
+                <span className="hidden sm:inline">Salir</span>
               </button>
-              <div className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 bg-slate-300"></div>
             </div>
           </div>
         </div>
         
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+          <div className="md:hidden border-t border-slate-200 bg-white">
             <nav className="px-4 py-4 space-y-2">
               <Link 
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
                   isActive('/admin') 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Dashboard
+                <span>📊</span> Dashboard
               </Link>
               <Link 
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
                   location.pathname.startsWith('/admin/trabajos') 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/trabajos"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Trabajos
+                <span>🛠️</span> Trabajos
               </Link>
               <Link 
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
                   location.pathname.startsWith('/admin/trabajadores') 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/trabajadores"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Trabajadores
+                <span>👷</span> Trabajadores
               </Link>
               <Link 
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
                   location.pathname.startsWith('/admin/clientes') 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/clientes"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Clientes
+                <span>👥</span> Clientes
               </Link>
               <Link 
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
                   location.pathname.startsWith('/admin/inventario') 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/inventario"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Inventario
+                <span>📦</span> Inventario
               </Link>
               <Link 
-                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
                   location.pathname.startsWith('/admin/nomina') 
-                    ? 'bg-primary text-white' 
-                    : 'hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'bg-blue-600 text-white' 
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`} 
                 to="/admin/nomina"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Nómina
+                <span>🧾</span> Nómina
               </Link>
             </nav>
           </div>
@@ -196,7 +192,7 @@ export default function AdminLayout() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 overflow-x-hidden">
         <Outlet />
       </main>
     </div>

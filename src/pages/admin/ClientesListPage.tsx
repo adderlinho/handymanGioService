@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { clientsService } from '../../services/clientsService';
 import type { Client } from '../../types/client';
+import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
+import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 
 export default function ClientesListPage() {
+  const navigate = useNavigate();
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,86 +43,98 @@ export default function ClientesListPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
+      <AdminPageLayout title="Clientes" subtitle="Cargando...">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-slate-600">Cargando clientes...</p>
+          </div>
+        </div>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Clientes</h1>
-        <Link
-          to="/admin/clientes/nuevo"
-          className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90"
-        >
-          <span className="material-symbols-outlined text-sm">add</span>
-          Nuevo cliente
-        </Link>
-      </div>
-
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="mb-6">
+    <AdminPageLayout
+      title="Clientes"
+      subtitle="Gestiona la información de tus clientes"
+      primaryAction={{
+        label: "Nuevo Cliente",
+        onClick: () => navigate('/admin/clientes/nuevo'),
+        icon: "👥"
+      }}
+    >
+      <AdminSectionCard title="Buscar clientes">
+        <div>
+          <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
+            Buscar por nombre
+          </label>
           <input
             type="text"
-            placeholder="Buscar clientes por nombre..."
+            placeholder="Escribe el nombre del cliente..."
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full max-w-md px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+            className="block w-full max-w-md h-11 md:h-12 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm md:text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
+      </AdminSectionCard>
 
+      <AdminSectionCard title={`Lista de clientes (${clients.length})`}>
         {clients.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-slate-600">No hay clientes registrados</p>
+            <p className="text-slate-600">
+              {searchQuery ? 'No se encontraron clientes' : 'No hay clientes registrados'}
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 text-xs text-slate-600 uppercase">
+            <table className="min-w-full table-auto text-sm md:text-base">
+              <thead className="bg-slate-50">
                 <tr>
-                  <th className="px-4 py-3 text-left">Nombre</th>
-                  <th className="px-4 py-3 text-left">Teléfono</th>
-                  <th className="px-4 py-3 text-left">Email</th>
-                  <th className="px-4 py-3 text-left">Dirección</th>
-                  <th className="px-4 py-3 text-center">Trabajos</th>
-                  <th className="px-4 py-3 text-right">Acciones</th>
+                  <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Cliente</th>
+                  <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Teléfono</th>
+                  <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Email</th>
+                  <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Dirección</th>
+                  <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-slate-600">Trabajos</th>
+                  <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-slate-600">Acciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-white">
                 {clients.map((client) => (
-                  <tr key={client.id} className="border-b border-slate-200">
-                    <td className="px-4 py-3 font-medium">
-                      <Link
-                        to={`/admin/clientes/${client.id}`}
-                        className="text-primary hover:text-primary/80"
-                      >
+                  <tr key={client.id} className="border-b border-slate-200 hover:bg-slate-50">
+                    <td className="px-4 py-3 align-top">
+                      <div className="font-semibold text-slate-900">
                         {client.fullName}
-                      </Link>
+                      </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <a href={`tel:${client.phone}`} className="text-primary hover:text-primary/80">
-                        {client.phone}
+                    <td className="px-4 py-3 align-top">
+                      <a href={`tel:${client.phone}`} className="text-blue-600 hover:text-blue-800 font-medium">
+                        📞 {client.phone}
                       </a>
                     </td>
-                    <td className="px-4 py-3">
-                      <a href={`mailto:${client.email}`} className="text-primary hover:text-primary/80">
-                        {client.email}
-                      </a>
+                    <td className="px-4 py-3 align-top">
+                      {client.email ? (
+                        <a href={`mailto:${client.email}`} className="text-blue-600 hover:text-blue-800 font-medium">
+                          ✉️ {client.email}
+                        </a>
+                      ) : (
+                        <span className="text-slate-500">-</span>
+                      )}
                     </td>
-                    <td className="px-4 py-3 text-slate-600">{client.mainAddress}</td>
-                    <td className="px-4 py-3 text-center">
-                      <span className="bg-slate-100 text-slate-800 px-2 py-1 rounded-full text-xs">
+                    <td className="px-4 py-3 align-top text-slate-700">
+                      {client.mainAddress || '-'}
+                    </td>
+                    <td className="px-4 py-3 align-top text-center">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs md:text-sm font-medium bg-blue-100 text-blue-800">
                         {client.jobsCount || 0}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 align-top text-center">
                       <Link
                         to={`/admin/clientes/${client.id}`}
-                        className="text-primary hover:text-primary/80 text-sm"
+                        className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       >
-                        Ver detalle
+                        👁 Ver
                       </Link>
                     </td>
                   </tr>
@@ -128,7 +143,7 @@ export default function ClientesListPage() {
             </table>
           </div>
         )}
-      </div>
-    </div>
+      </AdminSectionCard>
+    </AdminPageLayout>
   );
 }

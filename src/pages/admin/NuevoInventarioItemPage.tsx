@@ -168,10 +168,8 @@ export default function NuevoInventarioItemPage() {
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
                 <option value="">Seleccionar ubicación</option>
-                <option value="Camión 1">Camión 1</option>
-                <option value="Camión 2">Camión 2</option>
-                <option value="Bodega">Bodega</option>
-                <option value="Oficina">Oficina</option>
+                <option value="Bodega 1">Bodega 1</option>
+                <option value="Bodega 2">Bodega 2</option>
               </select>
             </div>
 

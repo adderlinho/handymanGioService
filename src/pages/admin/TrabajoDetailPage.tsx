@@ -15,6 +15,10 @@ import type { ServiceArea } from '../../types/serviceAreas';
 import type { JobMaterialWithItem } from '../../types/jobMaterials';
 import type { InventoryItem } from '../../types/inventory';
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
+import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
+import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
+import AdminButton from '../../components/admin/ui/AdminButton';
+import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
 
 export default function TrabajoDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -291,69 +295,67 @@ export default function TrabajoDetailPage() {
   const serviceArea = serviceAreas.find(sa => sa.id === job.service_area_id);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <Link to="/admin/trabajos" className="text-sm text-slate-600 hover:text-primary mb-2 inline-block">
-            ← Volver a trabajos
-          </Link>
-          <h1 className="text-3xl font-bold">Detalle del trabajo</h1>
+    <AdminPageLayout
+      title={job.title}
+      backButton={{
+        label: "Volver a trabajos",
+        href: "/admin/trabajos"
+      }}
+    >
+      {/* Status and Public Links */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="flex items-center gap-4">
+          <AdminStatusBadge status={job.status} variant="job" />
+          {job.scheduled_date && (
+            <span className="text-slate-600 flex items-center gap-2">
+              📅 {new Date(job.scheduled_date).toLocaleDateString()}
+            </span>
+          )}
+          {job.time_window && (
+            <span className="text-slate-600 flex items-center gap-2">
+              🕐 {job.time_window}
+            </span>
+          )}
         </div>
+        
         {job.status === 'completed' && (
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-3">
             <a
               href={`/trabajos/${job.id}/public`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 md:px-5 py-2.5 md:py-3 text-sm md:text-base font-semibold text-slate-800 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              Ver vista pública
+              🌐 Ver vista pública
             </a>
-            <button
+            <AdminButton
+              variant="primary"
               onClick={() => navigator.clipboard.writeText(`${window.location.origin}/trabajos/${job.id}/public`)}
-              className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90"
+              icon="🔗"
             >
               Copiar enlace público
-            </button>
+            </AdminButton>
           </div>
         )}
       </div>
 
-      {/* Job Summary Card */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <h2 className="text-xl font-semibold mb-2">{job.title}</h2>
-            <div className="flex items-center gap-4">
-              {getStatusBadge(job.status)}
-              {job.scheduled_date && (
-                <span className="text-sm text-slate-600">
-                  📅 {new Date(job.scheduled_date).toLocaleDateString()}
-                </span>
-              )}
-              {job.time_window && (
-                <span className="text-sm text-slate-600">
-                  🕐 {job.time_window}
-                </span>
-              )}
-            </div>
-          </div>
-          <button
-            onClick={() => setEditingStatus(!editingStatus)}
-            className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
-          >
-            Editar estado
-          </button>
-        </div>
-
-        {editingStatus && (
-          <div className="border-t pt-4 mt-4">
-            <div className="flex items-center gap-4">
+      <AdminSectionCard 
+        title="Estado del trabajo"
+        action={{
+          label: editingStatus ? "Cancelar" : "Cambiar estado",
+          onClick: () => setEditingStatus(!editingStatus)
+        }}
+      >
+        {editingStatus ? (
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
+                Nuevo estado
+              </label>
               <select
                 value={job.status}
                 onChange={(e) => handleStatusUpdate(e.target.value as JobStatus)}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
+                className="block w-full h-11 md:h-12 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm md:text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="lead">Lead</option>
                 <option value="scheduled">Programado</option>
@@ -362,97 +364,92 @@ export default function TrabajoDetailPage() {
                 <option value="invoiced">Facturado</option>
                 <option value="paid">Pagado</option>
               </select>
-              <button
-                onClick={() => setEditingStatus(false)}
-                className="px-4 py-2 text-sm text-slate-600 hover:text-slate-800"
-              >
+            </div>
+            <div className="flex gap-3">
+              <AdminButton variant="secondary" onClick={() => setEditingStatus(false)}>
                 Cancelar
-              </button>
+              </AdminButton>
             </div>
           </div>
+        ) : (
+          <div className="text-slate-700">
+            <p>Estado actual: <AdminStatusBadge status={job.status} variant="job" /></p>
+          </div>
         )}
-      </div>
+      </AdminSectionCard>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Customer & Address */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold mb-4">Datos del cliente</h3>
-          <div className="space-y-3">
+        <AdminSectionCard title="Datos del cliente">
+          <div className="space-y-4">
             <div>
-              <p className="text-sm text-slate-600">Nombre</p>
-              <p className="font-medium">{job.customer_name}</p>
+              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Nombre</p>
+              <p className="text-slate-900 font-semibold">{job.customer_name}</p>
             </div>
             {job.customer_phone && (
               <div>
-                <p className="text-sm text-slate-600">Teléfono</p>
-                <a href={`tel:${job.customer_phone}`} className="font-medium text-primary hover:text-primary/80">
-                  {job.customer_phone}
+                <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Teléfono</p>
+                <a href={`tel:${job.customer_phone}`} className="text-blue-600 hover:text-blue-800 font-semibold">
+                  📞 {job.customer_phone}
                 </a>
               </div>
             )}
             {job.customer_email && (
               <div>
-                <p className="text-sm text-slate-600">Correo</p>
-                <a href={`mailto:${job.customer_email}`} className="font-medium text-primary hover:text-primary/80">
-                  {job.customer_email}
+                <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Correo</p>
+                <a href={`mailto:${job.customer_email}`} className="text-blue-600 hover:text-blue-800 font-semibold">
+                  ✉️ {job.customer_email}
                 </a>
               </div>
             )}
             <div>
-              <p className="text-sm text-slate-600">Dirección</p>
-              <div className="font-medium">
-                {job.address_street}
-                {job.address_unit && `, ${job.address_unit}`}
-                <br />
-                {job.city}, {job.state} {job.zip}
+              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Dirección</p>
+              <div className="text-slate-900">
+                <p className="font-semibold">
+                  {job.address_street}
+                  {job.address_unit && `, ${job.address_unit}`}
+                </p>
+                <p>{job.city}, {job.state} {job.zip}</p>
                 {serviceArea && (
-                  <div className="text-sm text-primary mt-1">
-                    Zona: {serviceArea.name}
-                  </div>
+                  <p className="text-blue-600 font-medium mt-2">
+                    📍 Zona: {serviceArea.name}
+                  </p>
                 )}
               </div>
             </div>
           </div>
-        </div>
+        </AdminSectionCard>
 
-        {/* Job Details */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold mb-4">Detalles del trabajo</h3>
-          <div className="space-y-3">
+        <AdminSectionCard title="Detalles del trabajo">
+          <div className="space-y-4">
             <div>
-              <p className="text-sm text-slate-600">Tipo de servicio</p>
-              <p className="font-medium">{getServiceTypeLabel(job.service_type)}</p>
+              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Tipo de servicio</p>
+              <p className="text-slate-900 font-semibold">{getServiceTypeLabel(job.service_type)}</p>
             </div>
             {job.description && (
               <div>
-                <p className="text-sm text-slate-600">Descripción</p>
-                <p className="font-medium">{job.description}</p>
+                <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Descripción</p>
+                <p className="text-slate-900 leading-relaxed">{job.description}</p>
               </div>
             )}
             <div>
-              <p className="text-sm text-slate-600">Creado</p>
-              <p className="font-medium">{new Date(job.created_at).toLocaleDateString()}</p>
+              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Creado</p>
+              <p className="text-slate-700">{new Date(job.created_at).toLocaleDateString()}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-600">Última actualización</p>
-              <p className="font-medium">{new Date(job.updated_at).toLocaleDateString()}</p>
+              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Última actualización</p>
+              <p className="text-slate-700">{new Date(job.updated_at).toLocaleDateString()}</p>
             </div>
           </div>
-        </div>
+        </AdminSectionCard>
       </div>
 
-      {/* Workers */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Trabajadores asignados</h3>
-          <button
-            onClick={() => setEditingWorkers(!editingWorkers)}
-            className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
-          >
-            Editar trabajadores
-          </button>
-        </div>
-
+      <AdminSectionCard 
+        title="Trabajadores asignados"
+        action={{
+          label: "Editar trabajadores",
+          onClick: () => setEditingWorkers(!editingWorkers)
+        }}
+      >
         {jobWorkers.length === 0 ? (
           <p className="text-slate-600">No hay trabajadores asignados</p>
         ) : (
@@ -494,7 +491,7 @@ export default function TrabajoDetailPage() {
             </table>
           </div>
         )}
-      </div>
+      </AdminSectionCard>
 
       {/* Evidence/Photos */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -794,7 +791,7 @@ export default function TrabajoDetailPage() {
           </div>
         </div>
       </div>
-    </div>
+    </AdminPageLayout>
   );
 }
 
