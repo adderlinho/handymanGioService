@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createWorker } from '../../services/workersService';
 import type { Worker, WorkerPayType, WorkerStatus } from '../../types/workers';
+import { useFormValidation } from '../../hooks/useFormValidation';
+import { commonRules } from '../../utils/validation';
 
 const ROLES = [
   'Handyman',
@@ -17,7 +19,17 @@ export default function NuevoTrabajadorPage() {
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const validationRules = {
+    first_name: commonRules.name,
+    last_name: commonRules.name,
+    phone: { ...commonRules.phone, required: false },
+    email: { ...commonRules.email, required: false },
+    role: { required: true },
+    hourly_rate: { min: 50, max: 500 },
+    overtime_rate: { min: 50, max: 500 }
+  };
+  
+  const { data: formData, errors, touched, handleChange: handleFieldChange, handleBlur, validateAll } = useFormValidation({
     first_name: '',
     last_name: '',
     phone: '',
@@ -28,18 +40,18 @@ export default function NuevoTrabajadorPage() {
     overtime_rate: '',
     status: 'active' as WorkerStatus,
     start_date: ''
-  });
+  }, validationRules);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    handleFieldChange(name, value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.first_name.trim() || !formData.last_name.trim() || !formData.role || !formData.pay_type) {
-      setError('Por favor completa todos los campos requeridos');
+    if (!validateAll()) {
+      setError('Por favor corrige los errores en el formulario');
       return;
     }
 
@@ -104,9 +116,16 @@ export default function NuevoTrabajadorPage() {
                   name="first_name"
                   value={formData.first_name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  required
+                  onBlur={() => handleBlur('first_name')}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${
+                    errors.first_name && touched.first_name
+                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                      : 'border-slate-300 focus:ring-primary focus:border-primary'
+                  }`}
                 />
+                {errors.first_name && touched.first_name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.first_name}</p>
+                )}
               </div>
 
               <div>
@@ -118,9 +137,16 @@ export default function NuevoTrabajadorPage() {
                   name="last_name"
                   value={formData.last_name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  required
+                  onBlur={() => handleBlur('last_name')}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${
+                    errors.last_name && touched.last_name
+                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                      : 'border-slate-300 focus:ring-primary focus:border-primary'
+                  }`}
                 />
+                {errors.last_name && touched.last_name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.last_name}</p>
+                )}
               </div>
 
               <div>
@@ -266,7 +292,7 @@ export default function NuevoTrabajadorPage() {
             </Link>
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || Object.keys(errors).length > 0}
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
             >
               {saving && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}

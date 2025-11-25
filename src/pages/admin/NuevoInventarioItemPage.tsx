@@ -2,11 +2,22 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { inventoryService } from '../../services/inventoryService';
 import type { InventoryItemInput } from '../../types/inventory';
+import { useFormValidation } from '../../hooks/useFormValidation';
 
 export default function NuevoInventarioItemPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<InventoryItemInput>({
+  const validationRules = {
+    name: { required: true, minLength: 2, maxLength: 100 },
+    category: { required: true },
+    unit: { required: true },
+    quantity: { required: true, min: 0 },
+    min_quantity: { required: true, min: 0 },
+    location: { required: true },
+    cost_per_unit: { required: true, min: 0.01 }
+  };
+  
+  const { data: formData, errors, touched, handleChange: handleFieldChange, handleBlur, validateAll } = useFormValidation({
     name: '',
     sku: '',
     category: '',
@@ -16,11 +27,11 @@ export default function NuevoInventarioItemPage() {
     min_quantity: 0,
     location: '',
     cost_per_unit: 0
-  });
+  }, validationRules);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name.trim()) return;
+    if (!validateAll()) return;
 
     try {
       setLoading(true);
@@ -34,7 +45,7 @@ export default function NuevoInventarioItemPage() {
   };
 
   const updateField = (field: keyof InventoryItemInput, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    handleFieldChange(field, value);
   };
 
   return (
@@ -60,9 +71,16 @@ export default function NuevoInventarioItemPage() {
                 type="text"
                 value={formData.name}
                 onChange={(e) => updateField('name', e.target.value)}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                required
+                onBlur={() => handleBlur('name')}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 ${
+                  errors.name && touched.name
+                    ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                    : 'border-slate-300 focus:ring-primary focus:border-primary'
+                }`}
               />
+              {errors.name && touched.name && (
+                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+              )}
             </div>
 
             <div>
@@ -198,7 +216,7 @@ export default function NuevoInventarioItemPage() {
             </button>
             <button
               type="submit"
-              disabled={loading || !formData.name.trim()}
+              disabled={loading || Object.keys(errors).length > 0 || !formData.name}
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               {loading ? 'Creando...' : 'Crear artículo'}
