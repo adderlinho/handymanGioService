@@ -1,12 +1,51 @@
-import { mockJobs } from '../../data/jobs';
+import { useState, useEffect } from 'react';
+import { getJobs } from '../../services/jobsService';
+import { getWorkers } from '../../services/workersService';
+import { clientsService } from '../../services/clientsService';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
+import type { Job } from '../../types/job';
 
 export default function DashboardPage() {
-  const todayJobs = mockJobs.filter(job => job.status === 'in_progress').length;
-  const completedJobs = mockJobs.filter(job => job.status === 'completed').length;
-  const totalRevenue = mockJobs.reduce((sum, job) => sum + (job.total_amount || 0), 0);
-  const upcomingJobs = mockJobs.slice(0, 3);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [workersCount, setWorkersCount] = useState(0);
+  const [clientsCount, setClientsCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+      const [jobsData, workersData, clientsData] = await Promise.all([
+        getJobs(),
+        getWorkers(),
+        clientsService.getAll()
+      ]);
+      
+      setJobs(jobsData);
+      setWorkersCount(workersData.length);
+      setClientsCount(clientsData.length);
+    } catch (error) {
+      console.error('Error loading dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const todayJobs = jobs.filter(job => job.status === 'in_progress').length;
+  const upcomingJobs = jobs.slice(0, 3);
+
+  if (loading) {
+    return (
+      <AdminPageLayout title="Dashboard" subtitle="Cargando...">
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      </AdminPageLayout>
+    );
+  }
 
   return (
     <AdminPageLayout
@@ -18,11 +57,11 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Trabajos Hoy</p>
-              <p className="text-2xl font-bold text-slate-900">{todayJobs}</p>
+              <p className="text-sm font-medium text-slate-600">Total Trabajos</p>
+              <p className="text-2xl font-bold text-slate-900">{jobs.length}</p>
             </div>
             <div className="bg-blue-100 p-3 rounded-lg">
-              <span className="text-2xl">📅</span>
+              <span className="text-2xl">📋</span>
             </div>
           </div>
         </div>
@@ -42,11 +81,11 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Completados</p>
-              <p className="text-2xl font-bold text-slate-900">{completedJobs}</p>
+              <p className="text-sm font-medium text-slate-600">Trabajadores</p>
+              <p className="text-2xl font-bold text-slate-900">{workersCount}</p>
             </div>
             <div className="bg-green-100 p-3 rounded-lg">
-              <span className="text-2xl">✅</span>
+              <span className="text-2xl">👷</span>
             </div>
           </div>
         </div>
@@ -54,11 +93,11 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Ingresos</p>
-              <p className="text-2xl font-bold text-slate-900">${totalRevenue.toFixed(0)}</p>
+              <p className="text-sm font-medium text-slate-600">Clientes</p>
+              <p className="text-2xl font-bold text-slate-900">{clientsCount}</p>
             </div>
             <div className="bg-blue-100 p-3 rounded-lg">
-              <span className="text-2xl">💰</span>
+              <span className="text-2xl">👥</span>
             </div>
           </div>
         </div>
