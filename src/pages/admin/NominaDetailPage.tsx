@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { payrollService } from '../../services/payrollService';
 import type { PayrollPeriod, PayrollEntryWithWorker, PayrollPeriodStatus } from '../../types/payroll';
+import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
+import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 
 interface PayStubModalProps {
   entry: PayrollEntryWithWorker;
@@ -237,40 +239,25 @@ export default function NominaDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => navigate('/admin/nomina')}
-          className="flex items-center justify-center rounded-lg h-10 w-10 hover:bg-slate-100 transition-colors"
-        >
-          <span className="material-symbols-outlined">arrow_back</span>
-        </button>
-        <h1 className="text-2xl font-bold">Detalle de nómina</h1>
-      </div>
+    <AdminPageLayout
+      title="Detalle de nómina"
+      subtitle={period ? `Período ${formatDateRange(period.start_date, period.end_date)}` : ''}
+      backButton={{
+        label: "Volver a nómina",
+        href: "/admin/nomina"
+      }}
+    >
 
-      {/* Period Summary */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold">Resumen del período</h2>
-          <div className="flex gap-2">
-            {period.status === 'draft' && (
-              <button
-                onClick={() => handleStatusUpdate('finalized')}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Marcar como finalizado
-              </button>
-            )}
-            {period.status === 'finalized' && (
-              <button
-                onClick={() => handleStatusUpdate('paid')}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Marcar como pagado
-              </button>
-            )}
-          </div>
-        </div>
+      <AdminSectionCard 
+        title="Resumen del período"
+        action={period.status === 'draft' ? {
+          label: "Marcar como finalizado",
+          onClick: () => handleStatusUpdate('finalized')
+        } : period.status === 'finalized' ? {
+          label: "Marcar como pagado",
+          onClick: () => handleStatusUpdate('paid')
+        } : undefined}
+      >
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
@@ -290,11 +277,9 @@ export default function NominaDetailPage() {
             <p className="text-lg font-bold text-primary">${period.total_amount?.toFixed(2) || '0.00'}</p>
           </div>
         </div>
-      </div>
+      </AdminSectionCard>
 
-      {/* Entries */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-lg font-semibold mb-6">Detalle por trabajador</h2>
+      <AdminSectionCard title="Detalle por trabajador">
         
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
@@ -401,7 +386,7 @@ export default function NominaDetailPage() {
             <p className="text-slate-500">No hay entradas de nómina para este período</p>
           </div>
         )}
-      </div>
+      </AdminSectionCard>
 
       {/* Pay Stub Modal */}
       {selectedEntry && (
@@ -411,6 +396,6 @@ export default function NominaDetailPage() {
           onClose={() => setSelectedEntry(null)}
         />
       )}
-    </div>
+    </AdminPageLayout>
   );
 }
