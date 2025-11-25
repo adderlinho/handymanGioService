@@ -1,25 +1,36 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { clientsService, type ClientInput } from '../../services/clientsService';
+import { clientsService } from '../../services/clientsService';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 import AdminButton from '../../components/admin/ui/AdminButton';
+import { useFormValidation } from '../../hooks/useFormValidation';
+import { commonRules } from '../../utils/validation';
+import { useState } from 'react';
 
 export default function NuevoClientePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<ClientInput>({
+  
+  const validationRules = {
+    fullName: commonRules.name,
+    phone: commonRules.phone,
+    email: { ...commonRules.email, required: false },
+    mainAddress: { ...commonRules.address, required: false }
+  };
+  
+  const { data: formData, errors, touched, handleChange, handleBlur, validateAll } = useFormValidation({
     fullName: '',
     phone: '',
     whatsapp: '',
     email: '',
     mainAddress: '',
     notes: ''
-  });
+  }, validationRules);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.phone) return;
+    
+    if (!validateAll()) return;
 
     try {
       setLoading(true);
@@ -30,10 +41,6 @@ export default function NuevoClientePage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleChange = (field: keyof ClientInput, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -57,10 +64,17 @@ export default function NuevoClientePage() {
                   type="text"
                   value={formData.fullName}
                   onChange={(e) => handleChange('fullName', e.target.value)}
-                  className="block w-full h-12 rounded-xl border border-slate-300 bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  onBlur={() => handleBlur('fullName')}
+                  className={`block w-full h-12 rounded-xl border bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 ${
+                    errors.fullName && touched.fullName
+                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                      : 'border-slate-300 focus:ring-blue-500 focus:border-blue-500'
+                  }`}
                   placeholder="Ej: Juan Pérez"
-                  required
                 />
+                {errors.fullName && touched.fullName && (
+                  <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
+                )}
               </div>
               <div>
                 <label className="block text-base font-medium text-slate-800 mb-2">
@@ -70,10 +84,17 @@ export default function NuevoClientePage() {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => handleChange('phone', e.target.value)}
-                  className="block w-full h-12 rounded-xl border border-slate-300 bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Ej: (312) 555-0123"
-                  required
+                  onBlur={() => handleBlur('phone')}
+                  className={`block w-full h-12 rounded-xl border bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 ${
+                    errors.phone && touched.phone
+                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                      : 'border-slate-300 focus:ring-blue-500 focus:border-blue-500'
+                  }`}
+                  placeholder="Ej: 12345678"
                 />
+                {errors.phone && touched.phone && (
+                  <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+                )}
               </div>
             </div>
 
@@ -98,9 +119,17 @@ export default function NuevoClientePage() {
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleChange('email', e.target.value)}
-                  className="block w-full h-12 rounded-xl border border-slate-300 bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  onBlur={() => handleBlur('email')}
+                  className={`block w-full h-12 rounded-xl border bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 ${
+                    errors.email && touched.email
+                      ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                      : 'border-slate-300 focus:ring-blue-500 focus:border-blue-500'
+                  }`}
                   placeholder="Ej: juan@ejemplo.com"
                 />
+                {errors.email && touched.email && (
+                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                )}
               </div>
             </div>
 
@@ -142,7 +171,7 @@ export default function NuevoClientePage() {
             <AdminButton
               variant="primary"
               type="submit"
-              disabled={loading || !formData.fullName || !formData.phone}
+              disabled={loading || Object.keys(errors).length > 0 || !formData.fullName || !formData.phone}
               icon="✓"
             >
               {loading ? 'Guardando...' : 'Crear Cliente'}
