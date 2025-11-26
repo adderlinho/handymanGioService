@@ -4,16 +4,14 @@ import { getJobById, updateJob } from '../../services/jobsService';
 import { getJobWorkersByJob } from '../../services/jobWorkersService';
 import { getWorkers } from '../../services/workersService';
 import { getServiceAreas } from '../../services/serviceAreasService';
-import { jobMaterialsService } from '../../services/jobMaterialsService';
-import { inventoryService } from '../../services/inventoryService';
+
 import { getPhotosByJob, createJobPhoto, deleteJobPhoto } from '../../services/jobPhotosService';
 import { uploadJobPhoto, deleteJobPhotoFromStorage } from '../../services/storageService';
 import type { Job, JobStatus } from '../../types/job';
 import type { JobWorker } from '../../types/jobWorkers';
 import type { Worker } from '../../types/workers';
 import type { ServiceArea } from '../../types/serviceAreas';
-import type { JobMaterialWithItem } from '../../types/jobMaterials';
-import type { InventoryItem } from '../../types/inventory';
+
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 
@@ -23,12 +21,11 @@ export default function TrabajoDetailPage() {
   const [jobWorkers, setJobWorkers] = useState<JobWorker[]>([]);
   const [, setWorkers] = useState<Worker[]>([]);
   const [serviceAreas, setServiceAreas] = useState<ServiceArea[]>([]);
-  const [jobMaterials, setJobMaterials] = useState<JobMaterialWithItem[]>([]);
-  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
+
   const [jobPhotos, setJobPhotos] = useState<JobPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAddMaterial, setShowAddMaterial] = useState(false);
+
   const [showAddPhoto, setShowAddPhoto] = useState(false);
   const [showAddWorker, setShowAddWorker] = useState(false);
   const [availableWorkers, setAvailableWorkers] = useState<Worker[]>([]);
@@ -36,11 +33,7 @@ export default function TrabajoDetailPage() {
     worker_id: ''
   });
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
-  const [materialForm, setMaterialForm] = useState({
-    item_id: '',
-    quantity: 0,
-    unit_cost: 0
-  });
+
   const [photoForm, setPhotoForm] = useState({
     file: null as File | null,
     tag: null as JobPhotoTag,
@@ -56,13 +49,11 @@ export default function TrabajoDetailPage() {
   const loadJobData = async (jobId: string) => {
     try {
       setLoading(true);
-      const [jobData, jobWorkersData, workersData, serviceAreasData, materialsData, inventoryData, photosData] = await Promise.all([
+      const [jobData, jobWorkersData, workersData, serviceAreasData, photosData] = await Promise.all([
         getJobById(jobId),
         getJobWorkersByJob(jobId),
         getWorkers(),
         getServiceAreas(),
-        jobMaterialsService.getJobMaterials(jobId),
-        inventoryService.getInventoryItems(),
         getPhotosByJob(jobId)
       ]);
 
@@ -76,8 +67,7 @@ export default function TrabajoDetailPage() {
       setWorkers(workersData);
       setAvailableWorkers(workersData);
       setServiceAreas(serviceAreasData);
-      setJobMaterials(materialsData);
-      setInventoryItems(inventoryData);
+
       setJobPhotos(photosData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error loading job');
@@ -168,37 +158,7 @@ export default function TrabajoDetailPage() {
     }
   };
 
-  const handleAddMaterial = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!job || !materialForm.item_id || materialForm.quantity <= 0) return;
 
-    try {
-      await jobMaterialsService.addMaterialToJob({
-        job_id: job.id,
-        item_id: materialForm.item_id,
-        quantity: materialForm.quantity,
-        unit_cost: materialForm.unit_cost || undefined
-      });
-
-      // Reload materials and update job pricing
-      const [updatedMaterials, materialsTotal] = await Promise.all([
-        jobMaterialsService.getJobMaterials(job.id),
-        jobMaterialsService.getJobMaterialsTotal(job.id)
-      ]);
-
-      setJobMaterials(updatedMaterials);
-      
-      // Update job with new materials total
-      const newTotalAmount = (job.travel_fee || 0) + (job.labor_total || 0) + materialsTotal + (job.other_fees || 0);
-      await updateJob(job.id, { materials_total: materialsTotal, total_amount: newTotalAmount });
-      setJob({ ...job, materials_total: materialsTotal, total_amount: newTotalAmount });
-
-      setMaterialForm({ item_id: '', quantity: 0, unit_cost: 0 });
-      setShowAddMaterial(false);
-    } catch (err) {
-      console.error('Error adding material:', err);
-    }
-  };
 
   const handleAddWorker = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -223,28 +183,7 @@ export default function TrabajoDetailPage() {
     }
   };
 
-  const handleRemoveMaterial = async (materialId: number) => {
-    if (!job) return;
 
-    try {
-      await jobMaterialsService.removeJobMaterial(materialId);
-      
-      // Reload materials and update job pricing
-      const [updatedMaterials, materialsTotal] = await Promise.all([
-        jobMaterialsService.getJobMaterials(job.id),
-        jobMaterialsService.getJobMaterialsTotal(job.id)
-      ]);
-
-      setJobMaterials(updatedMaterials);
-      
-      // Update job with new materials total
-      const newTotalAmount = (job.travel_fee || 0) + (job.labor_total || 0) + materialsTotal + (job.other_fees || 0);
-      await updateJob(job.id, { materials_total: materialsTotal, total_amount: newTotalAmount });
-      setJob({ ...job, materials_total: materialsTotal, total_amount: newTotalAmount });
-    } catch (err) {
-      console.error('Error removing material:', err);
-    }
-  };
 
   if (loading) {
     return (
