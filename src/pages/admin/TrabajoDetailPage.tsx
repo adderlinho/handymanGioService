@@ -16,7 +16,6 @@ import type { JobMaterialWithItem } from '../../types/jobMaterials';
 import type { InventoryItem } from '../../types/inventory';
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
-import AdminButton from '../../components/admin/ui/AdminButton';
 import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
 
 export default function TrabajoDetailPage() {
@@ -33,7 +32,6 @@ export default function TrabajoDetailPage() {
   const [showAddMaterial, setShowAddMaterial] = useState(false);
   const [showAddPhoto, setShowAddPhoto] = useState(false);
   const [showAddWorker, setShowAddWorker] = useState(false);
-  const [availableWorkers, setAvailableWorkers] = useState<Worker[]>([]);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [materialForm, setMaterialForm] = useState({
     item_id: '',
@@ -64,8 +62,6 @@ export default function TrabajoDetailPage() {
         inventoryService.getInventoryItems(),
         getPhotosByJob(jobId)
       ]);
-
-      setAvailableWorkers(workersData);
 
       if (!jobData) {
         setError('Trabajo no encontrado');
