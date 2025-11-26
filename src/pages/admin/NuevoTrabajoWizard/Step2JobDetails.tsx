@@ -42,7 +42,7 @@ const SERVICE_TYPES = [
     value: 'handyman', 
     label: 'Handyman',
     title: 'Reparaciones del hogar',
-    templates: ['Reparaciones varias', 'Mantenimiento de la casa', 'Arreglos menores', 'Instalaciones básicas']
+    templates: ['Reparaciones varias', 'Mantenimiento general', 'Arreglos menores', 'Remodelación completa']
   },
   { 
     value: 'other', 
@@ -72,7 +72,7 @@ export default function Step2JobDetails({ data, updateData, onNext, onBack }: St
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!data.service_type) return;
+    if (!data.service_type || !data.scheduled_date) return;
     onNext();
   };
 
@@ -161,6 +161,7 @@ export default function Step2JobDetails({ data, updateData, onNext, onBack }: St
               value={data.scheduled_date}
               onChange={(e) => updateData({ scheduled_date: e.target.value })}
               className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary max-w-sm"
+              required
             />
           </div>
         )}
@@ -176,7 +177,7 @@ export default function Step2JobDetails({ data, updateData, onNext, onBack }: St
         </button>
         <button
           type="submit"
-          disabled={!data.service_type}
+          disabled={!data.service_type || !data.scheduled_date}
           className="px-6 py-3 text-base bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           Siguiente →
