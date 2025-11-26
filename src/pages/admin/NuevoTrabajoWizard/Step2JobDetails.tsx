@@ -156,36 +156,16 @@ export default function Step2JobDetails({ data, updateData, onNext, onBack }: St
         )}
 
         {data.service_type && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-                ¿Cuándo empezar?
-              </label>
-              <input
-                type="date"
-                value={data.scheduled_date}
-                onChange={(e) => updateData({ scheduled_date: e.target.value })}
-                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-                ¿A qué hora?
-              </label>
-              <select
-                value={data.time_window}
-                onChange={(e) => updateData({ time_window: e.target.value })}
-                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-              >
-                <option value="">Selecciona una hora</option>
-                {TIME_WINDOWS.map((window) => (
-                  <option key={window.value} value={window.value}>
-                    {window.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
+              ¿Cuándo empezar?
+            </label>
+            <input
+              type="date"
+              value={data.scheduled_date}
+              onChange={(e) => updateData({ scheduled_date: e.target.value })}
+              className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary max-w-sm"
+            />
           </div>
         )}
       </div>
