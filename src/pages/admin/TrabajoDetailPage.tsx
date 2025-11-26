@@ -16,7 +16,6 @@ import type { JobMaterialWithItem } from '../../types/jobMaterials';
 import type { InventoryItem } from '../../types/inventory';
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
-import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
 
 export default function TrabajoDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -145,17 +144,7 @@ export default function TrabajoDetailPage() {
 
 
 
-  const getServiceTypeLabel = (serviceType: string) => {
-    const labels: Record<string, string> = {
-      'plumbing': 'Plomería',
-      'electrical': 'Electricidad',
-      'drywall_paint': 'Drywall y Pintura',
-      'carpentry': 'Carpintería',
-      'flooring': 'Pisos',
-      'other': 'Otro'
-    };
-    return labels[serviceType] || serviceType;
-  };
+
 
   const handleStatusUpdate = async (newStatus: JobStatus) => {
     if (!job) return;
