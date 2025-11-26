@@ -55,10 +55,9 @@ export default function Step4PricingSummary({ data, updateData, onBack, onSave, 
               type="number"
               step="0.01"
               min="0"
-              value={data.total_amount}
+              value={data.total_amount || ''}
               onChange={(e) => updateData({ total_amount: parseFloat(e.target.value) || 0 })}
               className="w-full pl-12 pr-6 py-4 text-2xl font-bold text-center border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-              placeholder="0.00"
             />
           </div>
         </div>
