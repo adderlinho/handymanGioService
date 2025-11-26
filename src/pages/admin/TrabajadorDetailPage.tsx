@@ -78,7 +78,8 @@ export default function TrabajadorDetailPage() {
       'in_progress': 'bg-amber-100 text-amber-800',
       'completed': 'bg-green-100 text-green-800',
       'invoiced': 'bg-cyan-100 text-cyan-800',
-      'paid': 'bg-emerald-100 text-emerald-800'
+      'paid': 'bg-emerald-100 text-emerald-800',
+      'cancelled': 'bg-red-100 text-red-800'
     };
 
     const statusLabels = {
@@ -87,7 +88,8 @@ export default function TrabajadorDetailPage() {
       'in_progress': 'En Progreso',
       'completed': 'Completado',
       'invoiced': 'Facturado',
-      'paid': 'Pagado'
+      'paid': 'Pagado',
+      'cancelled': 'Cancelado'
     };
 
     return (
