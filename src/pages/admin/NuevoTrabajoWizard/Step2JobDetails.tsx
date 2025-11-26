@@ -52,11 +52,7 @@ const SERVICE_TYPES = [
   }
 ];
 
-const TIME_WINDOWS = [
-  { value: 'Morning', label: 'Mañana (8:00 AM - 12:00 PM)' },
-  { value: 'Afternoon', label: 'Tarde (12:00 PM - 5:00 PM)' },
-  { value: 'Evening', label: 'Noche (5:00 PM - 8:00 PM)' }
-];
+
 
 export default function Step2JobDetails({ data, updateData, onNext, onBack }: Step2Props) {
   const selectedServiceType = SERVICE_TYPES.find(type => type.value === data.service_type);
