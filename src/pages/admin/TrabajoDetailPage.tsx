@@ -32,6 +32,10 @@ export default function TrabajoDetailPage() {
   const [showAddMaterial, setShowAddMaterial] = useState(false);
   const [showAddPhoto, setShowAddPhoto] = useState(false);
   const [showAddWorker, setShowAddWorker] = useState(false);
+  const [availableWorkers, setAvailableWorkers] = useState<Worker[]>([]);
+  const [workerForm, setWorkerForm] = useState({
+    worker_id: ''
+  });
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [materialForm, setMaterialForm] = useState({
     item_id: '',
@@ -71,6 +75,7 @@ export default function TrabajoDetailPage() {
       setJob(jobData);
       setJobWorkers(jobWorkersData);
       setWorkers(workersData);
+      setAvailableWorkers(workersData);
       setServiceAreas(serviceAreasData);
       setJobMaterials(materialsData);
       setInventoryItems(inventoryData);
@@ -206,6 +211,29 @@ export default function TrabajoDetailPage() {
     }
   };
 
+  const handleAddWorker = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!job || !workerForm.worker_id) return;
+
+    try {
+      const { assignWorkerToJob } = await import('../../services/jobWorkersService');
+      
+      await assignWorkerToJob({
+        job_id: job.id,
+        worker_id: workerForm.worker_id
+      });
+
+      // Reload job workers
+      const updatedJobWorkers = await getJobWorkersByJob(job.id);
+      setJobWorkers(updatedJobWorkers);
+
+      setWorkerForm({ worker_id: '' });
+      setShowAddWorker(false);
+    } catch (err) {
+      console.error('Error adding worker:', err);
+    }
+  };
+
   const handleRemoveMaterial = async (materialId: number) => {
     if (!job) return;
 
@@ -266,20 +294,8 @@ export default function TrabajoDetailPage() {
       }}
     >
       {/* Status and Public Links */}
-      {/* Header with status and key info */}
+      {/* Status change buttons */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <div className="text-center mb-6">
-          <AdminStatusBadge status={job.status} variant="job" />
-          <h2 className="text-2xl font-bold text-slate-900 mt-4">{job.customer_name}</h2>
-          <p className="text-lg text-slate-600 mt-2">{getServiceTypeLabel(job.service_type)}</p>
-          {job.scheduled_date && (
-            <p className="text-lg text-slate-700 mt-2">
-              📅 {new Date(job.scheduled_date).toLocaleDateString()}
-            </p>
-          )}
-        </div>
-        
-        {/* Status change buttons */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button
             onClick={() => handleStatusUpdate('scheduled')}
@@ -380,17 +396,60 @@ export default function TrabajoDetailPage() {
       </div>
 
       {/* Workers section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-slate-900">👷 Trabajadores</h3>
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-8 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <h3 className="text-xl md:text-2xl font-bold text-slate-900">👷 Trabajadores</h3>
           <button
             onClick={() => setShowAddWorker(!showAddWorker)}
-            className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
+            className="flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-base md:text-lg font-semibold"
           >
-            <span className="text-xl">➕</span>
-            Agregar Trabajador
+            <span className="text-lg md:text-xl">➕</span>
+            <span className="whitespace-nowrap">Agregar</span>
           </button>
         </div>
+
+        {showAddWorker && (
+          <form onSubmit={handleAddWorker} className="mb-6 p-4 bg-slate-50 rounded-lg">
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Trabajador</label>
+                <select
+                  value={workerForm.worker_id}
+                  onChange={(e) => setWorkerForm(prev => ({ ...prev, worker_id: e.target.value }))}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  required
+                >
+                  <option value="">Seleccionar trabajador</option>
+                  {availableWorkers
+                    .filter(worker => !jobWorkers.some(jw => jw.worker_id === worker.id))
+                    .map(worker => (
+                    <option key={worker.id} value={worker.id}>
+                      {worker.first_name} {worker.last_name} - {worker.role}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowAddWorker(false);
+                  setWorkerForm({ worker_id: '' });
+                }}
+                className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                Agregar
+              </button>
+            </div>
+          </form>
+        )}
 
         {jobWorkers.length === 0 ? (
           <div className="text-center py-12">
