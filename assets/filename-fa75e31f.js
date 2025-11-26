@@ -1,0 +1,1 @@
+function o(e,t=30){return e.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]+/g,"_").replace(/^_+|_+$/g,"").substring(0,t)}function a(e,t,r){const n=new Date(t).toISOString().split("T")[0],i=o(e),c=(r==null?void 0:r.slice(0,8))??"job";return`GioService_Reporte_Servicio_${n}_${i}_${c}.pdf`}export{a as generateJobReportFilename,o as slugifyForFilename};
