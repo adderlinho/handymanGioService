@@ -339,6 +339,7 @@ export default function TrabajoDetailPage() {
                 <option value="completed">Completado</option>
                 <option value="invoiced">Facturado</option>
                 <option value="paid">Pagado</option>
+                <option value="cancelled">Cancelado</option>
               </select>
             </div>
             <div className="flex gap-3">

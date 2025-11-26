@@ -12,7 +12,8 @@ export default function AdminStatusBadge({ status, variant = 'job' }: AdminStatu
         'in_progress': { bg: 'bg-amber-100', text: 'text-amber-800', label: 'En Progreso' },
         'completed': { bg: 'bg-green-100', text: 'text-green-800', label: 'Completado' },
         'invoiced': { bg: 'bg-cyan-100', text: 'text-cyan-800', label: 'Facturado' },
-        'paid': { bg: 'bg-emerald-100', text: 'text-emerald-800', label: 'Pagado' }
+        'paid': { bg: 'bg-emerald-100', text: 'text-emerald-800', label: 'Pagado' },
+        'cancelled': { bg: 'bg-red-100', text: 'text-red-800', label: 'Cancelado' }
       };
       return configs[status as keyof typeof configs] || configs.lead;
     }

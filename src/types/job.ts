@@ -4,7 +4,8 @@ export type JobStatus =
   | 'in_progress'
   | 'completed'
   | 'invoiced'
-  | 'paid';
+  | 'paid'
+  | 'cancelled';
 
 export interface Job {
   id: string;
