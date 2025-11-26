@@ -200,20 +200,61 @@ export default function TrabajoDetailPage() {
     }
   };
 
-  const handleGenerateReport = async (method: 'whatsapp' | 'email') => {
+  const handleGenerateReport = async (method: 'whatsapp' | 'email' | 'pdf') => {
     if (!job) return;
 
     try {
-      if (method === 'whatsapp') {
+      const serviceArea = serviceAreas.find(sa => sa.id === job.service_area_id);
+      const address = [
+        job.address_street + (job.address_unit ? `, ${job.address_unit}` : ''),
+        `${job.city}, ${job.state} ${job.zip}`,
+        serviceArea ? `Zona: ${serviceArea.name}` : ''
+      ].filter(Boolean).join('\n');
+
+      if (method === 'pdf') {
+        const { generateJobReportPDF } = await import('../../utils/pdfGenerator');
+        
+        const jobReportData = {
+          customerName: job.customer_name,
+          serviceName: job.title,
+          date: new Date().toLocaleDateString(),
+          status: 'Completado',
+          description: job.description || 'No especificada',
+          address,
+          workers: jobWorkers.map((jw: any) => 
+            `${jw.worker?.first_name} ${jw.worker?.last_name} (${jw.worker?.role})`
+          ),
+          totalAmount: job.total_amount || 0,
+          photos: jobPhotos.map(photo => ({
+            url: photo.url,
+            tag: photo.tag || undefined,
+            description: photo.description || undefined
+          }))
+        };
+
+        const jobReportDataWithId = {
+          ...jobReportData,
+          id: job.id
+        };
+        
+        const pdfBlob = await generateJobReportPDF(jobReportDataWithId);
+        const { generateJobReportFilename } = await import('../../utils/filename');
+        
+        const filename = generateJobReportFilename(
+          job.customer_name,
+          job.scheduled_date || new Date().toISOString(),
+          job.id
+        );
+        
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else if (method === 'whatsapp') {
         const { buildJobReportWhatsAppUrl } = await import('../../utils/whatsapp');
         
-        const serviceArea = serviceAreas.find(sa => sa.id === job.service_area_id);
-        const address = [
-          job.address_street + (job.address_unit ? `, ${job.address_unit}` : ''),
-          `${job.city}, ${job.state} ${job.zip}`,
-          serviceArea ? `Zona: ${serviceArea.name}` : ''
-        ].filter(Boolean).join('\n');
-
         const jobSummary = {
           phone: job.customer_phone || '',
           customerName: job.customer_name,
@@ -422,6 +463,13 @@ Gracias por confiar en nuestros servicios.
         
         {job.status === 'completed' && (
           <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={() => handleGenerateReport('pdf')}
+              className="flex items-center justify-center gap-3 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors text-lg font-semibold"
+            >
+              <span className="text-xl">📝</span>
+              Descargar PDF
+            </button>
             <button
               onClick={() => handleGenerateReport('whatsapp')}
               className="flex items-center justify-center gap-3 px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors text-lg font-semibold"

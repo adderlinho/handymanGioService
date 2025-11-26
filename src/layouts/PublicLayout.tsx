@@ -18,7 +18,7 @@ export default function PublicLayout() {
           <div className="flex h-20 items-center justify-between">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <span className="material-symbols-outlined text-primary text-3xl">construction</span>
-              <h2 className="text-xl font-bold tracking-tight text-text-light dark:text-text-dark">Manitas Pro</h2>
+              <h2 className="text-xl font-bold tracking-tight text-text-light dark:text-text-dark">GioService</h2>
             </Link>
             <nav className="hidden items-center gap-8 md:flex">
               <Link 
@@ -158,7 +158,7 @@ export default function PublicLayout() {
             <div>
               <Link to="/" className="flex items-center gap-3 mb-4 hover:opacity-80 transition-opacity">
                 <span className="material-symbols-outlined text-primary text-3xl">construction</span>
-                <h3 className="text-xl font-bold">Manitas Pro</h3>
+                <h3 className="text-xl font-bold">GioService</h3>
               </Link>
               <p className="text-sm opacity-80">Reparaciones confiables para tu hogar. Electricidad, plomería, pintura y mantenimiento general.</p>
             </div>
@@ -182,7 +182,7 @@ export default function PublicLayout() {
             </div>
           </div>
           <div className="border-t border-opacity-20 mt-8 pt-8 text-center text-sm opacity-60">
-            <p>&copy; 2024 Manitas Pro. Todos los derechos reservados.</p>
+            <p>&copy; 2024 GioService. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

@@ -39,7 +39,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="material-symbols-outlined text-primary text-4xl">construction</span>
-            <h1 className="text-2xl font-bold">Manitas Pro</h1>
+            <h1 className="text-2xl font-bold">GioService</h1>
           </div>
           <p className="text-slate-600 dark:text-slate-400">Acceso al Panel Administrativo</p>
         </div>

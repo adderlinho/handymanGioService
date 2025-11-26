@@ -81,7 +81,7 @@ export default function TrabajoPublicPage() {
   // Use centralized WhatsApp utility
   const getWhatsAppShareUrl = () => {
     const { buildWhatsAppShareLink } = require('../../utils/whatsapp');
-    return buildWhatsAppShareLink(`Mira este trabajo realizado por Manitas Pro: ${shareUrl}`);
+    return buildWhatsAppShareLink(`Mira este trabajo realizado por GioService: ${shareUrl}`);
   };
   
   const whatsappUrl = getWhatsAppShareUrl();

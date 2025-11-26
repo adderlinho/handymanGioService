@@ -28,7 +28,7 @@ export default function AdminLayout() {
               
               <Link to="/admin" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                 <span className="text-2xl">🔨</span>
-                <h1 className="text-xl font-bold tracking-tight text-slate-900">Manitas Pro</h1>
+                <h1 className="text-xl font-bold tracking-tight text-slate-900">GioService</h1>
               </Link>
             </div>
             
