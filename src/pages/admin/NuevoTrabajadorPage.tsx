@@ -29,7 +29,7 @@ export default function NuevoTrabajadorPage() {
     overtime_rate: { min: 50, max: 500 }
   };
   
-  const { data: formData, errors, touched, handleChange: handleFieldChange, handleBlur, validateAll } = useFormValidation({
+  const { data: formData, errors, touched, handleChange: handleFieldChange, handleBlur, validateAll, isValid } = useFormValidation({
     first_name: '',
     last_name: '',
     phone: '',
@@ -292,7 +292,7 @@ export default function NuevoTrabajadorPage() {
             </Link>
             <button
               type="submit"
-              disabled={saving || Object.keys(errors).length > 0}
+              disabled={saving || !isValid}
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
             >
               {saving && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}

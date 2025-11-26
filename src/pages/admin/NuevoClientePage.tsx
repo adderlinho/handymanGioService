@@ -18,7 +18,7 @@ export default function NuevoClientePage() {
     mainAddress: { ...commonRules.address, required: false }
   };
   
-  const { data: formData, errors, touched, handleChange, handleBlur, validateAll } = useFormValidation({
+  const { data: formData, errors, touched, handleChange, handleBlur, validateAll, isValid } = useFormValidation({
     fullName: '',
     phone: '',
     whatsapp: '',
@@ -171,7 +171,7 @@ export default function NuevoClientePage() {
             <AdminButton
               variant="primary"
               type="submit"
-              disabled={loading || Object.keys(errors).length > 0 || !formData.fullName || !formData.phone}
+              disabled={loading || !isValid}
               icon="✓"
             >
               {loading ? 'Guardando...' : 'Crear Cliente'}

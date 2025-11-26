@@ -8,12 +8,48 @@ interface Step2Props {
 }
 
 const SERVICE_TYPES = [
-  { value: 'plumbing', label: 'Plomería' },
-  { value: 'electrical', label: 'Electricidad' },
-  { value: 'drywall_paint', label: 'Drywall y Pintura' },
-  { value: 'carpentry', label: 'Carpintería' },
-  { value: 'flooring', label: 'Pisos' },
-  { value: 'other', label: 'Otro' }
+  { 
+    value: 'plumbing', 
+    label: 'Plomería',
+    title: 'Trabajo de plomería',
+    templates: ['Fuga de agua', 'Destape de drenaje', 'Cambio de llave', 'Reparación de tubería']
+  },
+  { 
+    value: 'electrical', 
+    label: 'Electricidad',
+    title: 'Trabajo eléctrico',
+    templates: ['Luz no funciona', 'Instalar tomacorriente', 'Cambiar switch', 'Problema eléctrico']
+  },
+  { 
+    value: 'drywall_paint', 
+    label: 'Drywall y Pintura',
+    title: 'Trabajo de drywall y pintura',
+    templates: ['Pintar habitación', 'Reparar pared', 'Parchar agujero', 'Trabajo de pintura']
+  },
+  { 
+    value: 'carpentry', 
+    label: 'Carpintería',
+    title: 'Trabajo de carpintería',
+    templates: ['Instalar puerta', 'Reparar ventana', 'Hacer estante', 'Trabajo de madera']
+  },
+  { 
+    value: 'flooring', 
+    label: 'Pisos',
+    title: 'Trabajo de pisos',
+    templates: ['Instalar piso', 'Reparar piso', 'Cambiar baldosas', 'Trabajo de pisos']
+  },
+  { 
+    value: 'handyman', 
+    label: 'Handyman General',
+    title: 'Trabajo general',
+    templates: ['Reparaciones varias', 'Mantenimiento general', 'Arreglos menores', 'Trabajo general']
+  },
+  { 
+    value: 'other', 
+    label: 'Otro',
+    title: 'Trabajo especializado',
+    templates: ['Trabajo personalizado', 'Servicio especial', 'Otro trabajo']
+  }
 ];
 
 const TIME_WINDOWS = [
@@ -23,9 +59,24 @@ const TIME_WINDOWS = [
 ];
 
 export default function Step2JobDetails({ data, updateData, onNext, onBack }: Step2Props) {
+  const selectedServiceType = SERVICE_TYPES.find(type => type.value === data.service_type);
+
+  const handleServiceTypeChange = (serviceType: string) => {
+    const selectedType = SERVICE_TYPES.find(type => type.value === serviceType);
+    updateData({ 
+      service_type: serviceType,
+      title: selectedType?.title || '',
+      description: '' // Reset description when service type changes
+    });
+  };
+
+  const handleDescriptionTemplate = (template: string) => {
+    updateData({ description: template });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!data.title.trim() || !data.service_type) return;
+    if (!data.service_type) return;
     onNext();
   };
 
@@ -37,97 +88,122 @@ export default function Step2JobDetails({ data, updateData, onNext, onBack }: St
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-2">
-            Título del trabajo *
+          <label className="block text-sm md:text-base font-medium text-slate-800 mb-3">
+            ¿Qué tipo de trabajo es? *
           </label>
-          <input
-            type="text"
-            value={data.title}
-            onChange={(e) => updateData({ title: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-            placeholder="Ej. Reparación de tubería en cocina"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Tipo de servicio *
-          </label>
-          <select
-            value={data.service_type}
-            onChange={(e) => updateData({ service_type: e.target.value })}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-            required
-          >
-            <option value="">Selecciona un tipo de servicio</option>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {SERVICE_TYPES.map((type) => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
+              <button
+                key={type.value}
+                type="button"
+                onClick={() => handleServiceTypeChange(type.value)}
+                className={`p-4 text-left border-2 rounded-xl transition-all ${
+                  data.service_type === type.value
+                    ? 'border-primary bg-primary/5 text-primary font-semibold'
+                    : 'border-slate-200 hover:border-slate-300 text-slate-700'
+                }`}
+              >
+                <div className="text-base font-medium">{type.label}</div>
+              </button>
             ))}
-          </select>
+          </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Descripción detallada
-          </label>
-          <textarea
-            value={data.description}
-            onChange={(e) => updateData({ description: e.target.value })}
-            rows={4}
-            className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-            placeholder="Describe el trabajo a realizar..."
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {data.service_type && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Fecha programada
+            <label className="block text-sm md:text-base font-medium text-slate-800 mb-3">
+              Título del trabajo
             </label>
             <input
-              type="date"
-              value={data.scheduled_date}
-              onChange={(e) => updateData({ scheduled_date: e.target.value })}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+              type="text"
+              value={data.title}
+              onChange={(e) => updateData({ title: e.target.value })}
+              className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary bg-slate-50"
+              placeholder="Se generará automáticamente"
             />
           </div>
+        )}
 
+        {selectedServiceType && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Franja horaria
+            <label className="block text-sm md:text-base font-medium text-slate-800 mb-3">
+              ¿Qué problema hay?
             </label>
-            <select
-              value={data.time_window}
-              onChange={(e) => updateData({ time_window: e.target.value })}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-            >
-              <option value="">Selecciona una franja</option>
-              {TIME_WINDOWS.map((window) => (
-                <option key={window.value} value={window.value}>
-                  {window.label}
-                </option>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+              {selectedServiceType.templates.map((template, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => handleDescriptionTemplate(template)}
+                  className={`p-3 text-left text-sm border rounded-lg transition-colors ${
+                    data.description === template
+                      ? 'border-primary bg-primary/5 text-primary font-medium'
+                      : 'border-slate-200 hover:border-slate-300 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  {template}
+                </button>
               ))}
-            </select>
+            </div>
+            <textarea
+              value={data.description}
+              onChange={(e) => updateData({ description: e.target.value })}
+              rows={3}
+              className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="O describe el problema con tus propias palabras..."
+            />
           </div>
-        </div>
+        )}
+
+        {data.service_type && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
+                ¿Cuándo empezar?
+              </label>
+              <input
+                type="date"
+                value={data.scheduled_date}
+                onChange={(e) => updateData({ scheduled_date: e.target.value })}
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
+                ¿A qué hora?
+              </label>
+              <select
+                value={data.time_window}
+                onChange={(e) => updateData({ time_window: e.target.value })}
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
+              >
+                <option value="">Selecciona una hora</option>
+                {TIME_WINDOWS.map((window) => (
+                  <option key={window.value} value={window.value}>
+                    {window.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between pt-6">
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+          className="px-6 py-3 text-base border border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors"
         >
-          Atrás
+          ← Atrás
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          disabled={!data.service_type}
+          className="px-6 py-3 text-base bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
-          Siguiente
+          Siguiente →
         </button>
       </div>
     </form>

@@ -46,17 +46,19 @@ export default function AgendaPage() {
     }
   };
 
+  const isFormValid = () => {
+    return formData.customer_name.trim() && 
+           formData.customer_phone.trim() && 
+           formData.service_type && 
+           formData.description.trim() &&
+           (!formData.customer_email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.customer_name.trim() || !formData.customer_phone.trim() || 
-        !formData.service_type || !formData.description.trim()) {
-      setError('Por favor completa todos los campos requeridos');
-      return;
-    }
-
-    if (formData.customer_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.customer_email)) {
-      setError('Por favor ingresa un correo electrónico válido');
+    if (!isFormValid()) {
+      setError('Por favor completa todos los campos requeridos correctamente');
       return;
     }
 
@@ -348,7 +350,7 @@ export default function AgendaPage() {
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !isFormValid()}
                 className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors disabled:opacity-50"
               >
                 {loading && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}

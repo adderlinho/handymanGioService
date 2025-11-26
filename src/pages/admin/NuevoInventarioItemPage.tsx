@@ -17,7 +17,7 @@ export default function NuevoInventarioItemPage() {
     cost_per_unit: { required: true, min: 0.01 }
   };
   
-  const { data: formData, errors, touched, handleChange: handleFieldChange, handleBlur, validateAll } = useFormValidation({
+  const { data: formData, errors, touched, handleChange: handleFieldChange, handleBlur, validateAll, isValid } = useFormValidation({
     name: '',
     sku: '',
     category: '',
@@ -216,7 +216,7 @@ export default function NuevoInventarioItemPage() {
             </button>
             <button
               type="submit"
-              disabled={loading || Object.keys(errors).length > 0 || !formData.name}
+              disabled={loading || !isValid}
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               {loading ? 'Creando...' : 'Crear artículo'}

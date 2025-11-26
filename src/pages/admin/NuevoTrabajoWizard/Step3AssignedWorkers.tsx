@@ -60,43 +60,53 @@ export default function Step3AssignedWorkers({ data, updateData, onNext, onBack 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold mb-4">Paso 3: Técnicos asignados</h2>
-        <p className="text-slate-600 mb-6">Selecciona los técnicos que trabajarán en este proyecto</p>
+        <h2 className="text-xl font-semibold mb-2">Paso 3: ¿Quién va a trabajar?</h2>
+        <p className="text-slate-600 mb-6">Selecciona los técnicos para este trabajo</p>
       </div>
 
-      <div className="space-y-3">
-        {workers.map((worker) => (
-          <div
-            key={worker.id}
-            className="flex items-center p-4 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
-          >
-            <input
-              type="checkbox"
-              id={`worker-${worker.id}`}
-              checked={data.selectedWorkers.includes(worker.id)}
-              onChange={() => handleWorkerToggle(worker.id)}
-              className="h-4 w-4 text-primary focus:ring-primary border-slate-300 rounded"
-            />
-            <label htmlFor={`worker-${worker.id}`} className="ml-3 flex-1 cursor-pointer">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium text-slate-900">
-                    {worker.first_name} {worker.last_name}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {workers.map((worker) => {
+          const isSelected = data.selectedWorkers.includes(worker.id);
+          return (
+            <div
+              key={worker.id}
+              className={`p-6 border-2 rounded-xl transition-all ${
+                isSelected
+                  ? 'border-primary bg-primary/5'
+                  : 'border-slate-200 hover:border-slate-300'
+              }`}
+            >
+              <div className="text-center mb-4">
+                <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <span className="text-xl font-bold text-slate-600">
+                    {worker.first_name[0]}{worker.last_name[0]}
+                  </span>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">
+                  {worker.first_name} {worker.last_name}
+                </h3>
+                <p className="text-slate-600">{worker.role}</p>
+                {worker.hourly_rate && (
+                  <p className="text-sm text-slate-500 mt-1">
+                    ${worker.hourly_rate}/hora
                   </p>
-                  <p className="text-sm text-slate-600">{worker.role}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-slate-600">{worker.phone}</p>
-                  {worker.hourly_rate && (
-                    <p className="text-sm font-medium text-slate-900">
-                      ${worker.hourly_rate}/hr
-                    </p>
-                  )}
-                </div>
+                )}
               </div>
-            </label>
-          </div>
-        ))}
+              
+              <button
+                type="button"
+                onClick={() => handleWorkerToggle(worker.id)}
+                className={`w-full py-3 px-4 rounded-xl font-semibold transition-colors ${
+                  isSelected
+                    ? 'bg-primary text-white hover:bg-primary/90'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {isSelected ? '✓ Asignado' : 'Asignar'}
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       {workers.length === 0 && (
@@ -105,19 +115,19 @@ export default function Step3AssignedWorkers({ data, updateData, onNext, onBack 
         </div>
       )}
 
-      <div className="flex justify-between">
+      <div className="flex justify-between pt-6">
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+          className="px-6 py-3 text-base border border-slate-300 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors"
         >
-          Atrás
+          ← Atrás
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+          className="px-6 py-3 text-base bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
         >
-          Siguiente
+          Siguiente →
         </button>
       </div>
     </form>

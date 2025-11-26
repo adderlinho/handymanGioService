@@ -8,18 +8,22 @@ export const useFormValidation = (initialData: any, rules: ValidationRules) => {
 
   const validateField = useCallback((field: string, value: any) => {
     const fieldErrors = validateForm({ [field]: value }, { [field]: rules[field] });
-    setErrors(prev => ({
-      ...prev,
-      [field]: fieldErrors[field] || ''
-    }));
+    setErrors(prev => {
+      const newErrors = { ...prev };
+      if (fieldErrors[field]) {
+        newErrors[field] = fieldErrors[field];
+      } else {
+        delete newErrors[field];
+      }
+      return newErrors;
+    });
   }, [rules]);
 
   const handleChange = useCallback((field: string, value: any) => {
     setData((prev: any) => ({ ...prev, [field]: value }));
-    if (touched[field]) {
-      validateField(field, value);
-    }
-  }, [touched, validateField]);
+    // Always validate on change to enable/disable submit button properly
+    validateField(field, value);
+  }, [validateField]);
 
   const handleBlur = useCallback((field: string) => {
     setTouched(prev => ({ ...prev, [field]: true }));
@@ -39,6 +43,12 @@ export const useFormValidation = (initialData: any, rules: ValidationRules) => {
     setTouched({});
   }, [initialData]);
 
+  // Check if form is valid (no errors) and required fields are filled
+  const isFormValid = useCallback(() => {
+    const allErrors = validateForm(data, rules);
+    return Object.keys(allErrors).length === 0;
+  }, [data, rules]);
+
   return {
     data,
     errors,
@@ -47,6 +57,6 @@ export const useFormValidation = (initialData: any, rules: ValidationRules) => {
     handleBlur,
     validateAll,
     reset,
-    isValid: Object.keys(errors).length === 0
+    isValid: isFormValid()
   };
 };
