@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getWorkerById, updateWorker } from '../../services/workersService';
 import { getJobWorkersByWorker } from '../../services/jobWorkersService';
 import { getJobsByIds } from '../../services/jobsService';
+import { formatPhoneNumber } from '../../utils/phoneFormat';
 import type { Worker, WorkerStatus, WorkerPayType } from '../../types/workers';
 import type { Job, JobStatus } from '../../types/job';
 import type { JobWorker } from '../../types/jobWorkers';
@@ -374,8 +375,10 @@ function WorkerEditForm({ worker, onSave, onCancel }: WorkerEditFormProps) {
         <input
           type="tel"
           value={formData.phone}
-          onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+          onChange={(e) => setFormData(prev => ({ ...prev, phone: formatPhoneNumber(e.target.value) }))}
           className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary text-sm"
+          placeholder="(312) 555-0123"
+          maxLength={17}
         />
       </div>
 

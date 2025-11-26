@@ -4,6 +4,7 @@ import { getJobById, updateJob } from '../../services/jobsService';
 import { getJobWorkersByJob } from '../../services/jobWorkersService';
 import { getWorkers } from '../../services/workersService';
 import { getServiceAreas } from '../../services/serviceAreasService';
+import { clientsService } from '../../services/clientsService';
 
 import { getPhotosByJob, createJobPhoto, deleteJobPhoto } from '../../services/jobPhotosService';
 import { uploadJobPhoto, deleteJobPhotoFromStorage } from '../../services/storageService';
@@ -18,6 +19,7 @@ import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 export default function TrabajoDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<Job | null>(null);
+  const [clientEmail, setClientEmail] = useState<string | null>(null);
   const [jobWorkers, setJobWorkers] = useState<JobWorker[]>([]);
   const [, setWorkers] = useState<Worker[]>([]);
   const [serviceAreas, setServiceAreas] = useState<ServiceArea[]>([]);
@@ -67,8 +69,23 @@ export default function TrabajoDetailPage() {
       setWorkers(workersData);
       setAvailableWorkers(workersData);
       setServiceAreas(serviceAreasData);
-
       setJobPhotos(photosData);
+
+      // Try to get client email if not in job data
+      if (!jobData.customer_email && jobData.customer_name) {
+        try {
+          const clients = await clientsService.searchByName(jobData.customer_name);
+          const matchingClient = clients.find(c => 
+            c.fullName === jobData.customer_name || 
+            c.phone === jobData.customer_phone
+          );
+          if (matchingClient?.email) {
+            setClientEmail(matchingClient.email);
+          }
+        } catch (err) {
+          console.error('Error fetching client email:', err);
+        }
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error loading job');
     } finally {
@@ -183,6 +200,87 @@ export default function TrabajoDetailPage() {
     }
   };
 
+  const handleGenerateReport = async (method: 'whatsapp' | 'email') => {
+    if (!job) return;
+
+    try {
+      if (method === 'whatsapp') {
+        const { buildJobReportWhatsAppUrl } = await import('../../utils/whatsapp');
+        
+        const serviceArea = serviceAreas.find(sa => sa.id === job.service_area_id);
+        const address = [
+          job.address_street + (job.address_unit ? `, ${job.address_unit}` : ''),
+          `${job.city}, ${job.state} ${job.zip}`,
+          serviceArea ? `Zona: ${serviceArea.name}` : ''
+        ].filter(Boolean).join('\n');
+
+        const jobSummary = {
+          phone: job.customer_phone || '',
+          customerName: job.customer_name,
+          serviceName: job.title,
+          date: new Date().toLocaleDateString(),
+          status: 'Completado',
+          description: job.description || 'No especificada',
+          address,
+          workers: jobWorkers.map((jw: any) => 
+            `${jw.worker?.first_name} ${jw.worker?.last_name} (${jw.worker?.role})`
+          ),
+          totalAmount: job.total_amount || 0,
+          photosCount: jobPhotos.length
+        };
+
+        const whatsappUrl = buildJobReportWhatsAppUrl(jobSummary);
+        
+        if (!whatsappUrl) {
+          alert('Número de teléfono inválido para WhatsApp. Por favor verifica el formato.');
+          return;
+        }
+        
+        window.open(whatsappUrl, '_blank');
+      } else {
+        // Email logic remains the same
+        const reportContent = `
+REPORTE DE TRABAJO COMPLETADO
+
+Cliente: ${job.customer_name}
+Trabajo: ${job.title}
+Fecha: ${new Date().toLocaleDateString()}
+Estado: Completado
+
+Descripción:
+${job.description || 'No especificada'}
+
+Dirección:
+${job.address_street}${job.address_unit ? `, ${job.address_unit}` : ''}
+${job.city}, ${job.state} ${job.zip}
+
+Trabajadores asignados:
+${jobWorkers.map((jw: any) => `- ${jw.worker?.first_name} ${jw.worker?.last_name} (${jw.worker?.role})`).join('\n')}
+
+Precio total: $${job.total_amount?.toFixed(2) || '0.00'}
+
+Fotos del trabajo: ${jobPhotos.length} foto(s) adjunta(s)
+
+Gracias por confiar en nuestros servicios.
+        `.trim();
+        
+        const emailToUse = job.customer_email || clientEmail;
+        if (!emailToUse) {
+          alert('No hay correo electrónico registrado para este cliente.');
+          return;
+        }
+        
+        const subject = `Reporte de trabajo completado - ${job.title}`;
+        const emailUrl = `mailto:${emailToUse}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportContent)}`;
+        const link = document.createElement('a');
+        link.href = emailUrl;
+        link.click();
+      }
+    } catch (err) {
+      console.error('Error generating report:', err);
+    }
+  };
+
 
 
   if (loading) {
@@ -290,11 +388,11 @@ export default function TrabajoDetailPage() {
                 </div>
               </a>
             )}
-            {job.customer_email && (
-              <a href={`mailto:${job.customer_email}`} className="block p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors">
+            {(job.customer_email || clientEmail) && (
+              <a href={`mailto:${job.customer_email || clientEmail}`} className="block p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">✉️</span>
-                  <span className="text-lg font-semibold text-blue-700">{job.customer_email}</span>
+                  <span className="text-lg font-semibold text-blue-700">{job.customer_email || clientEmail}</span>
                 </div>
               </a>
             )}
@@ -319,6 +417,36 @@ export default function TrabajoDetailPage() {
           <div className="mt-6 p-4 bg-slate-50 rounded-xl">
             <h4 className="text-lg font-semibold text-slate-900 mb-2">Descripción del trabajo:</h4>
             <p className="text-slate-700 leading-relaxed">{job.description}</p>
+          </div>
+        )}
+        
+        {job.status === 'completed' && (
+          <div className="mt-6 flex flex-col sm:flex-row gap-4">
+            <button
+              onClick={() => handleGenerateReport('whatsapp')}
+              className="flex items-center justify-center gap-3 px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors text-lg font-semibold"
+            >
+              <span className="text-xl">📱</span>
+              Enviar por WhatsApp
+            </button>
+            {(() => {
+              const emailToUse = job.customer_email || clientEmail;
+              if (!emailToUse) return null;
+              
+              const reportContent = `REPORTE DE TRABAJO COMPLETADO\n\nCliente: ${job.customer_name}\nTrabajo: ${job.title}\nFecha: ${new Date().toLocaleDateString()}\nEstado: Completado\n\nDescripción:\n${job.description || 'No especificada'}\n\nDirección:\n${job.address_street}${job.address_unit ? `, ${job.address_unit}` : ''}\n${job.city}, ${job.state} ${job.zip}\n\nTrabajadores asignados:\n${jobWorkers.map((jw: any) => `- ${jw.worker?.first_name} ${jw.worker?.last_name} (${jw.worker?.role})`).join('\n')}\n\nPrecio total: $${job.total_amount?.toFixed(2) || '0.00'}\n\nFotos del trabajo: ${jobPhotos.length} foto(s) adjunta(s)\n\nGracias por confiar en nuestros servicios.`;
+              const subject = `Reporte de trabajo completado - ${job.title}`;
+              const emailUrl = `mailto:${emailToUse}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportContent)}`;
+              
+              return (
+                <a
+                  href={emailUrl}
+                  className="flex items-center justify-center gap-3 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-lg font-semibold"
+                >
+                  <span className="text-xl">📧</span>
+                  Enviar por Email
+                </a>
+              );
+            })()}
           </div>
         )}
       </div>

@@ -5,6 +5,7 @@ import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 import AdminButton from '../../components/admin/ui/AdminButton';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { commonRules } from '../../utils/validation';
+import { formatPhoneNumber } from '../../utils/phoneFormat';
 import { useState } from 'react';
 
 export default function NuevoClientePage() {
@@ -83,14 +84,15 @@ export default function NuevoClientePage() {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => handleChange('phone', e.target.value)}
+                  onChange={(e) => handleChange('phone', formatPhoneNumber(e.target.value))}
                   onBlur={() => handleBlur('phone')}
                   className={`block w-full h-12 rounded-xl border bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 ${
                     errors.phone && touched.phone
                       ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                       : 'border-slate-300 focus:ring-blue-500 focus:border-blue-500'
                   }`}
-                  placeholder="Ej: 12345678"
+                  placeholder="(312) 555-0123"
+                  maxLength={17}
                 />
                 {errors.phone && touched.phone && (
                   <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
@@ -106,9 +108,10 @@ export default function NuevoClientePage() {
                 <input
                   type="tel"
                   value={formData.whatsapp}
-                  onChange={(e) => handleChange('whatsapp', e.target.value)}
+                  onChange={(e) => handleChange('whatsapp', formatPhoneNumber(e.target.value))}
                   className="block w-full h-12 rounded-xl border border-slate-300 bg-white px-4 py-2 text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Ej: (312) 555-0123"
+                  placeholder="(312) 555-0123"
+                  maxLength={17}
                 />
               </div>
               <div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { clientsService, type ClientInput } from '../../services/clientsService';
 import { getJobs } from '../../services/jobsService';
+import { formatPhoneNumber } from '../../utils/phoneFormat';
 import type { Client } from '../../types/client';
 import type { Job } from '../../types/job';
 
@@ -140,8 +141,10 @@ export default function ClienteDetailPage() {
                 <input
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, phone: formatPhoneNumber(e.target.value) }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
+                  placeholder="(312) 555-0123"
+                  maxLength={17}
                 />
               </div>
             </div>
@@ -151,8 +154,10 @@ export default function ClienteDetailPage() {
                 <input
                   type="tel"
                   value={formData.whatsapp}
-                  onChange={(e) => setFormData(prev => ({ ...prev, whatsapp: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, whatsapp: formatPhoneNumber(e.target.value) }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
+                  placeholder="(312) 555-0123"
+                  maxLength={17}
                 />
               </div>
               <div>

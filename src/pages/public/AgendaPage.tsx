@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { createLeadFromPublicForm } from '../../services/jobsService';
 import { getServiceAreaByZip } from '../../services/serviceAreasService';
+import { formatPhoneNumber } from '../../utils/phoneFormat';
 
 export default function AgendaPage() {
   const [formData, setFormData] = useState({
@@ -93,7 +94,13 @@ export default function AgendaPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    let processedValue = value;
+    if (name === 'customer_phone') {
+      processedValue = formatPhoneNumber(value);
+    }
+    
+    setFormData(prev => ({ ...prev, [name]: processedValue }));
     
     if (name === 'zip') {
       handleZipCheck(value);
@@ -171,8 +178,9 @@ export default function AgendaPage() {
                     value={formData.customer_phone}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
-                    placeholder="Ej. (312) 555-0123"
+                    placeholder="(312) 555-0123"
                     type="tel"
+                    maxLength={17}
                     required
                   />
                 </label>

@@ -77,7 +77,14 @@ export default function TrabajoPublicPage() {
   };
 
   const shareUrl = `${window.location.origin}/trabajos/${id}/public`;
-  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`Mira este trabajo realizado por Manitas Pro: ${shareUrl}`)}`;
+  
+  // Use centralized WhatsApp utility
+  const getWhatsAppShareUrl = () => {
+    const { buildWhatsAppShareLink } = require('../../utils/whatsapp');
+    return buildWhatsAppShareLink(`Mira este trabajo realizado por Manitas Pro: ${shareUrl}`);
+  };
+  
+  const whatsappUrl = getWhatsAppShareUrl();
 
   if (loading) {
     return (

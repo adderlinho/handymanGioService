@@ -4,6 +4,7 @@ import { createWorker } from '../../services/workersService';
 import type { Worker, WorkerPayType, WorkerStatus } from '../../types/workers';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { commonRules } from '../../utils/validation';
+import { formatPhoneNumber } from '../../utils/phoneFormat';
 
 const ROLES = [
   'Handyman',
@@ -157,8 +158,13 @@ export default function NuevoTrabajadorPage() {
                   type="tel"
                   name="phone"
                   value={formData.phone}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    const formatted = formatPhoneNumber(e.target.value);
+                    handleFieldChange('phone', formatted);
+                  }}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  placeholder="(312) 555-0123"
+                  maxLength={17}
                 />
               </div>
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getServiceAreaByZip } from '../../../services/serviceAreasService';
 import { clientsService } from '../../../services/clientsService';
+import { formatPhoneNumber } from '../../../utils/phoneFormat';
 import type { WizardJobData } from './types';
 import type { Client } from '../../../types/client';
 
@@ -205,9 +206,11 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
           <input
             type="tel"
             value={data.customer_phone}
-            onChange={(e) => updateData({ customer_phone: e.target.value })}
+            onChange={(e) => updateData({ customer_phone: formatPhoneNumber(e.target.value) })}
             disabled={!isNewClient && !!selectedClient}
             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-slate-50 disabled:text-slate-500"
+            placeholder="(312) 555-0123"
+            maxLength={17}
           />
         </div>
 
