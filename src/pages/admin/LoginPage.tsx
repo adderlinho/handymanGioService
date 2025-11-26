@@ -23,6 +23,7 @@ export default function LoginPage() {
         setError('Contraseña incorrecta');
       } else {
         localStorage.setItem('adminAuth', 'true');
+        localStorage.setItem('adminAuthTime', Date.now().toString());
         navigate('/admin');
       }
     } catch (err) {
