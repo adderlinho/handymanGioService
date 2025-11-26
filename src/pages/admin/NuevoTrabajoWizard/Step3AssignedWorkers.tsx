@@ -46,6 +46,7 @@ export default function Step3AssignedWorkers({ data, updateData, onNext, onBack 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (data.selectedWorkers.length === 0) return;
     onNext();
   };
 
@@ -125,7 +126,8 @@ export default function Step3AssignedWorkers({ data, updateData, onNext, onBack 
         </button>
         <button
           type="submit"
-          className="px-6 py-3 text-base bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors"
+          disabled={data.selectedWorkers.length === 0}
+          className="px-6 py-3 text-base bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           Siguiente →
         </button>

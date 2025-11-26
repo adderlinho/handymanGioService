@@ -40,15 +40,15 @@ const SERVICE_TYPES = [
   },
   { 
     value: 'handyman', 
-    label: 'Handyman General',
-    title: 'Trabajo general',
-    templates: ['Reparaciones varias', 'Mantenimiento general', 'Arreglos menores', 'Trabajo general']
+    label: 'Handyman',
+    title: 'Reparaciones del hogar',
+    templates: ['Reparaciones varias', 'Mantenimiento de la casa', 'Arreglos menores', 'Instalaciones básicas']
   },
   { 
     value: 'other', 
     label: 'Otro',
     title: 'Trabajo especializado',
-    templates: ['Trabajo personalizado', 'Servicio especial', 'Otro trabajo']
+    templates: ['Trabajo personalizado', 'Servicio especial', 'Consultoría técnica']
   }
 ];
 
