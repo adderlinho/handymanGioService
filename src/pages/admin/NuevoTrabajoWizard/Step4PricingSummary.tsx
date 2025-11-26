@@ -52,11 +52,12 @@ export default function Step4PricingSummary({ data, updateData, onBack, onSave, 
           <div className="relative max-w-sm mx-auto">
             <span className="absolute left-6 top-1/2 transform -translate-y-1/2 text-2xl text-slate-500">$</span>
             <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={data.total_amount || ''}
-              onChange={(e) => updateData({ total_amount: parseFloat(e.target.value) || 0 })}
+              type="text"
+              value={data.total_amount ? data.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ''}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9.]/g, '');
+                updateData({ total_amount: parseFloat(value) || 0 });
+              }}
               className="w-full pl-12 pr-6 py-4 text-2xl font-bold text-center border-2 border-slate-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
             />
           </div>
@@ -77,10 +78,12 @@ export default function Step4PricingSummary({ data, updateData, onBack, onSave, 
               <span>{data.title}</span>
             </div>
             
-            <div className="flex justify-between items-center py-2 border-b border-slate-200">
-              <span className="font-medium">Problema:</span>
-              <span>{data.description || 'No especificado'}</span>
-            </div>
+            {data.description && data.description !== data.title && (
+              <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                <span className="font-medium">Problema:</span>
+                <span>{data.description}</span>
+              </div>
+            )}
             
             {data.scheduled_date && (
               <div className="flex justify-between items-center py-2 border-b border-slate-200">
@@ -99,7 +102,7 @@ export default function Step4PricingSummary({ data, updateData, onBack, onSave, 
             <div className="flex justify-between items-center py-3 bg-primary/10 rounded-lg px-4 mt-4">
               <span className="text-lg font-bold">Total a cobrar:</span>
               <span className="text-2xl font-bold text-primary">
-                ${data.total_amount.toFixed(2)}
+                ${data.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
           </div>
