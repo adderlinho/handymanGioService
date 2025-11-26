@@ -575,153 +575,46 @@ export default function TrabajoDetailPage() {
         )}
       </div>
 
-      {/* Materials */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-slate-900">🔧 Materiales</h3>
-          <button
-            onClick={() => setShowAddMaterial(!showAddMaterial)}
-            className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
-          >
-            <span className="text-xl">➕</span>
-            Agregar Material
-          </button>
-        </div>
 
-        {showAddMaterial && (
-          <form onSubmit={handleAddMaterial} className="mb-6 p-4 bg-slate-50 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Artículo</label>
-                <select
-                  value={materialForm.item_id}
-                  onChange={(e) => {
-                    const selectedItem = inventoryItems.find(item => item.id === e.target.value);
-                    setMaterialForm(prev => ({
-                      ...prev,
-                      item_id: e.target.value,
-                      unit_cost: selectedItem?.cost_per_unit || 0
-                    }));
-                  }}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  required
-                >
-                  <option value="">Seleccionar artículo</option>
-                  {inventoryItems.map(item => (
-                    <option key={item.id} value={item.id}>
-                      {item.name} ({item.quantity || 0} {item.unit} disponibles)
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Cantidad</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0.01"
-                  value={materialForm.quantity}
-                  onChange={(e) => setMaterialForm(prev => ({ ...prev, quantity: parseFloat(e.target.value) || 0 }))}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Costo unitario ($)</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  value={materialForm.unit_cost}
-                  onChange={(e) => setMaterialForm(prev => ({ ...prev, unit_cost: parseFloat(e.target.value) || 0 }))}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                />
-              </div>
-            </div>
-            <div className="flex justify-end gap-2 mt-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowAddMaterial(false);
-                  setMaterialForm({ item_id: '', quantity: 0, unit_cost: 0 });
-                }}
-                className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-              >
-                Agregar
-              </button>
-            </div>
-          </form>
-        )}
-
-        {jobMaterials.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-4">🔧</div>
-            <p className="text-xl text-slate-600">No hay materiales agregados</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {jobMaterials.map((material) => (
-              <div key={material.id} className="flex items-center justify-between p-6 bg-slate-50 rounded-xl">
-                <div className="flex items-center gap-4">
-                  <div className="text-3xl">📦</div>
-                  <div>
-                    <h4 className="text-lg font-semibold text-slate-900">{material.item_name}</h4>
-                    <p className="text-slate-600">
-                      {material.quantity} {material.item_unit} × ${material.unit_cost?.toFixed(2) || '0.00'}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <p className="text-xl font-bold text-slate-900">
-                      ${material.total_cost?.toFixed(2) || '0.00'}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => handleRemoveMaterial(material.id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                  >
-                    <span className="text-xl">🗑️</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-            <div className="flex justify-end pt-4 border-t-2 border-slate-200">
-              <div className="text-right">
-                <p className="text-lg text-slate-600">Total de materiales</p>
-                <p className="text-2xl font-bold text-slate-900">
-                  ${jobMaterials.reduce((sum, m) => sum + (m.total_cost || 0), 0).toFixed(2)}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
 
       {/* Pricing */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-        <h3 className="text-2xl font-bold text-slate-900 mb-6">💰 Precio del Trabajo</h3>
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">💰 Precio del Trabajo</h3>
         
-        <div className="text-center">
-          <div className="inline-flex items-center gap-4 p-6 bg-primary/10 rounded-2xl">
-            <span className="text-4xl">💰</span>
-            <div>
-              <p className="text-lg text-slate-600">Precio Total</p>
+        <div className="max-w-md mx-auto">
+          <div className="bg-gradient-to-br from-primary/10 to-primary/20 rounded-3xl p-8 border-2 border-primary/20">
+            <div className="text-center mb-6">
+              <div className="text-6xl mb-4">💰</div>
+              <p className="text-xl font-semibold text-slate-700 mb-2">Precio Total</p>
+            </div>
+            
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-3xl font-bold text-primary">$</span>
               <input
                 type="number"
                 step="0.01"
                 min="0"
-                value={job.total_amount || 0}
-                onChange={(e) => handlePriceUpdate(parseFloat(e.target.value) || 0)}
-                className="text-4xl font-bold text-primary bg-transparent border-none text-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg px-2"
-                style={{ width: 'auto', minWidth: '200px' }}
+                value={job.total_amount || ''}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value);
+                  if (!isNaN(value) && value >= 0) {
+                    handlePriceUpdate(value);
+                  } else if (e.target.value === '') {
+                    handlePriceUpdate(0);
+                  }
+                }}
+                placeholder="0.00"
+                className="w-full text-4xl md:text-5xl font-bold text-primary bg-white border-2 border-primary/30 rounded-2xl pl-16 pr-6 py-4 text-center focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
               />
+            </div>
+            
+            <div className="mt-6 text-center">
+              <p className="text-sm text-slate-600">
+                {job.total_amount && job.total_amount > 0 
+                  ? `Precio: $${job.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  : 'Ingresa el precio del trabajo'
+                }
+              </p>
             </div>
           </div>
         </div>
