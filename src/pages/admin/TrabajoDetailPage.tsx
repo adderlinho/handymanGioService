@@ -503,13 +503,15 @@ Gracias por confiar en nuestros servicios.
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <h3 className="text-xl md:text-2xl font-bold text-slate-900">👷 Trabajadores</h3>
-          <button
-            onClick={() => setShowAddWorker(!showAddWorker)}
-            className="flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-base md:text-lg font-semibold"
-          >
-            <span className="text-lg md:text-xl">➕</span>
-            <span className="whitespace-nowrap">Agregar</span>
-          </button>
+          {job.status !== 'completed' && job.status !== 'paid' && (
+            <button
+              onClick={() => setShowAddWorker(!showAddWorker)}
+              className="flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-base md:text-lg font-semibold"
+            >
+              <span className="text-lg md:text-xl">➕</span>
+              <span className="whitespace-nowrap">Agregar</span>
+            </button>
+          )}
         </div>
 
         {showAddWorker && (
@@ -583,13 +585,15 @@ Gracias por confiar en nuestros servicios.
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-2xl font-bold text-slate-900">📸 Fotos del Trabajo</h3>
-          <button
-            onClick={() => setShowAddPhoto(!showAddPhoto)}
-            className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
-          >
-            <span className="text-xl">📷</span>
-            Agregar Foto
-          </button>
+          {job.status !== 'completed' && job.status !== 'paid' && (
+            <button
+              onClick={() => setShowAddPhoto(!showAddPhoto)}
+              className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
+            >
+              <span className="text-xl">📷</span>
+              Agregar Foto
+            </button>
+          )}
         </div>
 
         {showAddPhoto && (

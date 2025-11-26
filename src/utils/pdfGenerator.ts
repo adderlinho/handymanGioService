@@ -32,28 +32,28 @@ export async function generateJobReportPDF(jobData: JobReportData): Promise<Blob
   });
   
   // Colors
-  const primaryBlue = [37, 99, 235];
-  const darkGray = [17, 24, 39];
-  const lightGray = [249, 250, 251];
-  const borderGray = [229, 231, 235];
+  const primaryBlue: [number, number, number] = [37, 99, 235];
+  const darkGray: [number, number, number] = [17, 24, 39];
+  const lightGray: [number, number, number] = [249, 250, 251];
+  const borderGray: [number, number, number] = [229, 231, 235];
 
-  let yPosition = drawHeader(pdf, pageWidth, primaryBlue, darkGray);
+  let yPosition = drawHeader(pdf, pageWidth, primaryBlue);
   yPosition = drawMainTitle(pdf, yPosition, darkGray);
   yPosition = drawJobSummary(pdf, yPosition, jobData, primaryBlue, darkGray, lightGray, borderGray, pageWidth);
   yPosition = drawDescriptionAndAddress(pdf, yPosition, jobData, primaryBlue, darkGray, pageWidth);
-  yPosition = drawWorkers(pdf, yPosition, jobData.workers, primaryBlue, darkGray, pageWidth);
+  yPosition = drawWorkers(pdf, yPosition, jobData.workers, primaryBlue, darkGray);
   yPosition = drawPricing(pdf, yPosition, jobData, primaryBlue, darkGray, lightGray, pageWidth);
   
   if (jobData.photos.length > 0) {
-    await drawPhotoRecord(pdf, jobData.photos, primaryBlue, darkGray, pageWidth, pageHeight);
+    await drawPhotoRecord(pdf, jobData.photos, primaryBlue, darkGray, pageHeight);
   }
 
-  drawFooter(pdf, pageWidth, pageHeight, darkGray);
+  drawFooter(pdf, pageHeight, darkGray);
 
   return pdf.output('blob');
 }
 
-function drawHeader(pdf: jsPDF, pageWidth: number, primaryBlue: number[], darkGray: number[]): number {
+function drawHeader(pdf: jsPDF, pageWidth: number, primaryBlue: [number, number, number]): number {
   // Header background
   pdf.setFillColor(...primaryBlue);
   pdf.rect(0, 0, pageWidth, 35, 'F');
@@ -76,7 +76,7 @@ function drawHeader(pdf: jsPDF, pageWidth: number, primaryBlue: number[], darkGr
   return 45;
 }
 
-function drawMainTitle(pdf: jsPDF, yPosition: number, darkGray: number[]): number {
+function drawMainTitle(pdf: jsPDF, yPosition: number, darkGray: [number, number, number]): number {
   pdf.setTextColor(...darkGray);
   pdf.setFontSize(18);
   pdf.setFont('helvetica', 'bold');
@@ -90,7 +90,7 @@ function drawMainTitle(pdf: jsPDF, yPosition: number, darkGray: number[]): numbe
   return yPosition + 20;
 }
 
-function drawJobSummary(pdf: jsPDF, yPosition: number, jobData: JobReportData, primaryBlue: number[], darkGray: number[], lightGray: number[], borderGray: number[], pageWidth: number): number {
+function drawJobSummary(pdf: jsPDF, yPosition: number, jobData: JobReportData, primaryBlue: [number, number, number], darkGray: [number, number, number], lightGray: [number, number, number], borderGray: [number, number, number], pageWidth: number): number {
   // Section title
   pdf.setTextColor(...primaryBlue);
   pdf.setFontSize(12);
@@ -129,7 +129,7 @@ function drawJobSummary(pdf: jsPDF, yPosition: number, jobData: JobReportData, p
   return yPosition + 55;
 }
 
-function drawDescriptionAndAddress(pdf: jsPDF, yPosition: number, jobData: JobReportData, primaryBlue: number[], darkGray: number[], pageWidth: number): number {
+function drawDescriptionAndAddress(pdf: jsPDF, yPosition: number, jobData: JobReportData, primaryBlue: [number, number, number], darkGray: [number, number, number], pageWidth: number): number {
   // Description section
   pdf.setTextColor(...primaryBlue);
   pdf.setFontSize(12);
@@ -161,7 +161,7 @@ function drawDescriptionAndAddress(pdf: jsPDF, yPosition: number, jobData: JobRe
   return yPosition;
 }
 
-function drawWorkers(pdf: jsPDF, yPosition: number, workers: string[], primaryBlue: number[], darkGray: number[], pageWidth: number): number {
+function drawWorkers(pdf: jsPDF, yPosition: number, workers: string[], primaryBlue: [number, number, number], darkGray: [number, number, number]): number {
   if (workers.length === 0) return yPosition;
   
   pdf.setTextColor(...primaryBlue);
@@ -182,7 +182,7 @@ function drawWorkers(pdf: jsPDF, yPosition: number, workers: string[], primaryBl
   return yPosition + 10;
 }
 
-function drawPricing(pdf: jsPDF, yPosition: number, jobData: JobReportData, primaryBlue: number[], darkGray: number[], lightGray: number[], pageWidth: number): number {
+function drawPricing(pdf: jsPDF, yPosition: number, jobData: JobReportData, primaryBlue: [number, number, number], darkGray: [number, number, number], lightGray: [number, number, number], pageWidth: number): number {
   // Section title
   pdf.setTextColor(...primaryBlue);
   pdf.setFontSize(12);
@@ -220,7 +220,7 @@ function drawPricing(pdf: jsPDF, yPosition: number, jobData: JobReportData, prim
   return yPosition + 40;
 }
 
-async function drawPhotoRecord(pdf: jsPDF, photos: Array<{url: string, tag?: string}>, primaryBlue: number[], darkGray: number[], pageWidth: number, pageHeight: number): Promise<void> {
+async function drawPhotoRecord(pdf: jsPDF, photos: Array<{url: string, tag?: string}>, primaryBlue: [number, number, number], darkGray: [number, number, number], pageHeight: number): Promise<void> {
   pdf.addPage();
   let yPosition = 30;
   
@@ -303,8 +303,9 @@ async function drawPhotoRecord(pdf: jsPDF, photos: Array<{url: string, tag?: str
   }
 }
 
-function drawFooter(pdf: jsPDF, pageWidth: number, pageHeight: number, darkGray: number[]): void {
+function drawFooter(pdf: jsPDF, pageHeight: number, darkGray: [number, number, number]): void {
   const pageCount = pdf.getNumberOfPages();
+  const pageWidth = pdf.internal.pageSize.getWidth();
   
   for (let i = 1; i <= pageCount; i++) {
     pdf.setPage(i);
