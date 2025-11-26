@@ -16,7 +16,6 @@ import type { JobMaterialWithItem } from '../../types/jobMaterials';
 import type { InventoryItem } from '../../types/inventory';
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
-import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 import AdminButton from '../../components/admin/ui/AdminButton';
 import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
 
@@ -31,11 +30,10 @@ export default function TrabajoDetailPage() {
   const [jobPhotos, setJobPhotos] = useState<JobPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [editingStatus, setEditingStatus] = useState(false);
-  const [editingPricing, setEditingPricing] = useState(false);
-  const [editingWorkers, setEditingWorkers] = useState(false);
   const [showAddMaterial, setShowAddMaterial] = useState(false);
   const [showAddPhoto, setShowAddPhoto] = useState(false);
+  const [showAddWorker, setShowAddWorker] = useState(false);
+  const [availableWorkers, setAvailableWorkers] = useState<Worker[]>([]);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [materialForm, setMaterialForm] = useState({
     item_id: '',
@@ -66,6 +64,8 @@ export default function TrabajoDetailPage() {
         inventoryService.getInventoryItems(),
         getPhotosByJob(jobId)
       ]);
+
+      setAvailableWorkers(workersData);
 
       if (!jobData) {
         setError('Trabajo no encontrado');
@@ -162,28 +162,19 @@ export default function TrabajoDetailPage() {
     try {
       await updateJob(job.id, { status: newStatus });
       setJob({ ...job, status: newStatus });
-      setEditingStatus(false);
     } catch (err) {
       console.error('Error updating status:', err);
     }
   };
 
-  const handlePricingUpdate = async (pricing: {
-    travel_fee: number;
-    labor_total: number;
-    materials_total: number;
-    other_fees: number;
-  }) => {
+  const handlePriceUpdate = async (newPrice: number) => {
     if (!job) return;
     
-    const total_amount = pricing.travel_fee + pricing.labor_total + pricing.materials_total + pricing.other_fees;
-    
     try {
-      await updateJob(job.id, { ...pricing, total_amount });
-      setJob({ ...job, ...pricing, total_amount });
-      setEditingPricing(false);
+      await updateJob(job.id, { total_amount: newPrice });
+      setJob({ ...job, total_amount: newPrice });
     } catch (err) {
-      console.error('Error updating pricing:', err);
+      console.error('Error updating price:', err);
     }
   };
 
@@ -279,207 +270,166 @@ export default function TrabajoDetailPage() {
       }}
     >
       {/* Status and Public Links */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex items-center gap-4">
+      {/* Header with status and key info */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+        <div className="text-center mb-6">
           <AdminStatusBadge status={job.status} variant="job" />
+          <h2 className="text-2xl font-bold text-slate-900 mt-4">{job.customer_name}</h2>
+          <p className="text-lg text-slate-600 mt-2">{getServiceTypeLabel(job.service_type)}</p>
           {job.scheduled_date && (
-            <span className="text-slate-600 flex items-center gap-2">
+            <p className="text-lg text-slate-700 mt-2">
               📅 {new Date(job.scheduled_date).toLocaleDateString()}
-            </span>
-          )}
-          {job.time_window && (
-            <span className="text-slate-600 flex items-center gap-2">
-              🕐 {job.time_window}
-            </span>
+            </p>
           )}
         </div>
         
-        {job.status === 'completed' && (
-          <div className="flex flex-col sm:flex-row gap-3">
-            <a
-              href={`/trabajos/${job.id}/public`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 md:px-5 py-2.5 md:py-3 text-sm md:text-base font-semibold text-slate-800 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              🌐 Ver vista pública
-            </a>
-            <AdminButton
-              variant="primary"
-              onClick={() => navigator.clipboard.writeText(`${window.location.origin}/trabajos/${job.id}/public`)}
-              icon="🔗"
-            >
-              Copiar enlace público
-            </AdminButton>
-          </div>
-        )}
+        {/* Status change buttons */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <button
+            onClick={() => handleStatusUpdate('scheduled')}
+            className={`p-4 rounded-xl border-2 text-center transition-all ${
+              job.status === 'scheduled' 
+                ? 'border-blue-500 bg-blue-50 text-blue-700' 
+                : 'border-slate-300 hover:border-blue-300 hover:bg-blue-50'
+            }`}
+          >
+            <div className="text-2xl mb-2">📅</div>
+            <div className="font-semibold">Programado</div>
+          </button>
+          <button
+            onClick={() => handleStatusUpdate('in_progress')}
+            className={`p-4 rounded-xl border-2 text-center transition-all ${
+              job.status === 'in_progress' 
+                ? 'border-yellow-500 bg-yellow-50 text-yellow-700' 
+                : 'border-slate-300 hover:border-yellow-300 hover:bg-yellow-50'
+            }`}
+          >
+            <div className="text-2xl mb-2">🔧</div>
+            <div className="font-semibold">En Progreso</div>
+          </button>
+          <button
+            onClick={() => handleStatusUpdate('completed')}
+            className={`p-4 rounded-xl border-2 text-center transition-all ${
+              job.status === 'completed' 
+                ? 'border-green-500 bg-green-50 text-green-700' 
+                : 'border-slate-300 hover:border-green-300 hover:bg-green-50'
+            }`}
+          >
+            <div className="text-2xl mb-2">✅</div>
+            <div className="font-semibold">Completado</div>
+          </button>
+          <button
+            onClick={() => handleStatusUpdate('paid')}
+            className={`p-4 rounded-xl border-2 text-center transition-all ${
+              job.status === 'paid' 
+                ? 'border-primary bg-primary/10 text-primary' 
+                : 'border-slate-300 hover:border-primary hover:bg-primary/10'
+            }`}
+          >
+            <div className="text-2xl mb-2">💰</div>
+            <div className="font-semibold">Pagado</div>
+          </button>
+        </div>
       </div>
 
-      <AdminSectionCard 
-        title="Estado del trabajo"
-        action={{
-          label: editingStatus ? "Cancelar" : "Cambiar estado",
-          onClick: () => setEditingStatus(!editingStatus)
-        }}
-      >
-        {editingStatus ? (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-                Nuevo estado
-              </label>
-              <select
-                value={job.status}
-                onChange={(e) => handleStatusUpdate(e.target.value as JobStatus)}
-                className="block w-full h-11 md:h-12 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm md:text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="lead">Lead</option>
-                <option value="scheduled">Programado</option>
-                <option value="in_progress">En Progreso</option>
-                <option value="completed">Completado</option>
-                <option value="invoiced">Facturado</option>
-                <option value="paid">Pagado</option>
-                <option value="cancelled">Cancelado</option>
-              </select>
-            </div>
-            <div className="flex gap-3">
-              <AdminButton variant="secondary" onClick={() => setEditingStatus(false)}>
-                Cancelar
-              </AdminButton>
-            </div>
-          </div>
-        ) : (
-          <div className="text-slate-700">
-            <p>Estado actual: <AdminStatusBadge status={job.status} variant="job" /></p>
-          </div>
-        )}
-      </AdminSectionCard>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <AdminSectionCard title="Datos del cliente">
+
+      {/* Client info card */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+        <h3 className="text-2xl font-bold text-slate-900 mb-6">📋 Información del Cliente</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
-            <div>
-              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Nombre</p>
-              <p className="text-slate-900 font-semibold">{job.customer_name}</p>
+            <div className="p-4 bg-slate-50 rounded-xl">
+              <p className="text-lg font-semibold text-slate-900">{job.customer_name}</p>
             </div>
             {job.customer_phone && (
-              <div>
-                <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Teléfono</p>
-                <a href={`tel:${job.customer_phone}`} className="text-blue-600 hover:text-blue-800 font-semibold">
-                  📞 {job.customer_phone}
-                </a>
-              </div>
+              <a href={`tel:${job.customer_phone}`} className="block p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">📞</span>
+                  <span className="text-lg font-semibold text-blue-700">{job.customer_phone}</span>
+                </div>
+              </a>
             )}
             {job.customer_email && (
-              <div>
-                <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Correo</p>
-                <a href={`mailto:${job.customer_email}`} className="text-blue-600 hover:text-blue-800 font-semibold">
-                  ✉️ {job.customer_email}
-                </a>
-              </div>
+              <a href={`mailto:${job.customer_email}`} className="block p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">✉️</span>
+                  <span className="text-lg font-semibold text-blue-700">{job.customer_email}</span>
+                </div>
+              </a>
             )}
-            <div>
-              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Dirección</p>
-              <div className="text-slate-900">
-                <p className="font-semibold">
+          </div>
+          <div className="p-4 bg-slate-50 rounded-xl">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">📍</span>
+              <div>
+                <p className="text-lg font-semibold text-slate-900">
                   {job.address_street}
                   {job.address_unit && `, ${job.address_unit}`}
                 </p>
-                <p>{job.city}, {job.state} {job.zip}</p>
+                <p className="text-slate-700">{job.city}, {job.state} {job.zip}</p>
                 {serviceArea && (
-                  <p className="text-blue-600 font-medium mt-2">
-                    📍 Zona: {serviceArea.name}
-                  </p>
+                  <p className="text-primary font-semibold mt-2">Zona: {serviceArea.name}</p>
                 )}
               </div>
             </div>
           </div>
-        </AdminSectionCard>
-
-        <AdminSectionCard title="Detalles del trabajo">
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Tipo de servicio</p>
-              <p className="text-slate-900 font-semibold">{getServiceTypeLabel(job.service_type)}</p>
-            </div>
-            {job.description && (
-              <div>
-                <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Descripción</p>
-                <p className="text-slate-900 leading-relaxed">{job.description}</p>
-              </div>
-            )}
-            <div>
-              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Creado</p>
-              <p className="text-slate-700">{new Date(job.created_at).toLocaleDateString()}</p>
-            </div>
-            <div>
-              <p className="text-sm md:text-base font-medium text-slate-800 mb-1">Última actualización</p>
-              <p className="text-slate-700">{new Date(job.updated_at).toLocaleDateString()}</p>
-            </div>
-          </div>
-        </AdminSectionCard>
-      </div>
-
-      <AdminSectionCard 
-        title="Trabajadores asignados"
-        action={{
-          label: "Editar trabajadores",
-          onClick: () => setEditingWorkers(!editingWorkers)
-        }}
-      >
-        {jobWorkers.length === 0 ? (
-          <p className="text-slate-600">No hay trabajadores asignados</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 text-xs text-slate-600 uppercase">
-                <tr>
-                  <th className="px-4 py-3 text-left">Trabajador</th>
-                  <th className="px-4 py-3 text-left">Rol</th>
-                  <th className="px-4 py-3 text-right">Horas normales</th>
-                  <th className="px-4 py-3 text-right">Horas extra</th>
-                  <th className="px-4 py-3 text-right">Tarifa</th>
-                  <th className="px-4 py-3 text-right">Costo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jobWorkers.map((jw: any) => (
-                  <tr key={jw.id} className="border-b border-slate-200">
-                    <td className="px-4 py-3 font-medium">
-                      <Link 
-                        to={`/admin/trabajadores/${jw.worker_id}`}
-                        className="text-primary hover:text-primary/80"
-                      >
-                        {jw.worker?.first_name} {jw.worker?.last_name}
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3">{jw.worker?.role}</td>
-                    <td className="px-4 py-3 text-right">{jw.hours_regular || 0}</td>
-                    <td className="px-4 py-3 text-right">{jw.hours_overtime || 0}</td>
-                    <td className="px-4 py-3 text-right">
-                      {jw.labor_rate ? `$${jw.labor_rate}` : '-'}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      {jw.labor_cost ? `$${jw.labor_cost}` : '-'}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        </div>
+        {job.description && (
+          <div className="mt-6 p-4 bg-slate-50 rounded-xl">
+            <h4 className="text-lg font-semibold text-slate-900 mb-2">Descripción del trabajo:</h4>
+            <p className="text-slate-700 leading-relaxed">{job.description}</p>
           </div>
         )}
-      </AdminSectionCard>
+      </div>
+
+      {/* Workers section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-bold text-slate-900">👷 Trabajadores</h3>
+          <button
+            onClick={() => setShowAddWorker(!showAddWorker)}
+            className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
+          >
+            <span className="text-xl">➕</span>
+            Agregar Trabajador
+          </button>
+        </div>
+
+        {jobWorkers.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">👷</div>
+            <p className="text-xl text-slate-600">No hay trabajadores asignados</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {jobWorkers.map((jw: any) => (
+              <div key={jw.id} className="p-6 bg-slate-50 rounded-xl">
+                <div className="flex items-center gap-4">
+                  <div className="text-3xl">👤</div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-slate-900">
+                      {jw.worker?.first_name} {jw.worker?.last_name}
+                    </h4>
+                    <p className="text-slate-600">{jw.worker?.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Evidence/Photos */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Evidencia del trabajo</h3>
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-bold text-slate-900">📸 Fotos del Trabajo</h3>
           <button
             onClick={() => setShowAddPhoto(!showAddPhoto)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
           >
-            <span className="material-symbols-outlined text-sm">add_a_photo</span>
-            Agregar foto
+            <span className="text-xl">📷</span>
+            Agregar Foto
           </button>
         </div>
 
@@ -543,12 +493,15 @@ export default function TrabajoDetailPage() {
         )}
 
         {jobPhotos.length === 0 ? (
-          <p className="text-slate-600 text-center py-8">No se han agregado fotos a este trabajo</p>
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📸</div>
+            <p className="text-xl text-slate-600">No hay fotos del trabajo</p>
+          </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {jobPhotos.map((photo) => (
               <div key={photo.id} className="relative group">
-                <div className="aspect-square bg-slate-100 rounded-lg overflow-hidden">
+                <div className="aspect-square bg-slate-100 rounded-xl overflow-hidden">
                   <img
                     src={photo.url}
                     alt={photo.description || 'Foto del trabajo'}
@@ -557,18 +510,18 @@ export default function TrabajoDetailPage() {
                   />
                 </div>
                 {photo.tag && (
-                  <span className={`absolute top-2 left-2 px-2 py-1 text-xs font-medium rounded-full ${getTagColor(photo.tag)}`}>
+                  <span className={`absolute top-3 left-3 px-3 py-1 text-sm font-semibold rounded-full ${getTagColor(photo.tag)}`}>
                     {getTagLabel(photo.tag)}
                   </span>
                 )}
                 <button
                   onClick={() => handleDeletePhoto(photo)}
-                  className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"
+                  className="absolute top-3 right-3 p-2 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"
                 >
-                  <span className="material-symbols-outlined text-sm">delete</span>
+                  <span className="text-lg">🗑️</span>
                 </button>
                 {photo.description && (
-                  <p className="mt-2 text-sm text-slate-600 truncate" title={photo.description}>
+                  <p className="mt-3 text-base text-slate-700 font-medium" title={photo.description}>
                     {photo.description}
                   </p>
                 )}
@@ -579,15 +532,15 @@ export default function TrabajoDetailPage() {
       </div>
 
       {/* Materials */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Materiales utilizados</h3>
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-bold text-slate-900">🔧 Materiales</h3>
           <button
             onClick={() => setShowAddMaterial(!showAddMaterial)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
           >
-            <span className="material-symbols-outlined text-sm">add</span>
-            Agregar material
+            <span className="text-xl">➕</span>
+            Agregar Material
           </button>
         </div>
 
@@ -663,55 +616,42 @@ export default function TrabajoDetailPage() {
         )}
 
         {jobMaterials.length === 0 ? (
-          <p className="text-slate-600 text-center py-8">No se han agregado materiales a este trabajo</p>
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">🔧</div>
+            <p className="text-xl text-slate-600">No hay materiales agregados</p>
+          </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 text-xs text-slate-600 uppercase">
-                <tr>
-                  <th className="px-4 py-3 text-left">Artículo</th>
-                  <th className="px-4 py-3 text-right">Cantidad</th>
-                  <th className="px-4 py-3 text-right">Costo unitario</th>
-                  <th className="px-4 py-3 text-right">Costo total</th>
-                  <th className="px-4 py-3 text-right">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {jobMaterials.map((material) => (
-                  <tr key={material.id} className="border-b border-slate-200">
-                    <td className="px-4 py-3">
-                      <Link
-                        to={`/admin/inventario/${material.item_id}`}
-                        className="font-medium text-primary hover:text-primary/80"
-                      >
-                        {material.item_name}
-                      </Link>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      {material.quantity} {material.item_unit}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      ${material.unit_cost?.toFixed(2) || '0.00'}
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium">
+          <div className="space-y-4">
+            {jobMaterials.map((material) => (
+              <div key={material.id} className="flex items-center justify-between p-6 bg-slate-50 rounded-xl">
+                <div className="flex items-center gap-4">
+                  <div className="text-3xl">📦</div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-slate-900">{material.item_name}</h4>
+                    <p className="text-slate-600">
+                      {material.quantity} {material.item_unit} × ${material.unit_cost?.toFixed(2) || '0.00'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <p className="text-xl font-bold text-slate-900">
                       ${material.total_cost?.toFixed(2) || '0.00'}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <button
-                        onClick={() => handleRemoveMaterial(material.id)}
-                        className="text-red-600 hover:text-red-800 text-sm"
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="flex justify-end mt-4 pt-4 border-t">
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleRemoveMaterial(material.id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  >
+                    <span className="text-xl">🗑️</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+            <div className="flex justify-end pt-4 border-t-2 border-slate-200">
               <div className="text-right">
-                <p className="text-sm text-slate-600">Subtotal de materiales</p>
-                <p className="text-lg font-semibold">
+                <p className="text-lg text-slate-600">Total de materiales</p>
+                <p className="text-2xl font-bold text-slate-900">
                   ${jobMaterials.reduce((sum, m) => sum + (m.total_cost || 0), 0).toFixed(2)}
                 </p>
               </div>
@@ -721,163 +661,27 @@ export default function TrabajoDetailPage() {
       </div>
 
       {/* Pricing */}
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Precios</h3>
-          <button
-            onClick={() => setEditingPricing(!editingPricing)}
-            className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
-          >
-            Editar precios
-          </button>
-        </div>
-
-        {editingPricing ? (
-          <PricingEditor
-            job={job}
-            onSave={handlePricingUpdate}
-            onCancel={() => setEditingPricing(false)}
-          />
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+        <h3 className="text-2xl font-bold text-slate-900 mb-6">💰 Precio del Trabajo</h3>
+        
+        <div className="text-center">
+          <div className="inline-flex items-center gap-4 p-6 bg-primary/10 rounded-2xl">
+            <span className="text-4xl">💰</span>
             <div>
-              <p className="text-sm text-slate-600">Desplazamiento</p>
-              <p className="text-lg font-semibold">${job.travel_fee?.toFixed(2) || '0.00'}</p>
+              <p className="text-lg text-slate-600">Precio Total</p>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                value={job.total_amount || 0}
+                onChange={(e) => handlePriceUpdate(parseFloat(e.target.value) || 0)}
+                className="text-4xl font-bold text-primary bg-transparent border-none text-center focus:outline-none focus:ring-2 focus:ring-primary rounded-lg px-2"
+                style={{ width: 'auto', minWidth: '200px' }}
+              />
             </div>
-            <div>
-              <p className="text-sm text-slate-600">Mano de obra</p>
-              <p className="text-lg font-semibold">${job.labor_total?.toFixed(2) || '0.00'}</p>
-            </div>
-            <div>
-              <p className="text-sm text-slate-600">Materiales</p>
-              <p className="text-lg font-semibold">${job.materials_total?.toFixed(2) || '0.00'}</p>
-            </div>
-            <div>
-              <p className="text-sm text-slate-600">Otros</p>
-              <p className="text-lg font-semibold">${job.other_fees?.toFixed(2) || '0.00'}</p>
-            </div>
-          </div>
-        )}
-
-        <div className="border-t pt-4 mt-4">
-          <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold">Total</span>
-            <span className="text-2xl font-bold text-primary">
-              ${job.total_amount?.toFixed(2) || '0.00'}
-            </span>
           </div>
         </div>
       </div>
     </AdminPageLayout>
-  );
-}
-
-// Pricing Editor Component
-interface PricingEditorProps {
-  job: Job;
-  onSave: (pricing: {
-    travel_fee: number;
-    labor_total: number;
-    materials_total: number;
-    other_fees: number;
-  }) => void;
-  onCancel: () => void;
-}
-
-function PricingEditor({ job, onSave, onCancel }: PricingEditorProps) {
-  const [pricing, setPricing] = useState({
-    travel_fee: job.travel_fee || 0,
-    labor_total: job.labor_total || 0,
-    materials_total: job.materials_total || 0,
-    other_fees: job.other_fees || 0
-  });
-
-  const total = pricing.travel_fee + pricing.labor_total + pricing.materials_total + pricing.other_fees;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(pricing);
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Desplazamiento</label>
-          <div className="relative">
-            <span className="absolute left-3 top-2 text-slate-500">$</span>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={pricing.travel_fee}
-              onChange={(e) => setPricing(prev => ({ ...prev, travel_fee: parseFloat(e.target.value) || 0 }))}
-              className="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Mano de obra</label>
-          <div className="relative">
-            <span className="absolute left-3 top-2 text-slate-500">$</span>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={pricing.labor_total}
-              onChange={(e) => setPricing(prev => ({ ...prev, labor_total: parseFloat(e.target.value) || 0 }))}
-              className="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Materiales</label>
-          <div className="relative">
-            <span className="absolute left-3 top-2 text-slate-500">$</span>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={pricing.materials_total}
-              onChange={(e) => setPricing(prev => ({ ...prev, materials_total: parseFloat(e.target.value) || 0 }))}
-              className="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Otros</label>
-          <div className="relative">
-            <span className="absolute left-3 top-2 text-slate-500">$</span>
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              value={pricing.other_fees}
-              onChange={(e) => setPricing(prev => ({ ...prev, other_fees: parseFloat(e.target.value) || 0 }))}
-              className="w-full pl-8 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-between items-center pt-4 border-t">
-        <span className="text-lg font-semibold">Total: ${total.toFixed(2)}</span>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90"
-          >
-            Guardar
-          </button>
-        </div>
-      </div>
-    </form>
   );
 }
