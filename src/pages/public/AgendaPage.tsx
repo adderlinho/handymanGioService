@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { createLeadFromPublicForm } from '../../services/jobsService';
 import { getServiceAreaByZip } from '../../services/serviceAreasService';
 import { formatPhoneNumber } from '../../utils/phoneFormat';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function AgendaPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     customer_name: '',
     customer_phone: '',
@@ -59,7 +61,7 @@ export default function AgendaPage() {
     e.preventDefault();
     
     if (!isFormValid()) {
-      setError('Por favor completa todos los campos requeridos correctamente');
+      setError(t('public.agenda.error.validation'));
       return;
     }
 
@@ -86,7 +88,7 @@ export default function AgendaPage() {
       setSuccess(true);
     } catch (err) {
       console.error('Error submitting form:', err);
-      setError('Hubo un error al enviar tu solicitud. Por favor inténtalo de nuevo.');
+      setError(t('public.agenda.error.submit'));
     } finally {
       setLoading(false);
     }
@@ -113,13 +115,12 @@ export default function AgendaPage() {
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-green-50 border border-green-200 rounded-xl p-8">
             <div className="text-green-600 text-6xl mb-4">✓</div>
-            <h1 className="text-2xl font-bold text-green-800 mb-4">¡Gracias por tu solicitud!</h1>
+            <h1 className="text-2xl font-bold text-green-800 mb-4">{t('public.agenda.success.title')}</h1>
             <p className="text-green-700 mb-6">
-              Hemos recibido tu solicitud de servicio. Nuestro equipo la revisará y te contactaremos pronto 
-              para confirmar los detalles y programar tu cita.
+              {t('public.agenda.success.message')}
             </p>
             <p className="text-sm text-green-600">
-              Tiempo estimado de respuesta: 2-4 horas durante horario laboral
+              {t('public.agenda.success.responseTime')}
             </p>
           </div>
         </div>
@@ -134,10 +135,10 @@ export default function AgendaPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-slate-900 dark:text-white tracking-tight text-3xl sm:text-4xl font-bold leading-tight">
-              Agenda tu cita
+              {t('public.agenda.title')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal mt-3">
-              Completa el siguiente formulario para solicitar nuestros servicios. Nos pondremos en contacto contigo a la brevedad.
+              {t('public.agenda.subtitle')}
             </p>
           </div>
 

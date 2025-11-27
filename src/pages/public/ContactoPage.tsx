@@ -1,30 +1,33 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../i18n/LanguageContext';
 
 export default function ContactoPage() {
+  const { t } = useTranslation();
+  
   const contactMethods = [
     {
       title: 'WhatsApp',
-      description: 'La forma más rápida de contactarnos',
+      description: t('public.contact.whatsapp.description'),
       icon: 'chat',
       value: '+1 (847) 505-5576',
       action: 'https://wa.me/18475055576',
-      actionText: 'Enviar mensaje'
+      actionText: t('public.contact.whatsapp.action')
     },
     {
-      title: 'Teléfono',
-      description: 'Llámanos durante horario laboral',
+      title: t('common.phone'),
+      description: t('public.contact.phone.description'),
       icon: 'call',
       value: '+1 (847) 505-5576',
       action: 'tel:+18475055576',
-      actionText: 'Llamar ahora'
+      actionText: t('public.contact.phone.action')
     },
     {
       title: 'Email',
-      description: 'Envíanos un correo electrónico',
+      description: t('public.contact.email.description'),
       icon: 'mail',
       value: 'giosinay@gmail.com',
       action: 'mailto:giosinay@gmail.com',
-      actionText: 'Enviar email'
+      actionText: t('public.contact.email.action')
     }
   ];
 
@@ -45,11 +48,10 @@ export default function ContactoPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-4">
-            Contáctanos
+            {t('public.contact.title')}
           </h1>
           <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
-            Estamos aquí para ayudarte con todas tus necesidades de mantenimiento del hogar. 
-            Contáctanos por el medio que prefieras.
+            {t('public.contact.subtitle')}
           </p>
         </div>
 
@@ -57,7 +59,7 @@ export default function ContactoPage() {
           {/* Contact Methods */}
           <div>
             <h2 className="text-2xl font-bold mb-8 text-text-light dark:text-text-dark">
-              Formas de contacto
+              {t('public.contact.methods.title')}
             </h2>
             <div className="space-y-6">
               {contactMethods.map((method) => (
@@ -89,20 +91,20 @@ export default function ContactoPage() {
             <div className="mt-8 bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary">schedule</span>
-                Horarios de atención
+                {t('public.contact.hours.title')}
               </h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span>Lunes - Viernes:</span>
+                  <span>{t('public.contact.hours.weekdays')}</span>
                   <span className="font-medium">8:00 AM - 6:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Sábados:</span>
+                  <span>{t('public.contact.hours.saturday')}</span>
                   <span className="font-medium">9:00 AM - 4:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Domingos:</span>
-                  <span className="font-medium">Emergencias únicamente</span>
+                  <span>{t('public.contact.hours.sunday')}</span>
+                  <span className="font-medium">{t('public.contact.hours.emergency')}</span>
                 </div>
               </div>
             </div>
@@ -113,12 +115,12 @@ export default function ContactoPage() {
             {/* Service Areas */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-6 text-text-light dark:text-text-dark">
-                Áreas de servicio
+                {t('public.contact.areas.title')}
               </h2>
               <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="material-symbols-outlined text-primary">location_on</span>
-                  <h3 className="text-lg font-semibold">Chicago y alrededores</h3>
+                  <h3 className="text-lg font-semibold">{t('public.contact.areas.subtitle')}</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {serviceAreas.map((area) => (
@@ -129,7 +131,7 @@ export default function ContactoPage() {
                   ))}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-                  ¿No ves tu área? Contáctanos, podríamos atender tu zona.
+                  {t('public.contact.areas.notListed')}
                 </p>
               </div>
             </div>
@@ -137,17 +139,17 @@ export default function ContactoPage() {
             {/* Quick Contact Form */}
             <div className="bg-primary/5 p-6 rounded-xl border border-primary/20">
               <h3 className="text-lg font-semibold mb-4 text-text-light dark:text-text-dark">
-                ¿Necesitas ayuda inmediata?
+                {t('public.contact.quickHelp.title')}
               </h3>
               <p className="text-sm text-text-light/70 dark:text-text-dark/70 mb-6">
-                Para una respuesta más rápida y detallada, agenda tu cita usando nuestro formulario completo.
+                {t('public.contact.quickHelp.subtitle')}
               </p>
               <Link
                 to="/agenda"
                 className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors font-medium w-full justify-center"
               >
                 <span className="material-symbols-outlined">calendar_month</span>
-                Agenda tu cita ahora
+                {t('public.contact.quickHelp.button')}
               </Link>
             </div>
 
@@ -155,11 +157,10 @@ export default function ContactoPage() {
             <div className="mt-6 bg-red-50 border border-red-200 p-4 rounded-xl">
               <div className="flex items-center gap-2 mb-2">
                 <span className="material-symbols-outlined text-red-600">emergency</span>
-                <h4 className="font-semibold text-red-800">Emergencias</h4>
+                <h4 className="font-semibold text-red-800">{t('public.contact.emergency.title')}</h4>
               </div>
               <p className="text-sm text-red-700 mb-3">
-                Para emergencias fuera del horario laboral (fugas de agua, problemas eléctricos graves), 
-                contáctanos por WhatsApp.
+                {t('public.contact.emergency.description')}
               </p>
               <a
                 href="https://wa.me/18475055576?text=🚨%20EMERGENCIA%20-%20"
@@ -168,7 +169,7 @@ export default function ContactoPage() {
                 className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
               >
                 <span className="material-symbols-outlined text-sm">emergency</span>
-                Contactar por emergencia
+                {t('public.contact.emergency.button')}
               </a>
             </div>
           </div>

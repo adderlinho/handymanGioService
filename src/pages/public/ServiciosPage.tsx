@@ -1,77 +1,80 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function ServiciosPage() {
+  const { t } = useTranslation();
+  
   const services = [
     {
-      name: 'Plomería',
+      name: t('service.plumbing'),
       icon: 'plumbing',
-      desc: 'Reparaciones e instalaciones de plomería',
+      desc: t('service.plumbing'),
       details: [
-        'Reparación de fugas',
-        'Instalación de grifos y lavabos',
-        'Destapado de drenajes',
-        'Reparación de inodoros',
-        'Instalación de regaderas'
+        t('services.plumbing.details.1'),
+        t('services.plumbing.details.2'),
+        t('services.plumbing.details.3'),
+        t('services.plumbing.details.4'),
+        t('services.plumbing.details.5')
       ]
     },
     {
-      name: 'Electricidad',
+      name: t('service.electrical'),
       icon: 'electrical_services',
-      desc: 'Instalaciones y reparaciones eléctricas',
+      desc: t('service.electrical'),
       details: [
-        'Instalación de contactos y apagadores',
-        'Reparación de cableado',
-        'Instalación de lámparas',
-        'Tableros eléctricos',
-        'Diagnóstico de fallas'
+        t('services.electrical.details.1'),
+        t('services.electrical.details.2'),
+        t('services.electrical.details.3'),
+        t('services.electrical.details.4'),
+        t('services.electrical.details.5')
       ]
     },
     {
-      name: 'Drywall y Pintura',
+      name: t('service.drywall_paint'),
       icon: 'format_paint',
-      desc: 'Pintura interior y exterior, drywall',
+      desc: t('service.drywall_paint'),
       details: [
-        'Pintura de interiores',
-        'Pintura de exteriores',
-        'Instalación de drywall',
-        'Reparación de paredes',
-        'Texturizado'
+        t('services.drywall_paint.details.1'),
+        t('services.drywall_paint.details.2'),
+        t('services.drywall_paint.details.3'),
+        t('services.drywall_paint.details.4'),
+        t('services.drywall_paint.details.5')
       ]
     },
     {
-      name: 'Carpintería',
+      name: t('service.carpentry'),
       icon: 'handyman',
-      desc: 'Trabajos en madera y muebles',
+      desc: t('service.carpentry'),
       details: [
-        'Instalación de puertas',
-        'Reparación de muebles',
-        'Instalación de repisas',
-        'Marcos y molduras',
-        'Trabajos personalizados'
+        t('services.carpentry.details.1'),
+        t('services.carpentry.details.2'),
+        t('services.carpentry.details.3'),
+        t('services.carpentry.details.4'),
+        t('services.carpentry.details.5')
       ]
     },
     {
-      name: 'Pisos',
+      name: t('service.flooring'),
       icon: 'floor',
-      desc: 'Instalación y reparación de pisos',
+      desc: t('service.flooring'),
       details: [
-        'Instalación de laminado',
-        'Reparación de pisos',
-        'Instalación de azulejo',
-        'Pulido y acabados',
-        'Alfombras'
+        t('services.flooring.details.1'),
+        t('services.flooring.details.2'),
+        t('services.flooring.details.3'),
+        t('services.flooring.details.4'),
+        t('services.flooring.details.5')
       ]
     },
     {
-      name: 'Mantenimiento General',
+      name: t('service.other'),
       icon: 'construction',
-      desc: 'Servicios diversos de mantenimiento',
+      desc: t('service.other'),
       details: [
-        'Reparaciones menores',
-        'Mantenimiento preventivo',
-        'Instalación de accesorios',
-        'Limpieza de canaletas',
-        'Servicios personalizados'
+        t('services.other.details.1'),
+        t('services.other.details.2'),
+        t('services.other.details.3'),
+        t('services.other.details.4'),
+        t('services.other.details.5')
       ]
     }
   ];
@@ -82,11 +85,10 @@ export default function ServiciosPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-4">
-            Nuestros Servicios
+            {t('public.services.title')}
           </h1>
           <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
-            Ofrecemos una amplia gama de servicios de mantenimiento y reparación para tu hogar. 
-            Todos nuestros trabajos incluyen garantía de satisfacción.
+            {t('public.services.subtitle')}
           </p>
         </div>
 
@@ -114,28 +116,28 @@ export default function ServiciosPage() {
         {/* Features */}
         <div className="bg-primary/5 rounded-xl p-8 mb-16">
           <h2 className="text-2xl font-bold text-center mb-8 text-text-light dark:text-text-dark">
-            ¿Por qué elegir nuestros servicios?
+            {t('public.services.features.title')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <span className="material-symbols-outlined text-primary text-4xl mb-4 block">verified</span>
-              <h3 className="text-lg font-semibold mb-2">Trabajo garantizado</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('public.services.features.guaranteed.title')}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Todos nuestros servicios incluyen garantía de satisfacción
+                {t('public.services.features.guaranteed.desc')}
               </p>
             </div>
             <div className="text-center">
               <span className="material-symbols-outlined text-primary text-4xl mb-4 block">schedule</span>
-              <h3 className="text-lg font-semibold mb-2">Servicio rápido</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('public.services.features.fast.title')}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Respuesta en menos de 2 horas y citas flexibles
+                {t('public.services.features.fast.desc')}
               </p>
             </div>
             <div className="text-center">
               <span className="material-symbols-outlined text-primary text-4xl mb-4 block">payments</span>
-              <h3 className="text-lg font-semibold mb-2">Precios justos</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('public.services.features.fair.title')}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Evaluación gratuita y precios competitivos sin sorpresas
+                {t('public.services.features.fair.desc')}
               </p>
             </div>
           </div>
@@ -144,17 +146,17 @@ export default function ServiciosPage() {
         {/* CTA */}
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4 text-text-light dark:text-text-dark">
-            ¿Necesitas alguno de estos servicios?
+            {t('public.services.cta.title')}
           </h2>
           <p className="text-text-light/80 dark:text-text-dark/80 mb-6">
-            Agenda tu evaluación gratuita y obtén un presupuesto sin compromiso
+            {t('public.services.cta.subtitle')}
           </p>
           <Link
             to="/agenda"
             className="inline-flex items-center gap-2 bg-accent text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform"
           >
             <span className="material-symbols-outlined">calendar_month</span>
-            Agenda tu cita gratuita
+            {t('public.services.cta.button')}
           </Link>
         </div>
       </div>
