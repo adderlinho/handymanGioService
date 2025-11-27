@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getJobById } from '../../services/jobsService';
 import { getPhotosByJob } from '../../services/jobPhotosService';
 import { getServiceAreas } from '../../services/serviceAreasService';
+import { buildWhatsAppShareLink } from '../../utils/whatsapp';
 import type { Job } from '../../types/job';
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import type { ServiceArea } from '../../types/serviceAreas';
@@ -76,15 +77,8 @@ export default function TrabajoPublicPage() {
     return tag ? colors[tag] : 'bg-gray-100 text-gray-800';
   };
 
-  const shareUrl = `${window.location.origin}/trabajos/${id}/public`;
-  
-  // Use centralized WhatsApp utility
-  const getWhatsAppShareUrl = () => {
-    const { buildWhatsAppShareLink } = require('../../utils/whatsapp');
-    return buildWhatsAppShareLink(`Mira este trabajo realizado por GioService: ${shareUrl}`);
-  };
-  
-  const whatsappUrl = getWhatsAppShareUrl();
+  const shareUrl = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
+  const whatsappUrl = buildWhatsAppShareLink(`Mira este trabajo realizado por GioService: ${shareUrl}`);
 
   if (loading) {
     return (
