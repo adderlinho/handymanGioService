@@ -15,9 +15,11 @@ import type { ServiceArea } from '../../types/serviceAreas';
 
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function TrabajoDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { t, lang } = useTranslation();
   const [job, setJob] = useState<Job | null>(null);
   const [clientEmail, setClientEmail] = useState<string | null>(null);
   const [jobWorkers, setJobWorkers] = useState<JobWorker[]>([]);
@@ -237,7 +239,7 @@ export default function TrabajoDetailPage() {
           id: job.id
         };
         
-        const pdfBlob = await generateJobReportPDF(jobReportDataWithId);
+        const pdfBlob = await generateJobReportPDF(jobReportDataWithId, { t, lang });
         const { generateJobReportFilename } = await import('../../utils/filename');
         
         const filename = generateJobReportFilename(
@@ -270,7 +272,7 @@ export default function TrabajoDetailPage() {
           photosCount: jobPhotos.length
         };
 
-        const whatsappUrl = buildJobReportWhatsAppUrl(jobSummary);
+        const whatsappUrl = buildJobReportWhatsAppUrl(jobSummary, t);
         
         if (!whatsappUrl) {
           alert('Número de teléfono inválido para WhatsApp. Por favor verifica el formato.');
