@@ -6,24 +6,24 @@ export default function ContactoPage() {
       title: 'WhatsApp',
       description: 'La forma más rápida de contactarnos',
       icon: 'chat',
-      value: '+1 (312) 555-0123',
-      action: 'https://wa.me/13125550123',
+      value: '+1 (847) 505-5576',
+      action: 'https://wa.me/18475055576',
       actionText: 'Enviar mensaje'
     },
     {
       title: 'Teléfono',
       description: 'Llámanos durante horario laboral',
       icon: 'call',
-      value: '+1 (312) 555-0123',
-      action: 'tel:+13125550123',
+      value: '+1 (847) 505-5576',
+      action: 'tel:+18475055576',
       actionText: 'Llamar ahora'
     },
     {
       title: 'Email',
       description: 'Envíanos un correo electrónico',
       icon: 'mail',
-      value: 'contacto@gioservice.com',
-      action: 'mailto:contacto@gioservice.com',
+      value: 'giosinay@gmail.com',
+      action: 'mailto:giosinay@gmail.com',
       actionText: 'Enviar email'
     }
   ];
@@ -162,7 +162,7 @@ export default function ContactoPage() {
                 contáctanos por WhatsApp.
               </p>
               <a
-                href="https://wa.me/13125550123?text=🚨%20EMERGENCIA%20-%20"
+                href="https://wa.me/18475055576?text=🚨%20EMERGENCIA%20-%20"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"

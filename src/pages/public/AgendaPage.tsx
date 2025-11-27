@@ -178,7 +178,7 @@ export default function AgendaPage() {
                     value={formData.customer_phone}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
-                    placeholder="(312) 555-0123"
+                    placeholder="(847) 505-5576"
                     type="tel"
                     maxLength={17}
                     required
@@ -372,7 +372,7 @@ export default function AgendaPage() {
             <p className="text-sm text-gray-600 dark:text-gray-400">¿Prefieres contactarnos directamente?</p>
             <a
               className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 transition-colors"
-              href="https://wa.me/13125550123"
+              href="https://wa.me/18475055576"
               target="_blank"
               rel="noopener noreferrer"
             >

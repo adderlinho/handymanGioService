@@ -196,9 +196,9 @@ export default function PublicLayout() {
             <div>
               <h4 className="font-semibold mb-4">Contacto</h4>
               <div className="space-y-2 text-sm opacity-80">
-                <p>📞 +52 55 1234 5678</p>
-                <p>📧 contacto@manitaspro.com</p>
-                <p>📍 Ciudad de México, México</p>
+                <p>📞 +1 (847) 505-5576</p>
+                <p>📧 giosinay@gmail.com</p>
+                <p>📍 Chicago, Illinois</p>
               </div>
             </div>
           </div>
