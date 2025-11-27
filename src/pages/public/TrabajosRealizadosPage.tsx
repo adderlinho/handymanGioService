@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getJobs } from '../../services/jobsService';
 import { getPhotosByJob } from '../../services/jobPhotosService';
 import { getServiceAreas } from '../../services/serviceAreasService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { Job } from '../../types/job';
 import type { JobPhoto } from '../../types/jobPhotos';
 import type { ServiceArea } from '../../types/serviceAreas';
@@ -12,6 +13,7 @@ interface JobWithPhoto extends Job {
 }
 
 export default function TrabajosRealizadosPage() {
+  const { t } = useTranslation();
   const [jobs, setJobs] = useState<JobWithPhoto[]>([]);
   const [serviceAreas, setServiceAreas] = useState<ServiceArea[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,15 +58,7 @@ export default function TrabajosRealizadosPage() {
   };
 
   const getServiceTypeLabel = (serviceType: string) => {
-    const labels: Record<string, string> = {
-      'plumbing': 'Plomería',
-      'electrical': 'Electricidad',
-      'drywall_paint': 'Drywall y Pintura',
-      'carpentry': 'Carpintería',
-      'flooring': 'Pisos',
-      'other': 'Otro'
-    };
-    return labels[serviceType] || serviceType;
+    return t(`service.${serviceType}`) || serviceType;
   };
 
   const filteredJobs = selectedServiceType 
@@ -76,7 +70,7 @@ export default function TrabajosRealizadosPage() {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-slate-600">Cargando trabajos realizados...</p>
+          <p className="text-slate-600">{t('public.portfolio.loading')}</p>
         </div>
       </div>
     );
@@ -87,9 +81,9 @@ export default function TrabajosRealizadosPage() {
       {/* Hero Section */}
       <div className="bg-primary text-white py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Trabajos Realizados</h1>
+          <h1 className="text-4xl font-bold mb-4">{t('public.portfolio.title')}</h1>
           <p className="text-xl text-primary-100">
-            Conoce algunos de nuestros proyectos completados en Chicago y sus alrededores
+            {t('public.portfolio.subtitle')}
           </p>
         </div>
       </div>
@@ -103,13 +97,13 @@ export default function TrabajosRealizadosPage() {
               onChange={(e) => setSelectedServiceType(e.target.value)}
               className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
             >
-              <option value="">Todos los servicios</option>
-              <option value="plumbing">Plomería</option>
-              <option value="electrical">Electricidad</option>
-              <option value="drywall_paint">Drywall y Pintura</option>
-              <option value="carpentry">Carpintería</option>
-              <option value="flooring">Pisos</option>
-              <option value="other">Otro</option>
+              <option value="">{t('public.portfolio.filter.allServices')}</option>
+              <option value="plumbing">{t('service.plumbing')}</option>
+              <option value="electrical">{t('service.electrical')}</option>
+              <option value="drywall_paint">{t('service.drywall_paint')}</option>
+              <option value="carpentry">{t('service.carpentry')}</option>
+              <option value="flooring">{t('service.flooring')}</option>
+              <option value="other">{t('service.other')}</option>
             </select>
           </div>
         </div>
@@ -119,8 +113,8 @@ export default function TrabajosRealizadosPage() {
           <div className="text-center py-12">
             <p className="text-slate-600 text-lg">
               {selectedServiceType 
-                ? 'No hay trabajos completados para este tipo de servicio.'
-                : 'Aún no hay trabajos completados para mostrar.'
+                ? t('public.portfolio.noResults')
+                : t('public.portfolio.empty')
               }
             </p>
           </div>
@@ -174,7 +168,7 @@ export default function TrabajosRealizadosPage() {
                       to={`/trabajos/${job.id}/public`}
                       className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium"
                     >
-                      Ver detalle
+                      {t('public.portfolio.card.viewDetail')}
                       <span className="material-symbols-outlined text-sm">arrow_forward</span>
                     </Link>
                   </div>
@@ -187,16 +181,16 @@ export default function TrabajosRealizadosPage() {
         {/* CTA Section */}
         <div className="mt-16 bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">
-            ¿Necesitas un trabajo similar?
+            {t('public.portfolio.cta.title')}
           </h2>
           <p className="text-slate-600 mb-6">
-            Agenda tu cita gratuita y cuéntanos sobre tu proyecto
+            {t('public.portfolio.cta.subtitle')}
           </p>
           <Link
             to="/agenda"
             className="inline-flex items-center gap-2 bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors font-medium"
           >
-            Agendar cita gratuita
+            {t('public.portfolio.cta.button')}
             <span className="material-symbols-outlined">calendar_today</span>
           </Link>
         </div>

@@ -4,12 +4,14 @@ import { getJobById } from '../../services/jobsService';
 import { getPhotosByJob } from '../../services/jobPhotosService';
 import { getServiceAreas } from '../../services/serviceAreasService';
 import { buildWhatsAppShareLink } from '../../utils/whatsapp';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { Job } from '../../types/job';
 import type { JobPhoto, JobPhotoTag } from '../../types/jobPhotos';
 import type { ServiceArea } from '../../types/serviceAreas';
 
 export default function TrabajoPublicPage() {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
   const [job, setJob] = useState<Job | null>(null);
   const [photos, setPhotos] = useState<JobPhoto[]>([]);
   const [serviceAreas, setServiceAreas] = useState<ServiceArea[]>([]);
@@ -33,7 +35,7 @@ export default function TrabajoPublicPage() {
       ]);
 
       if (!jobData || (jobData.status !== 'completed' && jobData.status !== 'paid')) {
-        setError('Este trabajo no está disponible públicamente');
+        setError(t('public.jobDetail.notAvailable'));
         return;
       }
 
@@ -41,31 +43,18 @@ export default function TrabajoPublicPage() {
       setPhotos(photosData);
       setServiceAreas(areasData);
     } catch (err) {
-      setError('Error cargando el trabajo');
+      setError(t('public.jobDetail.loadError'));
     } finally {
       setLoading(false);
     }
   };
 
   const getServiceTypeLabel = (serviceType: string) => {
-    const labels: Record<string, string> = {
-      'plumbing': 'Plomería',
-      'electrical': 'Electricidad',
-      'drywall_paint': 'Drywall y Pintura',
-      'carpentry': 'Carpintería',
-      'flooring': 'Pisos',
-      'other': 'Otro'
-    };
-    return labels[serviceType] || serviceType;
+    return t(`service.${serviceType}`) || serviceType;
   };
 
   const getTagLabel = (tag: JobPhotoTag) => {
-    const labels = {
-      'before': 'Antes',
-      'during': 'Durante',
-      'after': 'Después'
-    };
-    return tag ? labels[tag] : null;
+    return tag ? t(`public.jobDetail.photo.${tag}`) : null;
   };
 
   const getTagColor = (tag: JobPhotoTag) => {
@@ -78,14 +67,14 @@ export default function TrabajoPublicPage() {
   };
 
   const shareUrl = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
-  const whatsappUrl = buildWhatsAppShareLink(`Mira este trabajo realizado por GioService: ${shareUrl}`);
+  const whatsappUrl = buildWhatsAppShareLink(t('public.jobDetail.share.message', { url: shareUrl }));
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-slate-600">Cargando trabajo...</p>
+          <p className="text-slate-600">{t('public.jobDetail.loading')}</p>
         </div>
       </div>
     );
@@ -96,10 +85,10 @@ export default function TrabajoPublicPage() {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg inline-block mb-4">
-            {error || 'Trabajo no encontrado'}
+            {error || t('public.jobDetail.notFound')}
           </div>
           <Link to="/trabajos-realizados" className="text-primary hover:text-primary/80">
-            ← Ver todos los trabajos realizados
+            ← {t('public.jobDetail.backToListFull')}
           </Link>
         </div>
       </div>
@@ -114,7 +103,7 @@ export default function TrabajoPublicPage() {
       <div className="bg-primary text-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <Link to="/trabajos-realizados" className="text-primary-200 hover:text-white mb-4 inline-block">
-            ← Volver a trabajos realizados
+            ← {t('public.jobDetail.backToList')}
           </Link>
           <h1 className="text-4xl font-bold mb-4">{job.title}</h1>
           <div className="flex flex-wrap items-center gap-4">
@@ -134,18 +123,18 @@ export default function TrabajoPublicPage() {
       <div className="max-w-4xl mx-auto px-4 py-12 space-y-12">
         {/* Job Description */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Descripción del trabajo</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">{t('public.jobDetail.description.title')}</h2>
           {job.description ? (
             <p className="text-slate-700 leading-relaxed">{job.description}</p>
           ) : (
-            <p className="text-slate-500 italic">No hay descripción disponible</p>
+            <p className="text-slate-500 italic">{t('public.jobDetail.description.empty')}</p>
           )}
         </div>
 
         {/* Photo Gallery */}
         {photos.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Galería del proyecto</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-6">{t('public.jobDetail.gallery.title')}</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {photos.map((photo) => (
@@ -153,7 +142,7 @@ export default function TrabajoPublicPage() {
                   <div className="aspect-square bg-slate-100 rounded-lg overflow-hidden">
                     <img
                       src={photo.url}
-                      alt={photo.description || 'Foto del trabajo'}
+                      alt={photo.description || t('public.jobDetail.photo.alt')}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                     />
                   </div>
@@ -176,24 +165,24 @@ export default function TrabajoPublicPage() {
         {/* CTA Section */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">
-            ¿Quieres algo parecido en tu hogar?
+            {t('public.jobDetail.cta.title')}
           </h2>
           <p className="text-slate-600 mb-6">
-            Agenda tu cita gratuita y cuéntanos sobre tu proyecto. Nuestro equipo estará encantado de ayudarte.
+            {t('public.jobDetail.cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/agenda"
               className="inline-flex items-center justify-center gap-2 bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-colors font-medium"
             >
-              Agendar cita gratuita
+              {t('public.jobDetail.cta.bookButton')}
               <span className="material-symbols-outlined">calendar_today</span>
             </Link>
             <Link
               to="/contacto"
               className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg hover:bg-slate-50 transition-colors font-medium"
             >
-              Contactar ahora
+              {t('public.jobDetail.cta.contactButton')}
               <span className="material-symbols-outlined">phone</span>
             </Link>
           </div>
@@ -201,14 +190,14 @@ export default function TrabajoPublicPage() {
 
         {/* Share Section */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Compartir este trabajo</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">{t('public.jobDetail.share.title')}</h3>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => navigator.clipboard.writeText(shareUrl)}
               className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
             >
               <span className="material-symbols-outlined text-sm">link</span>
-              Copiar enlace
+              {t('public.jobDetail.share.copyLink')}
             </button>
             <a
               href={whatsappUrl}
@@ -217,7 +206,7 @@ export default function TrabajoPublicPage() {
               className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
             >
               <span className="material-symbols-outlined text-sm">share</span>
-              Compartir por WhatsApp
+              {t('public.jobDetail.share.whatsapp')}
             </a>
           </div>
         </div>
@@ -229,7 +218,7 @@ export default function TrabajoPublicPage() {
           <div className="relative max-w-4xl max-h-full">
             <img
               src={selectedPhoto.url}
-              alt={selectedPhoto.description || 'Foto del trabajo'}
+              alt={selectedPhoto.description || t('public.jobDetail.photo.alt')}
               className="max-w-full max-h-full object-contain rounded-lg"
             />
             <button
