@@ -140,9 +140,6 @@ export const translations: Record<SupportedLanguage, TranslationDict> = {
     // Public Pages
     'public.home.title': 'Reparaciones confiables para tu hogar',
     'public.home.subtitle': 'Electricidad, plomería, pintura y mantenimiento general para hogares y pequeños negocios. Soluciones rápidas y profesionales a tu alcance.',
-    'public.services.title': 'Nuestros Servicios',
-    'public.contact.title': 'Contáctanos',
-    'public.booking.title': 'Agenda tu cita',
     'public.howItWorks.title': '¿Cómo funciona?',
 
     // Booking Form
@@ -430,9 +427,6 @@ export const translations: Record<SupportedLanguage, TranslationDict> = {
     // Public Pages
     'public.home.title': 'Reliable repairs for your home',
     'public.home.subtitle': 'Electrical, plumbing, painting and general maintenance for homes and small businesses. Fast and professional solutions at your fingertips.',
-    'public.services.title': 'Our Services',
-    'public.contact.title': 'Contact Us',
-    'public.booking.title': 'Book your appointment',
     'public.howItWorks.title': 'How it works?',
 
     // Booking Form
