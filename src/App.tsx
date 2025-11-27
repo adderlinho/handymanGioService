@@ -24,11 +24,9 @@ import LoginPage from './pages/admin/LoginPage';
 import ClientesListPage from './pages/admin/ClientesListPage';
 import NuevoClientePage from './pages/admin/NuevoClientePage';
 import ClienteDetailPage from './pages/admin/ClienteDetailPage';
+import ComoFuncionaPage from './pages/public/ComoFuncionaPage';
+import ContactoPage from './pages/public/ContactoPage';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// Placeholder components
-const ComoFuncionaPage = () => <div className="p-8"><h1 className="text-3xl font-bold">Cómo Funciona</h1><p>Página en construcción...</p></div>;
-const ContactoPage = () => <div className="p-8"><h1 className="text-3xl font-bold">Contacto</h1><p>Página en construcción...</p></div>;
 
 function App() {
   return (

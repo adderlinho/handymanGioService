@@ -53,6 +53,16 @@ export default function PublicLayout() {
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
+                  isActive('/como-funciona') 
+                    ? 'text-primary font-semibold border-b-2 border-primary pb-1' 
+                    : 'text-text-light hover:text-primary dark:text-text-dark dark:hover:text-primary'
+                }`} 
+                to="/como-funciona"
+              >
+                Cómo funciona
+              </Link>
+              <Link 
+                className={`text-sm font-medium transition-colors ${
                   isActive('/contacto') 
                     ? 'text-primary font-semibold border-b-2 border-primary pb-1' 
                     : 'text-text-light hover:text-primary dark:text-text-dark dark:hover:text-primary'
@@ -119,6 +129,17 @@ export default function PublicLayout() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Trabajos realizados
+              </Link>
+              <Link 
+                className={`block py-2 text-sm font-medium transition-colors ${
+                  isActive('/como-funciona') 
+                    ? 'text-primary font-semibold' 
+                    : 'text-text-light hover:text-primary dark:text-text-dark dark:hover:text-primary'
+                }`} 
+                to="/como-funciona"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Cómo funciona
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
