@@ -1,4 +1,5 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { LanguageProvider } from './i18n/LanguageContext';
 import PublicLayout from './layouts/PublicLayout';
 import AdminLayout from './layouts/AdminLayout';
 import HomePage from './pages/public/HomePage';
@@ -30,8 +31,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <HashRouter>
-      <div className="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
+    <LanguageProvider>
+      <HashRouter>
+        <div className="font-display bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark">
         <Routes>
           {/* Admin Login */}
           <Route path="/admin/login" element={<LoginPage />} />
@@ -72,8 +74,9 @@ function App() {
             <Route path="contacto" element={<ContactoPage />} />
           </Route>
         </Routes>
-      </div>
-    </HashRouter>
+        </div>
+      </HashRouter>
+    </LanguageProvider>
   );
 }
 

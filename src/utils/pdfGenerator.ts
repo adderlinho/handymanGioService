@@ -17,18 +17,25 @@ export interface JobReportData {
   id?: string;
 }
 
-export async function generateJobReportPDF(jobData: JobReportData): Promise<Blob> {
+interface PdfI18n {
+  t: (key: string, params?: Record<string, any>) => string;
+  lang: 'es' | 'en';
+}
+
+export async function generateJobReportPDF(jobData: JobReportData, i18n: PdfI18n): Promise<Blob> {
+  const { t, lang } = i18n;
   const pdf = new jsPDF();
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
   
   // Set PDF metadata
-  const formattedDate = new Date(jobData.date).toLocaleDateString('es-GT');
+  const locale = lang === 'es' ? 'es-GT' : 'en-US';
+  const formattedDate = new Date(jobData.date).toLocaleDateString(locale);
   pdf.setProperties({
-    title: `GioService – Informe del servicio – ${jobData.customerName} – ${formattedDate}`,
-    subject: 'Informe del servicio completado',
-    author: 'GioService',
-    creator: 'GioService'
+    title: `${t('app.brand')} – ${t('job.report.title')} – ${jobData.customerName} – ${formattedDate}`,
+    subject: t('job.report.title'),
+    author: t('app.brand'),
+    creator: t('app.brand')
   });
   
   // Colors

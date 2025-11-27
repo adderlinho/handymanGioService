@@ -5,9 +5,11 @@ import type { Job } from '../../types/job';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
 import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function TrabajosListPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'leads' | 'no-leads'>('all');
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -31,15 +33,7 @@ export default function TrabajosListPage() {
   };
 
   const getServiceTypeLabel = (serviceType: string) => {
-    const labels: Record<string, string> = {
-      'plumbing': 'Plomería',
-      'electrical': 'Electricidad',
-      'drywall_paint': 'Drywall y Pintura',
-      'carpentry': 'Carpintería',
-      'flooring': 'Pisos',
-      'other': 'Otro'
-    };
-    return labels[serviceType] || serviceType;
+    return t(`service.${serviceType}`) || serviceType;
   };
 
   let filteredJobs = jobs.filter(job =>
@@ -59,11 +53,11 @@ export default function TrabajosListPage() {
 
   if (loading) {
     return (
-      <AdminPageLayout title="Trabajos" subtitle="Cargando...">
+      <AdminPageLayout title={t('jobs.title')} subtitle={t('common.loading')}>
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Cargando trabajos...</p>
+            <p className="text-slate-600">{t('common.loading')}</p>
           </div>
         </div>
       </AdminPageLayout>
@@ -72,9 +66,9 @@ export default function TrabajosListPage() {
 
   if (error) {
     return (
-      <AdminPageLayout title="Trabajos" subtitle="Error al cargar">
+      <AdminPageLayout title={t('jobs.title')} subtitle={t('common.error')}>
         <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl">
-          Error: {error}
+          {t('common.error')}: {error}
         </div>
       </AdminPageLayout>
     );
@@ -82,10 +76,10 @@ export default function TrabajosListPage() {
 
   return (
     <AdminPageLayout
-      title="Trabajos"
-      subtitle="Gestiona trabajos, leads y trabajos completados"
+      title={t('jobs.title')}
+      subtitle={t('jobs.list')}
       primaryAction={{
-        label: "Nuevo Trabajo",
+        label: t('jobs.new'),
         onClick: () => navigate('/admin/trabajos/nuevo'),
         icon: "🛠️"
       }}

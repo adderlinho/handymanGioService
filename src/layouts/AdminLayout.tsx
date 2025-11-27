@@ -1,10 +1,13 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation } from '../i18n/LanguageContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   const isActive = (path: string) => {
     if (path === '/admin') return location.pathname === '/admin' || location.pathname === '/admin/';
@@ -28,7 +31,7 @@ export default function AdminLayout() {
               
               <Link to="/admin" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                 <span className="text-2xl">🔨</span>
-                <h1 className="text-xl font-bold tracking-tight text-slate-900">GioService</h1>
+                <h1 className="text-xl font-bold tracking-tight text-slate-900">{t('app.brand')}</h1>
               </Link>
             </div>
             
@@ -96,6 +99,7 @@ export default function AdminLayout() {
             </nav>
 
             <div className="flex items-center gap-3">
+              <LanguageSwitcher variant="compact" />
               <Link to="/" className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                 <span>🌐</span>
                 <span className="hidden sm:inline">Sitio Público</span>

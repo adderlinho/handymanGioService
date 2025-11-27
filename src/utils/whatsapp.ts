@@ -63,25 +63,28 @@ export interface JobSummaryForWhatsApp {
 }
 
 /**
- * Build WhatsApp URL for job completion report
+ * Build WhatsApp URL for job completion report with i18n support
  */
-export function buildJobReportWhatsAppUrl(job: JobSummaryForWhatsApp): string | null {
+export function buildJobReportWhatsAppUrl(
+  job: JobSummaryForWhatsApp,
+  t: (key: string, params?: Record<string, any>) => string
+): string | null {
   const workersList = job.workers.length
     ? job.workers.map(w => `- ${w}`).join('\n')
-    : '- Sin trabajadores asignados';
+    : `- ${t('job.whatsapp.noWorkers')}`;
 
   const message =
-    `*REPORTE DE TRABAJO COMPLETADO*\n\n` +
-    `*Cliente:* ${job.customerName}\n` +
-    `*Trabajo:* ${job.serviceName}\n` +
-    `*Fecha:* ${job.date}\n` +
-    `*Estado:* ${job.status}\n\n` +
-    `*Descripción:*\n${job.description}\n\n` +
-    `*Dirección:*\n${job.address}\n\n` +
-    `*Trabajadores asignados:*\n${workersList}\n\n` +
-    `*Precio total:* $${job.totalAmount.toFixed(2)}\n\n` +
-    `*Fotos del trabajo:* ${job.photosCount} foto(s) adjunta(s)\n\n` +
-    `Gracias por confiar en nuestros servicios.`;
+    `*${t('job.whatsapp.title')}*\n\n` +
+    `*${t('job.whatsapp.client')}* ${job.customerName}\n` +
+    `*${t('job.whatsapp.service')}* ${job.serviceName}\n` +
+    `*${t('job.whatsapp.date')}* ${job.date}\n` +
+    `*${t('job.whatsapp.status')}* ${job.status}\n\n` +
+    `*${t('job.whatsapp.description')}*\n${job.description}\n\n` +
+    `*${t('job.whatsapp.address')}*\n${job.address}\n\n` +
+    `*${t('job.whatsapp.workers')}*\n${workersList}\n\n` +
+    `*${t('job.whatsapp.total')}* $${job.totalAmount.toFixed(2)}\n\n` +
+    `*${t('job.whatsapp.photos')}* ${job.photosCount} ${t('job.whatsapp.photosSuffix')}\n\n` +
+    t('job.whatsapp.thankYou');
 
   return buildWhatsAppLink(job.phone, message);
 }

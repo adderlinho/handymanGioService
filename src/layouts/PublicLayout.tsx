@@ -1,9 +1,12 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useTranslation } from '../i18n/LanguageContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function PublicLayout() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
   
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/' || location.pathname === '';
@@ -18,7 +21,7 @@ export default function PublicLayout() {
           <div className="flex h-20 items-center justify-between">
             <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <span className="material-symbols-outlined text-primary text-3xl">construction</span>
-              <h2 className="text-xl font-bold tracking-tight text-text-light dark:text-text-dark">GioService</h2>
+              <h2 className="text-xl font-bold tracking-tight text-text-light dark:text-text-dark">{t('app.brand')}</h2>
             </Link>
             <nav className="hidden items-center gap-8 md:flex">
               <Link 
@@ -29,7 +32,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/"
               >
-                Inicio
+                {t('nav.public.home')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -39,7 +42,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/servicios"
               >
-                Servicios
+                {t('nav.public.services')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -49,7 +52,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/trabajos-realizados"
               >
-                Trabajos realizados
+                {t('nav.public.portfolio')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -59,7 +62,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/como-funciona"
               >
-                Cómo funciona
+                {t('nav.public.howItWorks')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -69,14 +72,15 @@ export default function PublicLayout() {
                 }`} 
                 to="/contacto"
               >
-                Contacto
+                {t('nav.public.contact')}
               </Link>
             </nav>
             <div className="flex items-center gap-4">
               <Link to="/agenda" className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:scale-105 active:scale-95">
                 <span className="material-symbols-outlined text-base">calendar_month</span>
-                <span className="truncate">Agenda tu visita</span>
+                <span className="truncate">{t('nav.public.booking')}</span>
               </Link>
+              <LanguageSwitcher variant="compact" />
               <Link to="/admin" className="hidden md:flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary transition-colors">
                 <span className="material-symbols-outlined text-base">admin_panel_settings</span>
                 <span>Admin</span>
@@ -106,7 +110,7 @@ export default function PublicLayout() {
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Inicio
+                {t('nav.public.home')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -117,7 +121,7 @@ export default function PublicLayout() {
                 to="/servicios"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Servicios
+                {t('nav.public.services')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -128,7 +132,7 @@ export default function PublicLayout() {
                 to="/trabajos-realizados"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Trabajos realizados
+                {t('nav.public.portfolio')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -139,7 +143,7 @@ export default function PublicLayout() {
                 to="/como-funciona"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Cómo funciona
+                {t('nav.public.howItWorks')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -150,7 +154,7 @@ export default function PublicLayout() {
                 to="/contacto"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Contacto
+                {t('nav.public.contact')}
               </Link>
               <div className="border-t border-border-light dark:border-border-dark my-2 pt-2">
                 <Link 
