@@ -110,7 +110,7 @@ export default function DashboardPage() {
         title={t('admin.dashboard.upcomingJobs')}
         action={{
           label: t('admin.dashboard.viewAll'),
-          onClick: () => window.location.href = "/admin/trabajos"
+          onClick: () => window.location.href = "#/admin/trabajos"
         }}
       >
         <div className="space-y-4">

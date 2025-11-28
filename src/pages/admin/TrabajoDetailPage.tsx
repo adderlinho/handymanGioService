@@ -365,7 +365,7 @@ Gracias por confiar en nuestros servicios.
       {/* Status and Public Links */}
       {/* Status change buttons */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <button
             onClick={() => handleStatusUpdate('scheduled')}
             className={`p-4 rounded-xl border-2 text-center transition-all ${
@@ -411,6 +411,23 @@ Gracias por confiar en nuestros servicios.
             <div className="font-semibold">Pagado</div>
           </button>
         </div>
+        
+        {/* Cancel button - only show for lead, scheduled, in_progress */}
+        {(['lead', 'scheduled', 'in_progress'].includes(job.status)) && (
+          <div className="flex justify-center">
+            <button
+              onClick={() => {
+                if (confirm('¿Estás seguro de que quieres cancelar este trabajo?')) {
+                  handleStatusUpdate('cancelled');
+                }
+              }}
+              className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold flex items-center gap-2"
+            >
+              <span className="text-xl">❌</span>
+              Cancelar Trabajo
+            </button>
+          </div>
+        )}
       </div>
 
 
