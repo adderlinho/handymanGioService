@@ -6,7 +6,7 @@
  */
 export const ADMIN_AUTH_CONFIG = {
   // Use environment variable or fallback to development key
-  passcode: import.meta.env.VITE_ADMIN_ACCESS_KEY || 'admin123',
+  passcode: (import.meta as any).env?.VITE_ADMIN_ACCESS_KEY || 'admin123',
   
   // Session timeout in milliseconds (24 hours)
   sessionTimeout: 24 * 60 * 60 * 1000,
