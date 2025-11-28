@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { payrollService } from '../../services/payrollService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { PayrollPeriod, PayrollEntryWithWorker, PayrollPeriodStatus } from '../../types/payroll';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
@@ -12,6 +13,7 @@ interface PayStubModalProps {
 }
 
 function PayStubModal({ entry, period, onClose }: PayStubModalProps) {
+  const { t } = useTranslation();
   const formatDateRange = (startDate: string, endDate: string) => {
     const start = new Date(startDate).toLocaleDateString('es-GT');
     const end = new Date(endDate).toLocaleDateString('es-GT');
@@ -23,7 +25,7 @@ function PayStubModal({ entry, period, onClose }: PayStubModalProps) {
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold">Recibo de Pago</h3>
+            <h3 className="text-lg font-semibold">{t('admin.payroll.detail.payStub')}</h3>
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-slate-600"
@@ -37,42 +39,42 @@ function PayStubModal({ entry, period, onClose }: PayStubModalProps) {
               <h4 className="font-bold text-lg">{entry.worker_name}</h4>
               <p className="text-sm text-slate-600">{entry.worker_role}</p>
               <p className="text-sm text-slate-600">
-                Período: {formatDateRange(period.start_date, period.end_date)}
+                {t('admin.payroll.detail.period')}: {formatDateRange(period.start_date, period.end_date)}
               </p>
             </div>
 
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-sm">Horas normales:</span>
+                <span className="text-sm">{t('admin.payroll.entries.hoursRegular')}:</span>
                 <span className="text-sm font-medium">{entry.hours_regular || 0} hrs</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Tarifa normal:</span>
+                <span className="text-sm">{t('admin.payroll.entries.rateRegular')}:</span>
                 <span className="text-sm font-medium">${entry.rate_regular || 0}/hr</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Horas extra:</span>
+                <span className="text-sm">{t('admin.payroll.entries.hoursOvertime')}:</span>
                 <span className="text-sm font-medium">{entry.hours_overtime || 0} hrs</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Tarifa extra:</span>
+                <span className="text-sm">{t('admin.payroll.entries.rateOvertime')}:</span>
                 <span className="text-sm font-medium">${entry.rate_overtime || 0}/hr</span>
               </div>
               
               <div className="border-t pt-3">
                 <div className="flex justify-between">
-                  <span className="text-sm">Pago bruto:</span>
+                  <span className="text-sm">{t('admin.payroll.entries.grossPay')}:</span>
                   <span className="text-sm font-medium">${entry.gross_pay?.toFixed(2) || '0.00'}</span>
                 </div>
                 {(entry.bonuses || 0) > 0 && (
                   <div className="flex justify-between text-green-600">
-                    <span className="text-sm">Bonos:</span>
+                    <span className="text-sm">{t('admin.payroll.entries.bonuses')}:</span>
                     <span className="text-sm font-medium">+${entry.bonuses?.toFixed(2)}</span>
                   </div>
                 )}
                 {(entry.deductions || 0) > 0 && (
                   <div className="flex justify-between text-red-600">
-                    <span className="text-sm">Deducciones:</span>
+                    <span className="text-sm">{t('admin.payroll.entries.deductions')}:</span>
                     <span className="text-sm font-medium">-${entry.deductions?.toFixed(2)}</span>
                   </div>
                 )}
@@ -80,7 +82,7 @@ function PayStubModal({ entry, period, onClose }: PayStubModalProps) {
 
               <div className="border-t pt-3">
                 <div className="flex justify-between text-lg font-bold">
-                  <span>Total neto:</span>
+                  <span>{t('admin.payroll.entries.netPay')}:</span>
                   <span className="text-primary">${entry.net_pay?.toFixed(2) || '0.00'}</span>
                 </div>
               </div>
@@ -91,10 +93,10 @@ function PayStubModal({ entry, period, onClose }: PayStubModalProps) {
                 onClick={onClose}
                 className="flex-1 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
               >
-                Cerrar
+                {t('common.close')}
               </button>
               <button className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                Imprimir
+                {t('admin.payroll.detail.print')}
               </button>
             </div>
           </div>
@@ -107,6 +109,7 @@ function PayStubModal({ entry, period, onClose }: PayStubModalProps) {
 export default function NominaDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [period, setPeriod] = useState<PayrollPeriod | null>(null);
   const [entries, setEntries] = useState<PayrollEntryWithWorker[]>([]);
   const [loading, setLoading] = useState(true);
@@ -183,9 +186,9 @@ export default function NominaDetailPage() {
 
   const getPeriodTypeLabel = (type: string) => {
     const labels = {
-      'weekly': 'Semanal',
-      'biweekly': 'Quincenal',
-      'monthly': 'Mensual'
+      'weekly': t('admin.payroll.periodType.weekly'),
+      'biweekly': t('admin.payroll.periodType.biweekly'),
+      'monthly': t('admin.payroll.periodType.monthly')
     };
     return labels[type as keyof typeof labels] || type;
   };
@@ -198,9 +201,9 @@ export default function NominaDetailPage() {
     };
 
     const statusLabels = {
-      'draft': 'Borrador',
-      'finalized': 'Finalizado',
-      'paid': 'Pagado'
+      'draft': t('status.draft'),
+      'finalized': t('status.finalized'),
+      'paid': t('status.paid')
     };
 
     return (
@@ -227,12 +230,12 @@ export default function NominaDetailPage() {
   if (!period) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-lg font-medium text-slate-900 mb-2">Período no encontrado</h3>
+        <h3 className="text-lg font-medium text-slate-900 mb-2">{t('admin.payroll.detail.notFound')}</h3>
         <button
           onClick={() => navigate('/admin/nomina')}
           className="text-primary hover:text-primary/80"
         >
-          Volver a nómina
+          {t('admin.payroll.detail.backToPayroll')}
         </button>
       </div>
     );
@@ -240,61 +243,61 @@ export default function NominaDetailPage() {
 
   return (
     <AdminPageLayout
-      title="Detalle de nómina"
-      subtitle={period ? `Período ${formatDateRange(period.start_date, period.end_date)}` : ''}
+      title={t('admin.payroll.detail.title')}
+      subtitle={period ? `${t('admin.payroll.detail.period')} ${formatDateRange(period.start_date, period.end_date)}` : ''}
       backButton={{
-        label: "Volver a nómina",
+        label: t('admin.payroll.detail.backToPayroll'),
         href: "/admin/nomina"
       }}
     >
 
       <AdminSectionCard 
-        title="Resumen del período"
+        title={t('admin.payroll.detail.section.periodSummary')}
         action={period.status === 'draft' ? {
-          label: "Marcar como finalizado",
+          label: t('admin.payroll.detail.action.markFinalized'),
           onClick: () => handleStatusUpdate('finalized')
         } : period.status === 'finalized' ? {
-          label: "Marcar como pagado",
+          label: t('admin.payroll.detail.action.markPaid'),
           onClick: () => handleStatusUpdate('paid')
         } : undefined}
       >
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div>
-            <p className="text-sm text-slate-600">Tipo de período</p>
+            <p className="text-sm text-slate-600">{t('admin.payroll.form.periodType')}</p>
             <p className="font-medium">{getPeriodTypeLabel(period.period_type)}</p>
           </div>
           <div>
-            <p className="text-sm text-slate-600">Rango de fechas</p>
+            <p className="text-sm text-slate-600">{t('admin.payroll.detail.field.dateRange')}</p>
             <p className="font-medium">{formatDateRange(period.start_date, period.end_date)}</p>
           </div>
           <div>
-            <p className="text-sm text-slate-600">Estado</p>
+            <p className="text-sm text-slate-600">{t('common.status')}</p>
             <div className="mt-1">{getStatusBadge(period.status)}</div>
           </div>
           <div>
-            <p className="text-sm text-slate-600">Monto total</p>
+            <p className="text-sm text-slate-600">{t('admin.payroll.detail.field.totalAmount')}</p>
             <p className="text-lg font-bold text-primary">${period.total_amount?.toFixed(2) || '0.00'}</p>
           </div>
         </div>
       </AdminSectionCard>
 
-      <AdminSectionCard title="Detalle por trabajador">
+      <AdminSectionCard title={t('admin.payroll.detail.section.workerDetail')}>
         
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-4 py-3 text-left font-medium text-slate-700">Trabajador</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">H. Normales</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">H. Extra</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Tarifa Normal</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Tarifa Extra</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Bonos</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Deducciones</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Pago Bruto</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Pago Neto</th>
-                <th className="px-4 py-3 text-right font-medium text-slate-700">Acciones</th>
+                <th className="px-4 py-3 text-left font-medium text-slate-700">{t('admin.payroll.entries.worker')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.hoursRegular')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.hoursOvertime')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.rateRegular')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.rateOvertime')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.bonuses')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.deductions')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.grossPay')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.netPay')}</th>
+                <th className="px-4 py-3 text-right font-medium text-slate-700">{t('common.actions')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
@@ -348,13 +351,13 @@ export default function NominaDetailPage() {
                             onClick={() => handleSaveEntry(entry.id)}
                             className="text-green-600 hover:text-green-800 text-xs"
                           >
-                            Guardar
+                            {t('common.save')}
                           </button>
                           <button
                             onClick={() => setEditingEntry(null)}
                             className="text-slate-600 hover:text-slate-800 text-xs"
                           >
-                            Cancelar
+                            {t('common.cancel')}
                           </button>
                         </>
                       ) : (
@@ -363,13 +366,13 @@ export default function NominaDetailPage() {
                             onClick={() => handleEditEntry(entry)}
                             className="text-primary hover:text-primary/80 text-xs"
                           >
-                            Editar
+                            {t('common.edit')}
                           </button>
                           <button
                             onClick={() => setSelectedEntry(entry)}
                             className="text-slate-600 hover:text-slate-800 text-xs"
                           >
-                            Ver recibo
+                            {t('admin.payroll.detail.action.viewPayStub')}
                           </button>
                         </>
                       )}
@@ -383,7 +386,7 @@ export default function NominaDetailPage() {
 
         {entries.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-slate-500">No hay entradas de nómina para este período</p>
+            <p className="text-slate-500">{t('admin.payroll.detail.noEntries')}</p>
           </div>
         )}
       </AdminSectionCard>

@@ -3,11 +3,13 @@ import { useParams, Link } from 'react-router-dom';
 import { clientsService, type ClientInput } from '../../services/clientsService';
 import { getJobs } from '../../services/jobsService';
 import { formatPhoneNumber } from '../../utils/phoneFormat';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { Client } from '../../types/client';
 import type { Job } from '../../types/job';
 
 export default function ClienteDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
   const [client, setClient] = useState<Client | null>(null);
   const [clientJobs, setClientJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,9 +97,9 @@ export default function ClienteDetailPage() {
   if (!client) {
     return (
       <div className="text-center py-12">
-        <p className="text-slate-600">Cliente no encontrado</p>
+        <p className="text-slate-600">{t('admin.clients.detail.notFound')}</p>
         <Link to="/admin/clientes" className="text-primary hover:text-primary/80">
-          ← Volver a clientes
+          ← {t('admin.clients.detail.backToList')}
         </Link>
       </div>
     );
@@ -107,7 +109,7 @@ export default function ClienteDetailPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <Link to="/admin/clientes" className="text-sm text-slate-600 hover:text-primary mb-2 inline-block">
-          ← Volver a clientes
+          ← {t('admin.clients.detail.backToList')}
         </Link>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">{client.fullName}</h1>
@@ -115,20 +117,20 @@ export default function ClienteDetailPage() {
             onClick={() => setEditing(!editing)}
             className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
           >
-            {editing ? 'Cancelar' : 'Editar'}
+            {editing ? t('common.cancel') : t('common.edit')}
           </button>
         </div>
       </div>
 
       {/* Client Info */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h2 className="text-lg font-semibold mb-4">Información del cliente</h2>
+        <h2 className="text-lg font-semibold mb-4">{t('admin.clients.detail.section.clientInfo')}</h2>
         
         {editing ? (
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Nombre completo</label>
+                <label className="block text-sm font-medium mb-1">{t('admin.clients.form.fullName')}</label>
                 <input
                   type="text"
                   value={formData.fullName}
@@ -137,7 +139,7 @@ export default function ClienteDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Teléfono</label>
+                <label className="block text-sm font-medium mb-1">{t('common.phone')}</label>
                 <input
                   type="tel"
                   value={formData.phone}
@@ -150,7 +152,7 @@ export default function ClienteDetailPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">WhatsApp</label>
+                <label className="block text-sm font-medium mb-1">{t('admin.clients.form.whatsapp')}</label>
                 <input
                   type="tel"
                   value={formData.whatsapp}
@@ -161,7 +163,7 @@ export default function ClienteDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
+                <label className="block text-sm font-medium mb-1">{t('common.email')}</label>
                 <input
                   type="email"
                   value={formData.email}
@@ -171,7 +173,7 @@ export default function ClienteDetailPage() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Dirección principal</label>
+              <label className="block text-sm font-medium mb-1">{t('admin.clients.form.mainAddress')}</label>
               <input
                 type="text"
                 value={formData.mainAddress}
@@ -180,7 +182,7 @@ export default function ClienteDetailPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Notas</label>
+              <label className="block text-sm font-medium mb-1">{t('admin.clients.form.notes')}</label>
               <textarea
                 value={formData.notes}
                 onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
@@ -193,13 +195,13 @@ export default function ClienteDetailPage() {
                 onClick={() => setEditing(false)}
                 className="px-4 py-2 text-sm border border-slate-300 rounded-lg hover:bg-slate-50"
               >
-                Cancelar
+                {t('common.cancel')}
               </button>
               <button
                 onClick={handleSave}
                 className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary/90"
               >
-                Guardar
+                {t('common.save')}
               </button>
             </div>
           </div>
@@ -207,30 +209,30 @@ export default function ClienteDetailPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
               <div>
-                <p className="text-sm text-slate-600">Teléfono</p>
+                <p className="text-sm text-slate-600">{t('common.phone')}</p>
                 <a href={`tel:${client.phone}`} className="font-medium text-primary hover:text-primary/80">
                   {client.phone}
                 </a>
               </div>
               <div>
-                <p className="text-sm text-slate-600">WhatsApp</p>
-                <p className="font-medium">{client.whatsapp || 'No especificado'}</p>
+                <p className="text-sm text-slate-600">{t('admin.clients.form.whatsapp')}</p>
+                <p className="font-medium">{client.whatsapp || t('admin.clients.detail.notSpecified')}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600">Email</p>
+                <p className="text-sm text-slate-600">{t('common.email')}</p>
                 <a href={`mailto:${client.email}`} className="font-medium text-primary hover:text-primary/80">
-                  {client.email || 'No especificado'}
+                  {client.email || t('admin.clients.detail.notSpecified')}
                 </a>
               </div>
             </div>
             <div className="space-y-3">
               <div>
-                <p className="text-sm text-slate-600">Dirección principal</p>
-                <p className="font-medium">{client.mainAddress || 'No especificada'}</p>
+                <p className="text-sm text-slate-600">{t('admin.clients.form.mainAddress')}</p>
+                <p className="font-medium">{client.mainAddress || t('admin.clients.detail.notSpecified')}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600">Notas</p>
-                <p className="font-medium">{client.notes || 'Sin notas'}</p>
+                <p className="text-sm text-slate-600">{t('admin.clients.form.notes')}</p>
+                <p className="font-medium">{client.notes || t('admin.clients.detail.noNotes')}</p>
               </div>
             </div>
           </div>
@@ -239,20 +241,20 @@ export default function ClienteDetailPage() {
 
       {/* Client Jobs */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h2 className="text-lg font-semibold mb-4">Trabajos ({clientJobs.length})</h2>
+        <h2 className="text-lg font-semibold mb-4">{t('admin.clients.detail.section.jobs')} ({clientJobs.length})</h2>
         
         {clientJobs.length === 0 ? (
-          <p className="text-slate-600 text-center py-8">No hay trabajos registrados para este cliente</p>
+          <p className="text-slate-600 text-center py-8">{t('admin.clients.detail.noJobs')}</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-slate-50 text-xs text-slate-600 uppercase">
                 <tr>
-                  <th className="px-4 py-3 text-left">Trabajo</th>
-                  <th className="px-4 py-3 text-left">Estado</th>
-                  <th className="px-4 py-3 text-left">Fecha</th>
-                  <th className="px-4 py-3 text-right">Total</th>
-                  <th className="px-4 py-3 text-right">Acciones</th>
+                  <th className="px-4 py-3 text-left">{t('admin.clients.detail.table.job')}</th>
+                  <th className="px-4 py-3 text-left">{t('common.status')}</th>
+                  <th className="px-4 py-3 text-left">{t('common.date')}</th>
+                  <th className="px-4 py-3 text-right">{t('common.total')}</th>
+                  <th className="px-4 py-3 text-right">{t('common.actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -275,7 +277,7 @@ export default function ClienteDetailPage() {
                         to={`/admin/trabajos/${job.id}`}
                         className="text-primary hover:text-primary/80 text-sm"
                       >
-                        Ver detalle
+                        {t('common.view')}
                       </Link>
                     </td>
                   </tr>

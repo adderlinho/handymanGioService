@@ -31,6 +31,8 @@ export const translations: Record<SupportedLanguage, TranslationDict> = {
     'common.address': 'Dirección',
     'common.description': 'Descripción',
     'common.name': 'Nombre',
+    'common.add': 'Agregar',
+    'common.close': 'Cerrar',
 
     // Navigation - Admin
     'admin.nav.dashboard': 'Panel',
@@ -395,6 +397,32 @@ export const translations: Record<SupportedLanguage, TranslationDict> = {
     'admin.workers.detail.noJobsAssigned': 'No hay trabajos asignados',
     'admin.workers.detail.saveChanges': 'Guardar cambios',
 
+    // Admin Clients Detail
+    'admin.clients.detail.notFound': 'Cliente no encontrado',
+    'admin.clients.detail.backToList': 'Volver a clientes',
+    'admin.clients.detail.section.clientInfo': 'Información del cliente',
+    'admin.clients.detail.section.jobs': 'Trabajos',
+    'admin.clients.detail.notSpecified': 'No especificado',
+    'admin.clients.detail.noNotes': 'Sin notas',
+    'admin.clients.detail.noJobs': 'No hay trabajos registrados para este cliente',
+    'admin.clients.detail.table.job': 'Trabajo',
+
+    // Admin Payroll Detail
+    'admin.payroll.detail.title': 'Detalle de nómina',
+    'admin.payroll.detail.notFound': 'Período no encontrado',
+    'admin.payroll.detail.backToPayroll': 'Volver a nómina',
+    'admin.payroll.detail.period': 'Período',
+    'admin.payroll.detail.payStub': 'Recibo de Pago',
+    'admin.payroll.detail.print': 'Imprimir',
+    'admin.payroll.detail.section.periodSummary': 'Resumen del período',
+    'admin.payroll.detail.section.workerDetail': 'Detalle por trabajador',
+    'admin.payroll.detail.field.dateRange': 'Rango de fechas',
+    'admin.payroll.detail.field.totalAmount': 'Monto total',
+    'admin.payroll.detail.action.markFinalized': 'Marcar como finalizado',
+    'admin.payroll.detail.action.markPaid': 'Marcar como pagado',
+    'admin.payroll.detail.action.viewPayStub': 'Ver recibo',
+    'admin.payroll.detail.noEntries': 'No hay entradas de nómina para este período',
+
     // Admin Jobs
     'admin.jobs.list.title': 'Lista de trabajos',
     'admin.jobs.list.search': 'Buscar trabajos',
@@ -699,6 +727,8 @@ export const translations: Record<SupportedLanguage, TranslationDict> = {
     'common.address': 'Address',
     'common.description': 'Description',
     'common.name': 'Name',
+    'common.add': 'Add',
+    'common.close': 'Close',
 
     // Navigation - Admin
     'admin.nav.dashboard': 'Dashboard',
@@ -1062,6 +1092,32 @@ export const translations: Record<SupportedLanguage, TranslationDict> = {
     'admin.workers.detail.table.cost': 'Cost',
     'admin.workers.detail.noJobsAssigned': 'No jobs assigned',
     'admin.workers.detail.saveChanges': 'Save changes',
+
+    // Admin Clients Detail
+    'admin.clients.detail.notFound': 'Client not found',
+    'admin.clients.detail.backToList': 'Back to clients',
+    'admin.clients.detail.section.clientInfo': 'Client information',
+    'admin.clients.detail.section.jobs': 'Jobs',
+    'admin.clients.detail.notSpecified': 'Not specified',
+    'admin.clients.detail.noNotes': 'No notes',
+    'admin.clients.detail.noJobs': 'No jobs registered for this client',
+    'admin.clients.detail.table.job': 'Job',
+
+    // Admin Payroll Detail
+    'admin.payroll.detail.title': 'Payroll Detail',
+    'admin.payroll.detail.notFound': 'Period not found',
+    'admin.payroll.detail.backToPayroll': 'Back to payroll',
+    'admin.payroll.detail.period': 'Period',
+    'admin.payroll.detail.payStub': 'Pay Stub',
+    'admin.payroll.detail.print': 'Print',
+    'admin.payroll.detail.section.periodSummary': 'Period Summary',
+    'admin.payroll.detail.section.workerDetail': 'Worker Detail',
+    'admin.payroll.detail.field.dateRange': 'Date range',
+    'admin.payroll.detail.field.totalAmount': 'Total amount',
+    'admin.payroll.detail.action.markFinalized': 'Mark as finalized',
+    'admin.payroll.detail.action.markPaid': 'Mark as paid',
+    'admin.payroll.detail.action.viewPayStub': 'View pay stub',
+    'admin.payroll.detail.noEntries': 'No payroll entries for this period',
 
     // Admin Jobs
     'admin.jobs.list.title': 'Jobs list',
