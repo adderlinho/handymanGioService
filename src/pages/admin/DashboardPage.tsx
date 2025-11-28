@@ -4,9 +4,11 @@ import { getWorkers } from '../../services/workersService';
 import { clientsService } from '../../services/clientsService';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { Job } from '../../types/job';
 
 export default function DashboardPage() {
+  const { t } = useTranslation();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [workersCount, setWorkersCount] = useState(0);
   const [clientsCount, setClientsCount] = useState(0);
@@ -39,7 +41,7 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <AdminPageLayout title="Dashboard" subtitle="Cargando...">
+      <AdminPageLayout title={t('admin.dashboard.title')} subtitle={t('admin.dashboard.loading')}>
         <div className="flex items-center justify-center py-12">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
@@ -49,15 +51,15 @@ export default function DashboardPage() {
 
   return (
     <AdminPageLayout
-      title="Dashboard"
-      subtitle="Resumen general de tu negocio"
+      title={t('admin.dashboard.title')}
+      subtitle={t('admin.dashboard.subtitle')}
     >
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Total Trabajos</p>
+              <p className="text-sm font-medium text-slate-600">{t('admin.dashboard.totalJobs')}</p>
               <p className="text-2xl font-bold text-slate-900">{jobs.length}</p>
             </div>
             <div className="bg-blue-100 p-3 rounded-lg">
@@ -69,7 +71,7 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">En Progreso</p>
+              <p className="text-sm font-medium text-slate-600">{t('admin.dashboard.inProgress')}</p>
               <p className="text-2xl font-bold text-slate-900">{todayJobs}</p>
             </div>
             <div className="bg-amber-100 p-3 rounded-lg">
@@ -81,7 +83,7 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Trabajadores</p>
+              <p className="text-sm font-medium text-slate-600">{t('admin.dashboard.workers')}</p>
               <p className="text-2xl font-bold text-slate-900">{workersCount}</p>
             </div>
             <div className="bg-green-100 p-3 rounded-lg">
@@ -93,7 +95,7 @@ export default function DashboardPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-600">Clientes</p>
+              <p className="text-sm font-medium text-slate-600">{t('admin.dashboard.clients')}</p>
               <p className="text-2xl font-bold text-slate-900">{clientsCount}</p>
             </div>
             <div className="bg-blue-100 p-3 rounded-lg">
@@ -105,9 +107,9 @@ export default function DashboardPage() {
 
       {/* Recent Jobs */}
       <AdminSectionCard 
-        title="Próximos Trabajos"
+        title={t('admin.dashboard.upcomingJobs')}
         action={{
-          label: "Ver todos",
+          label: t('admin.dashboard.viewAll'),
           onClick: () => window.location.href = "/admin/trabajos"
         }}
       >

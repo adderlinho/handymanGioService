@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { payrollService } from '../../services/payrollService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { PayrollPeriod, PayrollPeriodType } from '../../types/payroll';
 import AdminPageLayout from '../../components/admin/ui/AdminPageLayout';
 import AdminSectionCard from '../../components/admin/ui/AdminSectionCard';
@@ -8,6 +9,7 @@ import AdminStatusBadge from '../../components/admin/ui/AdminStatusBadge';
 
 export default function NominaOverviewPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [periods, setPeriods] = useState<PayrollPeriod[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,9 +31,9 @@ export default function NominaOverviewPage() {
 
   const getPeriodTypeLabel = (type: PayrollPeriodType) => {
     const labels = {
-      'weekly': 'Semanal',
-      'biweekly': 'Quincenal',
-      'monthly': 'Mensual'
+      'weekly': t('admin.payroll.periodType.weekly'),
+      'biweekly': t('admin.payroll.periodType.biweekly'),
+      'monthly': t('admin.payroll.periodType.monthly')
     };
     return labels[type];
   };
@@ -53,11 +55,11 @@ export default function NominaOverviewPage() {
 
   if (loading) {
     return (
-      <AdminPageLayout title="Nómina" subtitle="Cargando...">
+      <AdminPageLayout title={t('admin.payroll.title')} subtitle={t('admin.payroll.loading')}>
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-slate-600">Cargando nóminas...</p>
+            <p className="text-slate-600">{t('admin.payroll.loading')}</p>
           </div>
         </div>
       </AdminPageLayout>
@@ -66,29 +68,29 @@ export default function NominaOverviewPage() {
 
   return (
     <AdminPageLayout
-      title="Nómina"
-      subtitle="Gestiona los períodos de pago de tus trabajadores"
+      title={t('admin.payroll.title')}
+      subtitle={t('admin.payroll.subtitle')}
       primaryAction={{
-        label: "Generar Nómina",
+        label: t('admin.payroll.new'),
         onClick: () => navigate('/admin/nomina/nueva'),
         icon: "🧾"
       }}
     >
-      <AdminSectionCard title={`Períodos de nómina (${periods.length})`}>
+      <AdminSectionCard title={t('admin.payroll.periodsTitle', { count: periods.length })}>
         {periods.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🧾</div>
             <h3 className="text-xl font-semibold text-slate-900 mb-2">
-              No hay períodos de nómina
+              {t('admin.payroll.noPeriods')}
             </h3>
             <p className="text-slate-600 mb-6">
-              Comienza generando tu primer período de nómina
+              {t('admin.payroll.noPeriodsDesc')}
             </p>
             <button
               onClick={() => navigate('/admin/nomina/nueva')}
               className="inline-flex items-center gap-3 h-12 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-2xl shadow-sm transition-colors text-base"
             >
-              <span>🧾</span> Generar Nómina
+              <span>🧾</span> {t('admin.payroll.generate')}
             </button>
           </div>
         ) : (
@@ -96,11 +98,11 @@ export default function NominaOverviewPage() {
             <table className="min-w-full table-auto text-base">
               <thead className="bg-slate-50 text-slate-700 font-semibold">
                 <tr>
-                  <th className="px-4 py-3 text-left min-w-[120px]">Tipo</th>
-                  <th className="px-4 py-3 text-left min-w-[140px]">Fechas</th>
-                  <th className="px-4 py-3 text-left min-w-[100px]">Estado</th>
-                  <th className="px-4 py-3 text-right min-w-[100px]">Total</th>
-                  <th className="px-4 py-3 text-center min-w-[120px]">Acciones</th>
+                  <th className="px-4 py-3 text-left min-w-[120px]">{t('admin.payroll.table.type')}</th>
+                  <th className="px-4 py-3 text-left min-w-[140px]">{t('admin.payroll.table.dates')}</th>
+                  <th className="px-4 py-3 text-left min-w-[100px]">{t('admin.payroll.table.status')}</th>
+                  <th className="px-4 py-3 text-right min-w-[100px]">{t('admin.payroll.table.total')}</th>
+                  <th className="px-4 py-3 text-center min-w-[120px]">{t('admin.payroll.table.actions')}</th>
                 </tr>
               </thead>
               <tbody className="bg-white">
@@ -123,7 +125,7 @@ export default function NominaOverviewPage() {
                         to={`/admin/nomina/${period.id}`}
                         className="inline-flex items-center gap-1 h-9 px-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors text-sm"
                       >
-                        👁 Ver
+                        👁 {t('admin.payroll.table.view')}
                       </Link>
                     </td>
                   </tr>
