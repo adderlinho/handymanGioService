@@ -364,71 +364,84 @@ Gracias por confiar en nuestros servicios.
     >
       {/* Status and Public Links */}
       {/* Status change buttons */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <button
-            onClick={() => handleStatusUpdate('scheduled')}
-            className={`p-4 rounded-xl border-2 text-center transition-all ${
-              job.status === 'scheduled' 
-                ? 'border-blue-500 bg-blue-50 text-blue-700' 
-                : 'border-slate-300 hover:border-blue-300 hover:bg-blue-50'
-            }`}
-          >
-            <div className="text-2xl mb-2">📅</div>
-            <div className="font-semibold">{t('status.scheduled')}</div>
-          </button>
-          <button
-            onClick={() => handleStatusUpdate('in_progress')}
-            className={`p-4 rounded-xl border-2 text-center transition-all ${
-              job.status === 'in_progress' 
-                ? 'border-yellow-500 bg-yellow-50 text-yellow-700' 
-                : 'border-slate-300 hover:border-yellow-300 hover:bg-yellow-50'
-            }`}
-          >
-            <div className="text-2xl mb-2">🔧</div>
-            <div className="font-semibold">{t('status.in_progress')}</div>
-          </button>
-          <button
-            onClick={() => handleStatusUpdate('completed')}
-            className={`p-4 rounded-xl border-2 text-center transition-all ${
-              job.status === 'completed' 
-                ? 'border-green-500 bg-green-50 text-green-700' 
-                : 'border-slate-300 hover:border-green-300 hover:bg-green-50'
-            }`}
-          >
-            <div className="text-2xl mb-2">✅</div>
-            <div className="font-semibold">{t('status.completed')}</div>
-          </button>
-          <button
-            onClick={() => handleStatusUpdate('paid')}
-            className={`p-4 rounded-xl border-2 text-center transition-all ${
-              job.status === 'paid' 
-                ? 'border-primary bg-primary/10 text-primary' 
-                : 'border-slate-300 hover:border-primary hover:bg-primary/10'
-            }`}
-          >
-            <div className="text-2xl mb-2">💰</div>
-            <div className="font-semibold">{t('status.paid')}</div>
-          </button>
-        </div>
-        
-        {/* Cancel button - only show for lead, scheduled, in_progress */}
-        {(['lead', 'scheduled', 'in_progress'].includes(job.status)) && (
-          <div className="flex justify-center">
+      {job.status !== 'cancelled' && (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <button
-              onClick={() => {
-                if (confirm(t('admin.jobs.detail.confirmCancel'))) {
-                  handleStatusUpdate('cancelled');
-                }
-              }}
-              className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold flex items-center gap-2"
+              onClick={() => handleStatusUpdate('scheduled')}
+              className={`p-4 rounded-xl border-2 text-center transition-all ${
+                job.status === 'scheduled' 
+                  ? 'border-blue-500 bg-blue-50 text-blue-700' 
+                  : 'border-slate-300 hover:border-blue-300 hover:bg-blue-50'
+              }`}
             >
-              <span className="text-xl">❌</span>
-              {t('admin.jobs.detail.cancelJob')}
+              <div className="text-2xl mb-2">📅</div>
+              <div className="font-semibold">{t('status.scheduled')}</div>
+            </button>
+            <button
+              onClick={() => handleStatusUpdate('in_progress')}
+              className={`p-4 rounded-xl border-2 text-center transition-all ${
+                job.status === 'in_progress' 
+                  ? 'border-yellow-500 bg-yellow-50 text-yellow-700' 
+                  : 'border-slate-300 hover:border-yellow-300 hover:bg-yellow-50'
+              }`}
+            >
+              <div className="text-2xl mb-2">🔧</div>
+              <div className="font-semibold">{t('status.in_progress')}</div>
+            </button>
+            <button
+              onClick={() => handleStatusUpdate('completed')}
+              className={`p-4 rounded-xl border-2 text-center transition-all ${
+                job.status === 'completed' 
+                  ? 'border-green-500 bg-green-50 text-green-700' 
+                  : 'border-slate-300 hover:border-green-300 hover:bg-green-50'
+              }`}
+            >
+              <div className="text-2xl mb-2">✅</div>
+              <div className="font-semibold">{t('status.completed')}</div>
+            </button>
+            <button
+              onClick={() => handleStatusUpdate('paid')}
+              className={`p-4 rounded-xl border-2 text-center transition-all ${
+                job.status === 'paid' 
+                  ? 'border-primary bg-primary/10 text-primary' 
+                  : 'border-slate-300 hover:border-primary hover:bg-primary/10'
+              }`}
+            >
+              <div className="text-2xl mb-2">💰</div>
+              <div className="font-semibold">{t('status.paid')}</div>
             </button>
           </div>
-        )}
-      </div>
+          
+          {/* Cancel button - only show for lead, scheduled, in_progress */}
+          {(['lead', 'scheduled', 'in_progress'].includes(job.status)) && (
+            <div className="flex justify-center">
+              <button
+                onClick={() => {
+                  if (confirm(t('admin.jobs.detail.confirmCancel'))) {
+                    handleStatusUpdate('cancelled');
+                  }
+                }}
+                className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold flex items-center gap-2"
+              >
+                <span className="text-xl">❌</span>
+                {t('admin.jobs.detail.cancelJob')}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Cancelled status indicator */}
+      {job.status === 'cancelled' && (
+        <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-8 mb-8">
+          <div className="text-center">
+            <div className="text-6xl mb-4">❌</div>
+            <h3 className="text-2xl font-bold text-red-700 mb-2">{t('status.cancelled')}</h3>
+            <p className="text-red-600">{t('admin.jobs.detail.jobCancelled')}</p>
+          </div>
+        </div>
+      )}
 
 
 
@@ -742,7 +755,10 @@ Gracias por confiar en nuestros servicios.
                   }
                 }}
                 placeholder="0.00"
-                className="w-full text-4xl md:text-5xl font-bold text-primary bg-white border-2 border-primary/30 rounded-2xl pl-16 pr-6 py-4 text-center focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all"
+                disabled={job.status === 'cancelled'}
+                className={`w-full text-4xl md:text-5xl font-bold text-primary bg-white border-2 border-primary/30 rounded-2xl pl-16 pr-6 py-4 text-center focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all ${
+                  job.status === 'cancelled' ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               />
             </div>
             

@@ -36,8 +36,10 @@ export default function DashboardPage() {
     }
   };
 
-  const todayJobs = jobs.filter(job => job.status === 'in_progress').length;
-  const upcomingJobs = jobs.slice(0, 3);
+  // Filter out cancelled jobs from dashboard
+  const activeJobs = jobs.filter(job => job.status !== 'cancelled');
+  const todayJobs = activeJobs.filter(job => job.status === 'in_progress').length;
+  const upcomingJobs = activeJobs.slice(0, 3);
 
   if (loading) {
     return (
@@ -60,7 +62,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-slate-600">{t('admin.dashboard.totalJobs')}</p>
-              <p className="text-2xl font-bold text-slate-900">{jobs.length}</p>
+              <p className="text-2xl font-bold text-slate-900">{activeJobs.length}</p>
             </div>
             <div className="bg-blue-100 p-3 rounded-lg">
               <span className="text-2xl">📋</span>
