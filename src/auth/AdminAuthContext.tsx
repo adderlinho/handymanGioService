@@ -10,9 +10,8 @@ interface AdminAuthContextValue {
 
 const AdminAuthContext = createContext<AdminAuthContextValue | undefined>(undefined);
 
-// Fixed admin credentials
+// Fixed admin email - user only needs to provide password
 const ADMIN_EMAIL = 'admin@gioservice.com';
-const ADMIN_PASSWORD = 'GioService2024!';
 
 export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -42,14 +41,10 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const login = async (password: string): Promise<boolean> => {
-    if (password !== ADMIN_PASSWORD) {
-      return false;
-    }
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: ADMIN_EMAIL,
-        password: ADMIN_PASSWORD,
+        password,
       });
 
       if (error) {
