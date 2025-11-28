@@ -1,32 +1,31 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { supabase } from '../../lib/supabaseClient';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useAdminAuth } from '../../auth/AdminAuthContext';
 import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function LoginPage() {
-  const [credentials, setCredentials] = useState({ password: '' });
+  const [passcode, setPasscode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAdminAuth();
   const { t } = useTranslation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: 'admin@gioservice.com',
-        password: credentials.password,
-      });
+      const success = login(passcode);
       
-      if (error) {
-        setError(t('admin.login.errorIncorrect'));
+      if (success) {
+        // Redirect to intended page or admin home
+        const from = (location.state as any)?.from?.pathname || '/admin';
+        navigate(from, { replace: true });
       } else {
-        localStorage.setItem('adminAuth', 'true');
-        localStorage.setItem('adminAuthTime', Date.now().toString());
-        navigate('/admin');
+        setError(t('admin.login.errorIncorrect'));
       }
     } catch (err) {
       setError(t('admin.login.errorGeneral'));
@@ -55,8 +54,8 @@ export default function LoginPage() {
             </label>
             <input
               type="password"
-              value={credentials.password}
-              onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
+              value={passcode}
+              onChange={(e) => setPasscode(e.target.value)}
               className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary"
               placeholder={t('admin.login.passwordPlaceholder')}
               required
@@ -71,7 +70,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading || !credentials.password}
+            disabled={loading || !passcode}
             className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {loading ? t('admin.login.submitting') : t('admin.login.submit')}

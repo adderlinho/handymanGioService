@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { inventoryService } from '../../services/inventoryService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { InventoryItem, InventoryMovement, InventoryMovementType } from '../../types/inventory';
 
 export default function InventarioDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [item, setItem] = useState<InventoryItem | null>(null);
   const [movements, setMovements] = useState<InventoryMovement[]>([]);
   const [loading, setLoading] = useState(true);
@@ -91,9 +93,9 @@ export default function InventarioDetailPage() {
 
   const getMovementTypeLabel = (type: InventoryMovementType) => {
     switch (type) {
-      case 'in': return 'Entrada';
-      case 'out': return 'Salida';
-      case 'adjust': return 'Ajuste';
+      case 'in': return t('admin.inventory.movements.type.in');
+      case 'out': return t('admin.inventory.movements.type.out');
+      case 'adjust': return t('admin.inventory.movements.type.adjust');
     }
   };
 
@@ -116,12 +118,12 @@ export default function InventarioDetailPage() {
   if (!item) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-lg font-medium text-slate-900 mb-2">Artículo no encontrado</h3>
+        <h3 className="text-lg font-medium text-slate-900 mb-2">{t('admin.inventory.detail.notFound')}</h3>
         <button
           onClick={() => navigate('/admin/inventario')}
           className="text-primary hover:text-primary/80"
         >
-          Volver al inventario
+          {t('admin.inventory.detail.backToInventory')}
         </button>
       </div>
     );
@@ -141,7 +143,7 @@ export default function InventarioDetailPage() {
         <h1 className="text-2xl font-bold">{item.name}</h1>
         {isLowStock && (
           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-            Bajo stock
+            {t('admin.inventory.lowStock')}
           </span>
         )}
       </div>
@@ -149,7 +151,7 @@ export default function InventarioDetailPage() {
       {/* Item Summary */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold">Resumen del artículo</h2>
+          <h2 className="text-lg font-semibold">{t('admin.inventory.detail.summary')}</h2>
           <button
             onClick={() => setEditing(!editing)}
             className="flex items-center gap-2 px-4 py-2 text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors"
@@ -157,13 +159,13 @@ export default function InventarioDetailPage() {
             <span className="material-symbols-outlined text-sm">
               {editing ? 'close' : 'edit'}
             </span>
-            {editing ? 'Cancelar' : 'Editar'}
+            {editing ? t('admin.inventory.form.cancel') : t('admin.inventory.detail.edit')}
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Nombre</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.form.name')}</label>
             {editing ? (
               <input
                 type="text"
@@ -177,7 +179,7 @@ export default function InventarioDetailPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">SKU</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.form.sku')}</label>
             {editing ? (
               <input
                 type="text"
@@ -191,14 +193,14 @@ export default function InventarioDetailPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Categoría</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.form.category')}</label>
             {editing ? (
               <select
                 value={editData.category || ''}
                 onChange={(e) => setEditData(prev => ({ ...prev, category: e.target.value }))}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="">Seleccionar categoría</option>
+                <option value="">{t('admin.inventory.form.selectCategory')}</option>
                 <option value="plomeria">Plomería</option>
                 <option value="electricidad">Electricidad</option>
                 <option value="drywall">Drywall</option>
@@ -213,14 +215,14 @@ export default function InventarioDetailPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Cantidad actual</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.detail.currentQuantity')}</label>
             <p className={`font-semibold ${isLowStock ? 'text-red-600' : 'text-slate-900'}`}>
               {item.quantity || 0} {item.unit}
             </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Stock mínimo</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.form.minQuantity')}</label>
             {editing ? (
               <input
                 type="number"
@@ -236,14 +238,14 @@ export default function InventarioDetailPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Ubicación</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.form.location')}</label>
             {editing ? (
               <select
                 value={editData.location || ''}
                 onChange={(e) => setEditData(prev => ({ ...prev, location: e.target.value }))}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="">Seleccionar ubicación</option>
+                <option value="">{t('admin.inventory.form.selectLocation')}</option>
                 <option value="Camión 1">Camión 1</option>
                 <option value="Camión 2">Camión 2</option>
                 <option value="Bodega">Bodega</option>
@@ -255,7 +257,7 @@ export default function InventarioDetailPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Costo por unidad</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">{t('admin.inventory.form.costPerUnit')}</label>
             {editing ? (
               <input
                 type="number"
@@ -280,13 +282,13 @@ export default function InventarioDetailPage() {
               }}
               className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
             >
-              Cancelar
+              {t('admin.inventory.form.cancel')}
             </button>
             <button
               onClick={handleSave}
               className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
             >
-              Guardar cambios
+              {t('admin.inventory.detail.saveChanges')}
             </button>
           </div>
         )}
@@ -295,13 +297,13 @@ export default function InventarioDetailPage() {
       {/* Movements */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold">Movimientos</h2>
+          <h2 className="text-lg font-semibold">{t('admin.inventory.movements.title')}</h2>
           <button
             onClick={() => setShowMovementForm(!showMovementForm)}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
           >
             <span className="material-symbols-outlined text-sm">add</span>
-            Agregar movimiento
+            {t('admin.inventory.movements.add')}
           </button>
         </div>
 
@@ -309,19 +311,19 @@ export default function InventarioDetailPage() {
           <form onSubmit={handleAddMovement} className="mb-6 p-4 bg-slate-50 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Tipo</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.inventory.movements.type')}</label>
                 <select
                   value={movementForm.type}
                   onChange={(e) => setMovementForm(prev => ({ ...prev, type: e.target.value as InventoryMovementType }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 >
-                  <option value="in">Entrada</option>
-                  <option value="out">Salida</option>
-                  <option value="adjust">Ajuste</option>
+                  <option value="in">{t('admin.inventory.movements.type.in')}</option>
+                  <option value="out">{t('admin.inventory.movements.type.out')}</option>
+                  <option value="adjust">{t('admin.inventory.movements.type.adjust')}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Cantidad</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.inventory.movements.quantity')}</label>
                 <input
                   type="number"
                   step="0.01"
@@ -332,13 +334,13 @@ export default function InventarioDetailPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Motivo</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.inventory.movements.reason')}</label>
                 <input
                   type="text"
                   value={movementForm.reason}
                   onChange={(e) => setMovementForm(prev => ({ ...prev, reason: e.target.value }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  placeholder="Opcional"
+                  placeholder={t('admin.inventory.movements.reasonPlaceholder')}
                 />
               </div>
             </div>
@@ -348,13 +350,13 @@ export default function InventarioDetailPage() {
                 onClick={() => setShowMovementForm(false)}
                 className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
               >
-                Cancelar
+                {t('admin.inventory.form.cancel')}
               </button>
               <button
                 type="submit"
                 className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
               >
-                Agregar
+                {t('admin.inventory.movements.add.button')}
               </button>
             </div>
           </form>
@@ -365,19 +367,19 @@ export default function InventarioDetailPage() {
             <thead className="bg-slate-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Fecha
+                  {t('admin.inventory.movements.table.date')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Tipo
+                  {t('admin.inventory.movements.table.type')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Cantidad
+                  {t('admin.inventory.movements.table.quantity')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Motivo
+                  {t('admin.inventory.movements.table.reason')}
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Trabajo
+                  {t('admin.inventory.movements.table.job')}
                 </th>
               </tr>
             </thead>
@@ -404,7 +406,7 @@ export default function InventarioDetailPage() {
                         to={`/admin/trabajos/${movement.job_id}`}
                         className="text-primary hover:text-primary/80"
                       >
-                        Ver trabajo
+                        {t('admin.inventory.movements.viewJob')}
                       </Link>
                     ) : (
                       '-'
@@ -419,7 +421,7 @@ export default function InventarioDetailPage() {
         {movements.length === 0 && (
           <div className="text-center py-8">
             <span className="material-symbols-outlined text-4xl text-slate-400 mb-2">history</span>
-            <p className="text-slate-500">No hay movimientos registrados</p>
+            <p className="text-slate-500">{t('admin.inventory.movements.noMovements')}</p>
           </div>
         )}
       </div>

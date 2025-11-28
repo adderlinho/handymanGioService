@@ -1,6 +1,7 @@
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from '../i18n/LanguageContext';
+import { useAdminAuth } from '../auth/AdminAuthContext';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function AdminLayout() {
@@ -8,6 +9,7 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useTranslation();
+  const { logout } = useAdminAuth();
 
   const isActive = (path: string) => {
     if (path === '/admin') return location.pathname === '/admin' || location.pathname === '/admin/';
@@ -106,9 +108,8 @@ export default function AdminLayout() {
               </Link>
               <button 
                 onClick={() => {
-                  localStorage.removeItem('adminAuth');
-                  localStorage.removeItem('adminAuthExpiry');
-                  navigate('/admin/login');
+                  logout();
+                  navigate('/', { replace: true });
                 }}
                 className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
                 title={t('admin.header.logout')}

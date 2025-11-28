@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { payrollService } from '../../services/payrollService';
 import { getWorkers } from '../../services/workersService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { PayrollPeriodType, AggregatedHoursPerWorker } from '../../types/payroll';
 import type { Worker } from '../../types/workers';
 
@@ -17,6 +18,7 @@ interface WorkerPayrollData {
 
 export default function GenerarNominaPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   
@@ -156,32 +158,32 @@ export default function GenerarNominaPage() {
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 className="text-2xl font-bold">Generar nómina</h1>
+        <h1 className="text-2xl font-bold">{t('admin.payroll.new.title')}</h1>
       </div>
 
       {step === 1 && (
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-6">Paso 1: Seleccionar período</h2>
+          <h2 className="text-lg font-semibold mb-6">{t('admin.payroll.new.step1')}</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-sm font-medium mb-2">
-                Tipo de período
+                {t('admin.payroll.form.periodType')}
               </label>
               <select
                 value={periodData.period_type}
                 onChange={(e) => setPeriodData(prev => ({ ...prev, period_type: e.target.value as PayrollPeriodType }))}
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="weekly">Semanal</option>
-                <option value="biweekly">Quincenal</option>
-                <option value="monthly">Mensual</option>
+                <option value="weekly">{t('admin.payroll.periodType.weekly')}</option>
+                <option value="biweekly">{t('admin.payroll.periodType.biweekly')}</option>
+                <option value="monthly">{t('admin.payroll.periodType.monthly')}</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Fecha de inicio
+                {t('admin.payroll.form.startDate')}
               </label>
               <input
                 type="date"
@@ -194,7 +196,7 @@ export default function GenerarNominaPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Fecha de fin
+                {t('admin.payroll.form.endDate')}
               </label>
               <input
                 type="date"
@@ -212,7 +214,7 @@ export default function GenerarNominaPage() {
               disabled={loading || !periodData.start_date || !periodData.end_date}
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
-              {loading ? 'Calculando...' : 'Calcular horas'}
+              {loading ? t('admin.payroll.form.calculating') : t('admin.payroll.form.calculateHours')}
             </button>
           </div>
         </div>
@@ -221,21 +223,21 @@ export default function GenerarNominaPage() {
       {step === 2 && (
         <div className="space-y-6">
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold mb-6">Paso 2: Revisar y ajustar nómina</h2>
+            <h2 className="text-lg font-semibold mb-6">{t('admin.payroll.new.step2')}</h2>
             
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">Trabajador</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">H. Normales</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">H. Extra</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">Tarifa Normal</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">Tarifa Extra</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">Bonos</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">Deducciones</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">Pago Bruto</th>
-                    <th className="px-4 py-3 text-right font-medium text-slate-700">Pago Neto</th>
+                    <th className="px-4 py-3 text-left font-medium text-slate-700">{t('admin.payroll.entries.worker')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.hoursRegular')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.hoursOvertime')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.rateRegular')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.rateOvertime')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.bonuses')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.deductions')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.grossPay')}</th>
+                    <th className="px-4 py-3 text-right font-medium text-slate-700">{t('admin.payroll.entries.netPay')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
@@ -300,16 +302,16 @@ export default function GenerarNominaPage() {
 
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Resumen</h3>
+              <h3 className="text-lg font-semibold">{t('admin.payroll.summary.title')}</h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <p className="text-sm text-slate-600">Total a pagar en el período</p>
+                <p className="text-sm text-slate-600">{t('admin.payroll.summary.totalToPay')}</p>
                 <p className="text-2xl font-bold text-primary">${totalToPay.toFixed(2)}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600">Trabajadores incluidos</p>
+                <p className="text-sm text-slate-600">{t('admin.payroll.summary.workersIncluded')}</p>
                 <p className="text-2xl font-bold">{workersIncluded}</p>
               </div>
             </div>
@@ -319,21 +321,21 @@ export default function GenerarNominaPage() {
                 onClick={() => setStep(1)}
                 className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
               >
-                Volver
+                {t('admin.payroll.form.back')}
               </button>
               <button
                 onClick={() => handleSavePayroll(false)}
                 disabled={loading}
                 className="px-6 py-2 border border-primary text-primary rounded-lg hover:bg-primary/5 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Guardando...' : 'Guardar borrador'}
+                {loading ? t('admin.payroll.form.saving') : t('admin.payroll.form.saveDraft')}
               </button>
               <button
                 onClick={() => handleSavePayroll(true)}
                 disabled={loading}
                 className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
-                {loading ? 'Guardando...' : 'Guardar y finalizar'}
+                {loading ? t('admin.payroll.form.saving') : t('admin.payroll.form.saveAndFinalize')}
               </button>
             </div>
           </div>

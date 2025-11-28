@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { inventoryService } from '../../services/inventoryService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { InventoryItemInput } from '../../types/inventory';
 import { useFormValidation } from '../../hooks/useFormValidation';
 
 export default function NuevoInventarioItemPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const validationRules = {
     name: { required: true, minLength: 2, maxLength: 100 },
@@ -57,7 +59,7 @@ export default function NuevoInventarioItemPage() {
         >
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h1 className="text-2xl font-bold">Nuevo artículo</h1>
+        <h1 className="text-2xl font-bold">{t('admin.inventory.new.title')}</h1>
       </div>
 
       <div className="bg-white rounded-lg shadow p-6">
@@ -65,7 +67,7 @@ export default function NuevoInventarioItemPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium mb-2">
-                Nombre *
+                {t('admin.inventory.form.name')} *
               </label>
               <input
                 type="text"
@@ -85,7 +87,7 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                SKU
+                {t('admin.inventory.form.sku')}
               </label>
               <input
                 type="text"
@@ -97,14 +99,14 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Categoría
+                {t('admin.inventory.form.category')}
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => updateField('category', e.target.value)}
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="">Seleccionar categoría</option>
+                <option value="">{t('admin.inventory.form.selectCategory')}</option>
                 <option value="plomeria">Plomería</option>
                 <option value="electricidad">Electricidad</option>
                 <option value="drywall">Drywall</option>
@@ -117,7 +119,7 @@ export default function NuevoInventarioItemPage() {
 
             <div className="md:col-span-2">
               <label className="block text-sm font-medium mb-2">
-                Descripción
+                {t('admin.inventory.form.description')}
               </label>
               <textarea
                 value={formData.description}
@@ -129,14 +131,14 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Unidad
+                {t('admin.inventory.form.unit')}
               </label>
               <select
                 value={formData.unit}
                 onChange={(e) => updateField('unit', e.target.value)}
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="">Seleccionar unidad</option>
+                <option value="">{t('admin.inventory.form.selectUnit')}</option>
                 <option value="pieza">Pieza</option>
                 <option value="caja">Caja</option>
                 <option value="galón">Galón</option>
@@ -150,7 +152,7 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Cantidad inicial
+                {t('admin.inventory.form.initialQuantity')}
               </label>
               <input
                 type="number"
@@ -164,7 +166,7 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Stock mínimo
+                {t('admin.inventory.form.minQuantity')}
               </label>
               <input
                 type="number"
@@ -178,14 +180,14 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Ubicación
+                {t('admin.inventory.form.location')}
               </label>
               <select
                 value={formData.location}
                 onChange={(e) => updateField('location', e.target.value)}
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                <option value="">Seleccionar ubicación</option>
+                <option value="">{t('admin.inventory.form.selectLocation')}</option>
                 <option value="Bodega 1">Bodega 1</option>
                 <option value="Bodega 2">Bodega 2</option>
               </select>
@@ -193,7 +195,7 @@ export default function NuevoInventarioItemPage() {
 
             <div>
               <label className="block text-sm font-medium mb-2">
-                Costo por unidad ($)
+                {t('admin.inventory.form.costPerUnit')}
               </label>
               <input
                 type="number"
@@ -212,14 +214,14 @@ export default function NuevoInventarioItemPage() {
               onClick={() => navigate('/admin/inventario')}
               className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
             >
-              Cancelar
+              {t('admin.inventory.form.cancel')}
             </button>
             <button
               type="submit"
               disabled={loading || !isValid}
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
-              {loading ? 'Creando...' : 'Crear artículo'}
+              {loading ? t('admin.inventory.form.saving') : t('admin.inventory.form.save')}
             </button>
           </div>
         </form>
