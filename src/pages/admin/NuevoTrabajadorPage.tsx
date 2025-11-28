@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { createWorker } from '../../services/workersService';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { Worker, WorkerPayType, WorkerStatus } from '../../types/workers';
 import { useFormValidation } from '../../hooks/useFormValidation';
 import { commonRules } from '../../utils/validation';
@@ -18,6 +19,7 @@ const ROLES = [
 
 export default function NuevoTrabajadorPage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const validationRules = {
@@ -52,7 +54,7 @@ export default function NuevoTrabajadorPage() {
     e.preventDefault();
     
     if (!validateAll()) {
-      setError('Por favor corrige los errores en el formulario');
+      setError(t('messages.formErrors'));
       return;
     }
 
@@ -78,7 +80,7 @@ export default function NuevoTrabajadorPage() {
       navigate(`/admin/trabajadores/${createdWorker.id}`);
     } catch (err) {
       console.error('Error creating worker:', err);
-      setError(err instanceof Error ? err.message : 'Error al crear el trabajador');
+      setError(err instanceof Error ? err.message : t('messages.workerSaveError'));
     } finally {
       setSaving(false);
     }
@@ -89,9 +91,9 @@ export default function NuevoTrabajadorPage() {
       {/* Header */}
       <div className="mb-8">
         <Link to="/admin/trabajadores" className="text-sm text-slate-600 hover:text-primary mb-2 inline-block">
-          ← Volver a trabajadores
+          ← {t('admin.workers.new.backLink')}
         </Link>
-        <h1 className="text-3xl font-bold tracking-tight">Nuevo Trabajador</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t('admin.workers.new.title')}</h1>
       </div>
 
       {/* Error Message */}
@@ -106,11 +108,11 @@ export default function NuevoTrabajadorPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Personal Info */}
           <div>
-            <h2 className="text-lg font-semibold mb-4">Información personal</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('admin.workers.form.personalInfo')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Nombre *
+                  {t('admin.workers.form.firstName')} *
                 </label>
                 <input
                   type="text"
@@ -131,7 +133,7 @@ export default function NuevoTrabajadorPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Apellido *
+                  {t('admin.workers.form.lastName')} *
                 </label>
                 <input
                   type="text"
@@ -152,7 +154,7 @@ export default function NuevoTrabajadorPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Teléfono
+                  {t('admin.workers.form.phone')}
                 </label>
                 <input
                   type="tel"
@@ -170,7 +172,7 @@ export default function NuevoTrabajadorPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Correo electrónico
+                  {t('admin.workers.form.email')}
                 </label>
                 <input
                   type="email"
@@ -185,11 +187,11 @@ export default function NuevoTrabajadorPage() {
 
           {/* Work Info */}
           <div>
-            <h2 className="text-lg font-semibold mb-4">Información laboral</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('admin.workers.form.workInfo')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Rol *
+                  {t('admin.workers.form.role')} *
                 </label>
                 <select
                   name="role"
@@ -198,7 +200,7 @@ export default function NuevoTrabajadorPage() {
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                   required
                 >
-                  <option value="">Selecciona un rol</option>
+                  <option value="">{t('admin.workers.form.selectRole')}</option>
                   {ROLES.map(role => (
                     <option key={role} value={role}>{role}</option>
                   ))}
@@ -207,7 +209,7 @@ export default function NuevoTrabajadorPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Tipo de pago *
+                  {t('admin.workers.form.payType')} *
                 </label>
                 <select
                   name="pay_type"
@@ -216,15 +218,15 @@ export default function NuevoTrabajadorPage() {
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                   required
                 >
-                  <option value="hourly">Por hora</option>
-                  <option value="per_job">Por trabajo</option>
-                  <option value="salary">Salario fijo</option>
+                  <option value="hourly">{t('admin.workers.form.payType.hourly')}</option>
+                  <option value="per_job">{t('admin.workers.form.payType.perJob')}</option>
+                  <option value="salary">{t('admin.workers.form.payType.salary')}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Tarifa por hora
+                  {t('admin.workers.form.hourlyRate')}
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-2 text-slate-500">$</span>
@@ -242,7 +244,7 @@ export default function NuevoTrabajadorPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Tarifa horas extra
+                  {t('admin.workers.form.overtimeRate')}
                 </label>
                 <div className="relative">
                   <span className="absolute left-3 top-2 text-slate-500">$</span>
@@ -260,7 +262,7 @@ export default function NuevoTrabajadorPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Estado
+                  {t('admin.workers.form.status')}
                 </label>
                 <select
                   name="status"
@@ -268,14 +270,14 @@ export default function NuevoTrabajadorPage() {
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 >
-                  <option value="active">Activo</option>
-                  <option value="inactive">Inactivo</option>
+                  <option value="active">{t('status.active')}</option>
+                  <option value="inactive">{t('status.inactive')}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Fecha de inicio
+                  {t('admin.workers.form.startDate')}
                 </label>
                 <input
                   type="date"
@@ -294,7 +296,7 @@ export default function NuevoTrabajadorPage() {
               to="/admin/trabajadores"
               className="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
             >
-              Cancelar
+              {t('admin.workers.form.cancel')}
             </Link>
             <button
               type="submit"
@@ -302,7 +304,7 @@ export default function NuevoTrabajadorPage() {
               className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center gap-2"
             >
               {saving && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}
-              {saving ? 'Guardando...' : 'Guardar trabajador'}
+              {saving ? t('admin.workers.form.saving') : t('admin.workers.form.save')}
             </button>
           </div>
         </form>

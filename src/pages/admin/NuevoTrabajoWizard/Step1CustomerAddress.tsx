@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getServiceAreaByZip } from '../../../services/serviceAreasService';
 import { clientsService } from '../../../services/clientsService';
 import { formatPhoneNumber } from '../../../utils/phoneFormat';
+import { useTranslation } from '../../../i18n/LanguageContext';
 import type { WizardJobData } from './types';
 import type { Client } from '../../../types/client';
 
@@ -12,6 +13,7 @@ interface Step1Props {
 }
 
 export default function Step1CustomerAddress({ data, updateData, onNext }: Step1Props) {
+  const { t } = useTranslation();
   const [zipLoading, setZipLoading] = useState(false);
   const [clients, setClients] = useState<Client[]>([]);
   const [clientSearch, setClientSearch] = useState('');
@@ -109,7 +111,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold mb-4">Paso 1: Datos del cliente y dirección</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('admin.jobs.new.step1')}</h2>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -122,7 +124,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
                 onChange={() => setIsNewClient(false)}
                 className="text-primary focus:ring-primary"
               />
-              <span className="text-sm font-medium">Cliente existente</span>
+              <span className="text-sm font-medium">{t('admin.jobs.form.existingClient')}</span>
             </label>
             <label className="flex items-center gap-2">
               <input
@@ -134,14 +136,14 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
                 }}
                 className="text-primary focus:ring-primary"
               />
-              <span className="text-sm font-medium">Cliente nuevo</span>
+              <span className="text-sm font-medium">{t('admin.jobs.form.newClient')}</span>
             </label>
           </div>
 
           {!isNewClient ? (
             <div className="relative">
               <label className="block text-sm font-medium mb-2">
-                Buscar cliente *
+                {t('admin.jobs.form.searchClient')} *
               </label>
               <div className="relative">
                 <input
@@ -149,7 +151,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
                   value={clientSearch}
                   onChange={(e) => handleClientSearch(e.target.value)}
                   onFocus={() => setShowClientDropdown(true)}
-                  placeholder="Escriba el nombre del cliente..."
+                  placeholder={t('admin.jobs.form.searchClientPlaceholder')}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                   required
                 />
@@ -186,7 +188,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
           ) : (
             <div>
               <label className="block text-sm font-medium mb-2">
-                Nombre del cliente *
+                {t('admin.jobs.form.customerName')} *
               </label>
               <input
                 type="text"
@@ -201,7 +203,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            Teléfono
+            {t('admin.jobs.form.customerPhone')}
           </label>
           <input
             type="tel"
@@ -216,7 +218,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            Correo electrónico
+            {t('admin.jobs.form.customerEmail')}
           </label>
           <input
             type="email"
@@ -229,7 +231,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div className="md:col-span-2">
           <label className="block text-sm font-medium mb-2">
-            Calle y número
+            {t('admin.jobs.form.street')}
           </label>
           <input
             type="text"
@@ -242,7 +244,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            Apto / Unidad
+            {t('admin.jobs.form.unit')}
           </label>
           <input
             type="text"
@@ -254,7 +256,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            Ciudad
+            {t('admin.jobs.form.city')}
           </label>
           <input
             type="text"
@@ -266,7 +268,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            Estado
+            {t('admin.jobs.form.state')}
           </label>
           <input
             type="text"
@@ -278,7 +280,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
 
         <div>
           <label className="block text-sm font-medium mb-2">
-            Código postal
+            {t('admin.jobs.form.zip')}
           </label>
           <div className="flex gap-2">
             <input
@@ -297,13 +299,13 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
           
           {data.service_area_name && (
             <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-700">
-              ✓ Zona de servicio: {data.service_area_name}
+              {t('admin.jobs.form.serviceAreaFound', { name: data.service_area_name })}
             </div>
           )}
           
           {data.zip && data.service_area_name === null && data.service_area_id === null && (
             <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded text-sm text-amber-700">
-              ⚠️ Este código postal está fuera del área de servicio
+              {t('admin.jobs.form.serviceAreaWarning')}
             </div>
           )}
         </div>
@@ -314,7 +316,7 @@ export default function Step1CustomerAddress({ data, updateData, onNext }: Step1
           type="submit"
           className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
         >
-          Siguiente
+          {t('admin.jobs.form.next')}
         </button>
       </div>
     </form>
