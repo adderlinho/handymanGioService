@@ -62,7 +62,7 @@ export default function TrabajoDetailPage() {
       ]);
 
       if (!jobData) {
-        setError('Trabajo no encontrado');
+        setError(t('admin.jobs.detail.notFound'));
         return;
       }
 
@@ -89,7 +89,7 @@ export default function TrabajoDetailPage() {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error loading job');
+      setError(err instanceof Error ? err.message : t('admin.jobs.detail.loadError'));
     } finally {
       setLoading(false);
     }
@@ -122,7 +122,7 @@ export default function TrabajoDetailPage() {
   };
 
   const handleDeletePhoto = async (photo: JobPhoto) => {
-    if (!confirm('¿Estás seguro de que quieres eliminar esta foto?')) return;
+    if (!confirm(t('admin.jobs.detail.confirmDeletePhoto'))) return;
 
     try {
       await deleteJobPhoto(photo.id);
@@ -135,9 +135,9 @@ export default function TrabajoDetailPage() {
 
   const getTagLabel = (tag: JobPhotoTag) => {
     const labels = {
-      'before': 'Antes',
-      'during': 'Durante', 
-      'after': 'Después'
+      'before': t('admin.jobs.detail.photo.before'),
+      'during': t('admin.jobs.detail.photo.during'), 
+      'after': t('admin.jobs.detail.photo.after')
     };
     return tag ? labels[tag] : null;
   };
@@ -331,7 +331,7 @@ Gracias por confiar en nuestros servicios.
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-slate-600">Cargando trabajo...</p>
+          <p className="text-slate-600">{t('admin.jobs.detail.loading')}</p>
         </div>
       </div>
     );
@@ -341,11 +341,11 @@ Gracias por confiar en nuestros servicios.
     return (
       <div className="text-center py-12">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg inline-block">
-          {error || 'Trabajo no encontrado'}
+          {error || t('admin.jobs.detail.notFound')}
         </div>
         <div className="mt-4">
           <Link to="/admin/trabajos" className="text-primary hover:text-primary/80">
-            ← Volver a la lista de trabajos
+            ← {t('admin.jobs.detail.backToList')}
           </Link>
         </div>
       </div>
@@ -358,7 +358,7 @@ Gracias por confiar en nuestros servicios.
     <AdminPageLayout
       title={job.title}
       backButton={{
-        label: "Volver a trabajos",
+        label: t('admin.jobs.detail.backToJobs'),
         href: "/admin/trabajos"
       }}
     >
@@ -375,7 +375,7 @@ Gracias por confiar en nuestros servicios.
             }`}
           >
             <div className="text-2xl mb-2">📅</div>
-            <div className="font-semibold">Programado</div>
+            <div className="font-semibold">{t('status.scheduled')}</div>
           </button>
           <button
             onClick={() => handleStatusUpdate('in_progress')}
@@ -386,7 +386,7 @@ Gracias por confiar en nuestros servicios.
             }`}
           >
             <div className="text-2xl mb-2">🔧</div>
-            <div className="font-semibold">En Progreso</div>
+            <div className="font-semibold">{t('status.in_progress')}</div>
           </button>
           <button
             onClick={() => handleStatusUpdate('completed')}
@@ -397,7 +397,7 @@ Gracias por confiar en nuestros servicios.
             }`}
           >
             <div className="text-2xl mb-2">✅</div>
-            <div className="font-semibold">Completado</div>
+            <div className="font-semibold">{t('status.completed')}</div>
           </button>
           <button
             onClick={() => handleStatusUpdate('paid')}
@@ -408,7 +408,7 @@ Gracias por confiar en nuestros servicios.
             }`}
           >
             <div className="text-2xl mb-2">💰</div>
-            <div className="font-semibold">Pagado</div>
+            <div className="font-semibold">{t('status.paid')}</div>
           </button>
         </div>
         
@@ -417,14 +417,14 @@ Gracias por confiar en nuestros servicios.
           <div className="flex justify-center">
             <button
               onClick={() => {
-                if (confirm('¿Estás seguro de que quieres cancelar este trabajo?')) {
+                if (confirm(t('admin.jobs.detail.confirmCancel'))) {
                   handleStatusUpdate('cancelled');
                 }
               }}
               className="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors font-semibold flex items-center gap-2"
             >
               <span className="text-xl">❌</span>
-              Cancelar Trabajo
+              {t('admin.jobs.detail.cancelJob')}
             </button>
           </div>
         )}
@@ -434,7 +434,7 @@ Gracias por confiar en nuestros servicios.
 
       {/* Client info card */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
-        <h3 className="text-2xl font-bold text-slate-900 mb-6">📋 Información del Cliente</h3>
+        <h3 className="text-2xl font-bold text-slate-900 mb-6">📋 {t('admin.jobs.detail.section.clientInfo')}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div className="p-4 bg-slate-50 rounded-xl">
@@ -467,7 +467,7 @@ Gracias por confiar en nuestros servicios.
                 </p>
                 <p className="text-slate-700">{job.city}, {job.state} {job.zip}</p>
                 {serviceArea && (
-                  <p className="text-primary font-semibold mt-2">Zona: {serviceArea.name}</p>
+                  <p className="text-primary font-semibold mt-2">{t('admin.jobs.detail.field.serviceArea')}: {serviceArea.name}</p>
                 )}
               </div>
             </div>
@@ -475,7 +475,7 @@ Gracias por confiar en nuestros servicios.
         </div>
         {job.description && (
           <div className="mt-6 p-4 bg-slate-50 rounded-xl">
-            <h4 className="text-lg font-semibold text-slate-900 mb-2">Descripción del trabajo:</h4>
+            <h4 className="text-lg font-semibold text-slate-900 mb-2">{t('admin.jobs.detail.field.description')}:</h4>
             <p className="text-slate-700 leading-relaxed">{job.description}</p>
           </div>
         )}
@@ -487,14 +487,14 @@ Gracias por confiar en nuestros servicios.
               className="flex items-center justify-center gap-3 px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors text-lg font-semibold"
             >
               <span className="text-xl">📝</span>
-              Descargar PDF
+              {t('admin.jobs.detail.action.downloadPdf')}
             </button>
             <button
               onClick={() => handleGenerateReport('whatsapp')}
               className="flex items-center justify-center gap-3 px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors text-lg font-semibold"
             >
               <span className="text-xl">📱</span>
-              Enviar por WhatsApp
+              {t('admin.jobs.detail.action.sendWhatsApp')}
             </button>
             {(() => {
               const emailToUse = job.customer_email || clientEmail;
@@ -510,7 +510,7 @@ Gracias por confiar en nuestros servicios.
                   className="flex items-center justify-center gap-3 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-lg font-semibold"
                 >
                   <span className="text-xl">📧</span>
-                  Enviar por Email
+                  {t('admin.jobs.detail.action.sendEmail')}
                 </a>
               );
             })()}
@@ -521,14 +521,14 @@ Gracias por confiar en nuestros servicios.
       {/* Workers section */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-8 mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <h3 className="text-xl md:text-2xl font-bold text-slate-900">👷 Trabajadores</h3>
+          <h3 className="text-xl md:text-2xl font-bold text-slate-900">👷 {t('admin.jobs.detail.section.assignedWorkers')}</h3>
           {job.status !== 'completed' && job.status !== 'paid' && (
             <button
               onClick={() => setShowAddWorker(!showAddWorker)}
               className="flex items-center justify-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-base md:text-lg font-semibold"
             >
               <span className="text-lg md:text-xl">➕</span>
-              <span className="whitespace-nowrap">Agregar</span>
+              <span className="whitespace-nowrap">{t('admin.jobs.detail.action.addWorker')}</span>
             </button>
           )}
         </div>
@@ -537,14 +537,14 @@ Gracias por confiar en nuestros servicios.
           <form onSubmit={handleAddWorker} className="mb-6 p-4 bg-slate-50 rounded-lg">
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Trabajador</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.jobs.detail.field.worker')}</label>
                 <select
                   value={workerForm.worker_id}
                   onChange={(e) => setWorkerForm(prev => ({ ...prev, worker_id: e.target.value }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                   required
                 >
-                  <option value="">Seleccionar trabajador</option>
+                  <option value="">{t('admin.jobs.detail.selectWorker')}</option>
                   {availableWorkers
                     .filter(worker => !jobWorkers.some(jw => jw.worker_id === worker.id))
                     .map(worker => (
@@ -564,13 +564,13 @@ Gracias por confiar en nuestros servicios.
                 }}
                 className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
               >
-                Cancelar
+                {t('common.cancel')}
               </button>
               <button
                 type="submit"
                 className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
               >
-                Agregar
+                {t('common.add')}
               </button>
             </div>
           </form>
@@ -579,7 +579,7 @@ Gracias por confiar en nuestros servicios.
         {jobWorkers.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">👷</div>
-            <p className="text-xl text-slate-600">No hay trabajadores asignados</p>
+            <p className="text-xl text-slate-600">{t('admin.jobs.detail.noWorkersAssigned')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -603,14 +603,14 @@ Gracias por confiar en nuestros servicios.
       {/* Evidence/Photos */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 mb-8">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-slate-900">📸 Fotos del Trabajo</h3>
+          <h3 className="text-2xl font-bold text-slate-900">📸 {t('admin.jobs.detail.section.photos')}</h3>
           {job.status !== 'completed' && job.status !== 'paid' && (
             <button
               onClick={() => setShowAddPhoto(!showAddPhoto)}
               className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors text-lg font-semibold"
             >
               <span className="text-xl">📷</span>
-              Agregar Foto
+              {t('admin.jobs.detail.action.addPhoto')}
             </button>
           )}
         </div>
@@ -619,7 +619,7 @@ Gracias por confiar en nuestros servicios.
           <form onSubmit={handleAddPhoto} className="mb-6 p-4 bg-slate-50 rounded-lg">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Foto</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.jobs.detail.field.photo')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -629,26 +629,26 @@ Gracias por confiar en nuestros servicios.
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Etiqueta</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.jobs.detail.field.tag')}</label>
                 <select
                   value={photoForm.tag || ''}
                   onChange={(e) => setPhotoForm(prev => ({ ...prev, tag: (e.target.value as JobPhotoTag) || null }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                 >
-                  <option value="">Sin etiqueta</option>
-                  <option value="before">Antes</option>
-                  <option value="during">Durante</option>
-                  <option value="after">Después</option>
+                  <option value="">{t('admin.jobs.detail.noTag')}</option>
+                  <option value="before">{t('admin.jobs.detail.photo.before')}</option>
+                  <option value="during">{t('admin.jobs.detail.photo.during')}</option>
+                  <option value="after">{t('admin.jobs.detail.photo.after')}</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Descripción (opcional)</label>
+                <label className="block text-sm font-medium mb-2">{t('admin.jobs.detail.field.photoDescription')}</label>
                 <input
                   type="text"
                   value={photoForm.description}
                   onChange={(e) => setPhotoForm(prev => ({ ...prev, description: e.target.value }))}
                   className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                  placeholder="Descripción de la foto"
+                  placeholder={t('admin.jobs.detail.photoDescriptionPlaceholder')}
                 />
               </div>
             </div>
@@ -661,14 +661,14 @@ Gracias por confiar en nuestros servicios.
                 }}
                 className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
               >
-                Cancelar
+                {t('common.cancel')}
               </button>
               <button
                 type="submit"
                 disabled={uploadingPhoto}
                 className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
-                {uploadingPhoto ? 'Subiendo...' : 'Agregar foto'}
+                {uploadingPhoto ? t('admin.jobs.detail.uploading') : t('admin.jobs.detail.action.addPhoto')}
               </button>
             </div>
           </form>
@@ -677,7 +677,7 @@ Gracias por confiar en nuestros servicios.
         {jobPhotos.length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">📸</div>
-            <p className="text-xl text-slate-600">No hay fotos del trabajo</p>
+            <p className="text-xl text-slate-600">{t('admin.jobs.detail.noPhotos')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -686,7 +686,7 @@ Gracias por confiar en nuestros servicios.
                 <div className="aspect-square bg-slate-100 rounded-xl overflow-hidden">
                   <img
                     src={photo.url}
-                    alt={photo.description || 'Foto del trabajo'}
+                    alt={photo.description || t('admin.jobs.detail.photoAlt')}
                     className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
                     onClick={() => window.open(photo.url, '_blank')}
                   />
@@ -717,13 +717,13 @@ Gracias por confiar en nuestros servicios.
 
       {/* Pricing */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
-        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">💰 Precio del Trabajo</h3>
+        <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">💰 {t('admin.jobs.detail.section.pricing')}</h3>
         
         <div className="max-w-md mx-auto">
           <div className="bg-gradient-to-br from-primary/10 to-primary/20 rounded-3xl p-8 border-2 border-primary/20">
             <div className="text-center mb-6">
               <div className="text-6xl mb-4">💰</div>
-              <p className="text-xl font-semibold text-slate-700 mb-2">Precio Total</p>
+              <p className="text-xl font-semibold text-slate-700 mb-2">{t('admin.jobs.detail.field.totalPrice')}</p>
             </div>
             
             <div className="relative">
@@ -749,8 +749,8 @@ Gracias por confiar en nuestros servicios.
             <div className="mt-6 text-center">
               <p className="text-sm text-slate-600">
                 {job.total_amount && job.total_amount > 0 
-                  ? `Precio: $${job.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                  : 'Ingresa el precio del trabajo'
+                  ? `${t('admin.jobs.detail.field.price')}: $${job.total_amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  : t('admin.jobs.detail.enterPrice')
                 }
               </p>
             </div>

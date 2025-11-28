@@ -4,12 +4,14 @@ import { getWorkerById, updateWorker } from '../../services/workersService';
 import { getJobWorkersByWorker } from '../../services/jobWorkersService';
 import { getJobsByIds } from '../../services/jobsService';
 import { formatPhoneNumber } from '../../utils/phoneFormat';
+import { useTranslation } from '../../i18n/LanguageContext';
 import type { Worker, WorkerStatus, WorkerPayType } from '../../types/workers';
 import type { Job, JobStatus } from '../../types/job';
 import type { JobWorker } from '../../types/jobWorkers';
 
 export default function TrabajadorDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
   const [worker, setWorker] = useState<Worker | null>(null);
   const [workerJobs, setWorkerJobs] = useState<(JobWorker & { job: Job })[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +33,7 @@ export default function TrabajadorDetailPage() {
       ]);
 
       if (!workerData) {
-        setError('Trabajador no encontrado');
+        setError(t('admin.workers.detail.notFound'));
         return;
       }
 
@@ -50,7 +52,7 @@ export default function TrabajadorDetailPage() {
         setWorkerJobs(enrichedWorkerJobs);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error loading worker');
+      setError(err instanceof Error ? err.message : t('admin.workers.detail.loadError'));
     } finally {
       setLoading(false);
     }
@@ -62,8 +64,8 @@ export default function TrabajadorDetailPage() {
       'inactive': 'bg-gray-100 text-gray-800'
     };
     const labels = {
-      'active': 'Activo',
-      'inactive': 'Inactivo'
+      'active': t('status.active'),
+      'inactive': t('status.inactive')
     };
     return (
       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config[status]}`}>
@@ -84,13 +86,13 @@ export default function TrabajadorDetailPage() {
     };
 
     const statusLabels = {
-      'lead': 'Lead',
-      'scheduled': 'Programado',
-      'in_progress': 'En Progreso',
-      'completed': 'Completado',
-      'invoiced': 'Facturado',
-      'paid': 'Pagado',
-      'cancelled': 'Cancelado'
+      'lead': t('status.lead'),
+      'scheduled': t('status.scheduled'),
+      'in_progress': t('status.in_progress'),
+      'completed': t('status.completed'),
+      'invoiced': t('status.invoiced'),
+      'paid': t('status.paid'),
+      'cancelled': t('status.cancelled')
     };
 
     return (
@@ -102,21 +104,21 @@ export default function TrabajadorDetailPage() {
 
   const getServiceTypeLabel = (serviceType: string) => {
     const labels: Record<string, string> = {
-      'plumbing': 'Plomería',
-      'electrical': 'Electricidad',
-      'drywall_paint': 'Drywall y Pintura',
-      'carpentry': 'Carpintería',
-      'flooring': 'Pisos',
-      'other': 'Otro'
+      'plumbing': t('service.plumbing'),
+      'electrical': t('service.electrical'),
+      'drywall_paint': t('service.drywall_paint'),
+      'carpentry': t('service.carpentry'),
+      'flooring': t('service.flooring'),
+      'other': t('service.other')
     };
     return labels[serviceType] || serviceType;
   };
 
   const getPayTypeLabel = (payType: WorkerPayType) => {
     const labels = {
-      'hourly': 'Por hora',
-      'per_job': 'Por trabajo',
-      'salary': 'Salario fijo'
+      'hourly': t('admin.workers.form.payType.hourly'),
+      'per_job': t('admin.workers.form.payType.perJob'),
+      'salary': t('admin.workers.form.payType.salary')
     };
     return labels[payType];
   };
@@ -139,7 +141,7 @@ export default function TrabajadorDetailPage() {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-slate-600">Cargando trabajador...</p>
+          <p className="text-slate-600">{t('admin.workers.detail.loading')}</p>
         </div>
       </div>
     );
@@ -149,11 +151,11 @@ export default function TrabajadorDetailPage() {
     return (
       <div className="text-center py-12">
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg inline-block">
-          {error || 'Trabajador no encontrado'}
+          {error || t('admin.workers.detail.notFound')}
         </div>
         <div className="mt-4">
           <Link to="/admin/trabajadores" className="text-primary hover:text-primary/80">
-            ← Volver a trabajadores
+            ← {t('admin.workers.detail.backToList')}
           </Link>
         </div>
       </div>
@@ -166,9 +168,9 @@ export default function TrabajadorDetailPage() {
       <div className="flex items-center justify-between">
         <div>
           <Link to="/admin/trabajadores" className="text-sm text-slate-600 hover:text-primary mb-2 inline-block">
-            ← Volver a trabajadores
+            ← {t('admin.workers.detail.backToList')}
           </Link>
-          <h1 className="text-3xl font-bold">Ficha del trabajador</h1>
+          <h1 className="text-3xl font-bold">{t('admin.workers.detail.title')}</h1>
         </div>
       </div>
 
@@ -177,12 +179,12 @@ export default function TrabajadorDetailPage() {
         <div className="lg:col-span-1">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
             <div className="flex items-start justify-between mb-4">
-              <h2 className="text-lg font-semibold">Resumen del trabajador</h2>
+              <h2 className="text-lg font-semibold">{t('admin.workers.detail.section.summary')}</h2>
               <button
                 onClick={() => setEditing(!editing)}
                 className="px-3 py-1 text-sm border border-slate-300 rounded hover:bg-slate-50"
               >
-                {editing ? 'Cancelar' : 'Editar'}
+                {editing ? t('common.cancel') : t('common.edit')}
               </button>
             </div>
 
@@ -212,7 +214,7 @@ export default function TrabajadorDetailPage() {
 
                 {worker.phone && (
                   <div>
-                    <p className="text-sm text-slate-600">Teléfono</p>
+                    <p className="text-sm text-slate-600">{t('common.phone')}</p>
                     <a href={`tel:${worker.phone}`} className="font-medium text-primary hover:text-primary/80">
                       {worker.phone}
                     </a>
@@ -221,7 +223,7 @@ export default function TrabajadorDetailPage() {
 
                 {worker.email && (
                   <div>
-                    <p className="text-sm text-slate-600">Correo</p>
+                    <p className="text-sm text-slate-600">{t('common.email')}</p>
                     <a href={`mailto:${worker.email}`} className="font-medium text-primary hover:text-primary/80">
                       {worker.email}
                     </a>
@@ -229,27 +231,27 @@ export default function TrabajadorDetailPage() {
                 )}
 
                 <div>
-                  <p className="text-sm text-slate-600">Tipo de pago</p>
+                  <p className="text-sm text-slate-600">{t('admin.workers.form.payType')}</p>
                   <p className="font-medium">{getPayTypeLabel(worker.pay_type)}</p>
                 </div>
 
                 {worker.hourly_rate && (
                   <div>
-                    <p className="text-sm text-slate-600">Tarifa por hora</p>
+                    <p className="text-sm text-slate-600">{t('admin.workers.form.hourlyRate')}</p>
                     <p className="font-medium">${worker.hourly_rate}/hr</p>
                   </div>
                 )}
 
                 {worker.overtime_rate && (
                   <div>
-                    <p className="text-sm text-slate-600">Tarifa horas extra</p>
+                    <p className="text-sm text-slate-600">{t('admin.workers.form.overtimeRate')}</p>
                     <p className="font-medium">${worker.overtime_rate}/hr</p>
                   </div>
                 )}
 
                 {worker.start_date && (
                   <div>
-                    <p className="text-sm text-slate-600">Fecha de inicio</p>
+                    <p className="text-sm text-slate-600">{t('admin.workers.form.startDate')}</p>
                     <p className="font-medium">{new Date(worker.start_date).toLocaleDateString()}</p>
                   </div>
                 )}
@@ -259,18 +261,18 @@ export default function TrabajadorDetailPage() {
 
           {/* Hours Summary */}
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mt-6">
-            <h3 className="text-lg font-semibold mb-4">Resumen (últimos 30 días)</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('admin.workers.detail.section.summary30Days')}</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-slate-600">Horas normales:</span>
+                <span className="text-slate-600">{t('admin.workers.detail.field.regularHours')}:</span>
                 <span className="font-medium">{totalRegularHours}h</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">Horas extra:</span>
+                <span className="text-slate-600">{t('admin.workers.detail.field.overtimeHours')}:</span>
                 <span className="font-medium">{totalOvertimeHours}h</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">Trabajos completados:</span>
+                <span className="text-slate-600">{t('admin.workers.detail.field.completedJobs')}:</span>
                 <span className="font-medium">{completedJobs}</span>
               </div>
             </div>
@@ -280,22 +282,22 @@ export default function TrabajadorDetailPage() {
         {/* Worker Jobs */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold mb-4">Trabajos del trabajador</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('admin.workers.detail.section.workerJobs')}</h3>
             
             {workerJobs.length === 0 ? (
-              <p className="text-slate-600">No hay trabajos asignados</p>
+              <p className="text-slate-600">{t('admin.workers.detail.noJobsAssigned')}</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-slate-50 text-xs text-slate-600 uppercase">
                     <tr>
-                      <th className="px-4 py-3 text-left">Fecha</th>
-                      <th className="px-4 py-3 text-left">Título</th>
-                      <th className="px-4 py-3 text-left">Tipo</th>
-                      <th className="px-4 py-3 text-left">Estado</th>
-                      <th className="px-4 py-3 text-right">H. Normales</th>
-                      <th className="px-4 py-3 text-right">H. Extra</th>
-                      <th className="px-4 py-3 text-right">Costo</th>
+                      <th className="px-4 py-3 text-left">{t('common.date')}</th>
+                      <th className="px-4 py-3 text-left">{t('admin.workers.detail.table.title')}</th>
+                      <th className="px-4 py-3 text-left">{t('admin.workers.detail.table.type')}</th>
+                      <th className="px-4 py-3 text-left">{t('common.status')}</th>
+                      <th className="px-4 py-3 text-right">{t('admin.workers.detail.table.regularHours')}</th>
+                      <th className="px-4 py-3 text-right">{t('admin.workers.detail.table.overtimeHours')}</th>
+                      <th className="px-4 py-3 text-right">{t('admin.workers.detail.table.cost')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -343,6 +345,7 @@ interface WorkerEditFormProps {
 }
 
 function WorkerEditForm({ worker, onSave, onCancel }: WorkerEditFormProps) {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     phone: worker.phone || '',
     email: worker.email || '',
@@ -371,7 +374,7 @@ function WorkerEditForm({ worker, onSave, onCancel }: WorkerEditFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1">Teléfono</label>
+        <label className="block text-sm font-medium mb-1">{t('common.phone')}</label>
         <input
           type="tel"
           value={formData.phone}
@@ -383,7 +386,7 @@ function WorkerEditForm({ worker, onSave, onCancel }: WorkerEditFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Email</label>
+        <label className="block text-sm font-medium mb-1">{t('common.email')}</label>
         <input
           type="email"
           value={formData.email}
@@ -393,19 +396,19 @@ function WorkerEditForm({ worker, onSave, onCancel }: WorkerEditFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Estado</label>
+        <label className="block text-sm font-medium mb-1">{t('common.status')}</label>
         <select
           value={formData.status}
           onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value as WorkerStatus }))}
           className="w-full px-3 py-2 border border-slate-300 rounded focus:ring-2 focus:ring-primary text-sm"
         >
-          <option value="active">Activo</option>
-          <option value="inactive">Inactivo</option>
+          <option value="active">{t('status.active')}</option>
+          <option value="inactive">{t('status.inactive')}</option>
         </select>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Tarifa/hora</label>
+        <label className="block text-sm font-medium mb-1">{t('admin.workers.form.hourlyRate')}</label>
         <input
           type="number"
           step="0.01"
@@ -420,14 +423,14 @@ function WorkerEditForm({ worker, onSave, onCancel }: WorkerEditFormProps) {
           type="submit"
           className="px-4 py-2 bg-primary text-white rounded text-sm hover:bg-primary/90"
         >
-          Guardar cambios
+          {t('admin.workers.detail.saveChanges')}
         </button>
         <button
           type="button"
           onClick={onCancel}
           className="px-4 py-2 border border-slate-300 rounded text-sm hover:bg-slate-50"
         >
-          Cancelar
+          {t('common.cancel')}
         </button>
       </div>
     </form>
