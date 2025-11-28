@@ -4,7 +4,8 @@ import { useAdminAuth } from '../../auth/AdminAuthContext';
 import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function LoginPage() {
-  const [passcode, setPasscode] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -12,13 +13,13 @@ export default function LoginPage() {
   const { login } = useAdminAuth();
   const { t } = useTranslation();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
     try {
-      const success = login(passcode);
+      const success = await login(email, password);
       
       if (success) {
         // Redirect to intended page or admin home
@@ -46,7 +47,19 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+              {t('common.email')}
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="admin@gioservice.com"
+              required
+            />
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
@@ -54,8 +67,8 @@ export default function LoginPage() {
             </label>
             <input
               type="password"
-              value={passcode}
-              onChange={(e) => setPasscode(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-primary"
               placeholder={t('admin.login.passwordPlaceholder')}
               required
@@ -70,7 +83,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading || !passcode}
+            disabled={loading || !email || !password}
             className="w-full bg-primary hover:bg-primary/90 disabled:opacity-50 text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
             {loading ? t('admin.login.submitting') : t('admin.login.submit')}

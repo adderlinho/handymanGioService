@@ -107,8 +107,8 @@ export default function AdminLayout() {
                 <span className="hidden sm:inline">{t('admin.header.publicSite')}</span>
               </Link>
               <button 
-                onClick={() => {
-                  logout();
+                onClick={async () => {
+                  await logout();
                   navigate('/', { replace: true });
                 }}
                 className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"

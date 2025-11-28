@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ADMIN_AUTH_CONFIG } from '../config/adminAuth';
+import { supabase } from '../lib/supabaseClient';
+import type { User } from '@supabase/supabase-js';
 
 interface AdminAuthContextValue {
   isAuthenticated: boolean;
-  login: (passcode: string) => boolean;
-  logout: () => void;
+  user: User | null;
+  login: (email: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
   isLoading: boolean;
 }
 
@@ -12,67 +14,68 @@ const AdminAuthContext = createContext<AdminAuthContextValue | undefined>(undefi
 
 export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     checkAuthState();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setIsAuthenticated(!!session?.user);
+      setUser(session?.user || null);
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const checkAuthState = () => {
+  const checkAuthState = async () => {
     try {
-      const authState = localStorage.getItem(ADMIN_AUTH_CONFIG.storageKey);
-      const authTime = localStorage.getItem(ADMIN_AUTH_CONFIG.timestampKey);
-      
-      if (authState === 'true' && authTime) {
-        const timestamp = parseInt(authTime, 10);
-        const now = Date.now();
-        
-        // Check if session has expired
-        if (now - timestamp < ADMIN_AUTH_CONFIG.sessionTimeout) {
-          setIsAuthenticated(true);
-        } else {
-          // Session expired, clear storage
-          logout();
-        }
-      }
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session?.user);
+      setUser(session?.user || null);
     } catch (error) {
       console.error('Error checking auth state:', error);
-      logout();
+      setIsAuthenticated(false);
+      setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const login = (passcode: string): boolean => {
-    const expectedPasscode = ADMIN_AUTH_CONFIG.passcode;
-    
-    if (!expectedPasscode || passcode !== expectedPasscode) {
-      return false;
-    }
-
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      setIsAuthenticated(true);
-      localStorage.setItem(ADMIN_AUTH_CONFIG.storageKey, 'true');
-      localStorage.setItem(ADMIN_AUTH_CONFIG.timestampKey, Date.now().toString());
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        console.error('Login error:', error);
+        return false;
+      }
+
+      setIsAuthenticated(!!data.user);
+      setUser(data.user);
       return true;
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Login error:', error);
       return false;
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     try {
+      await supabase.auth.signOut();
       setIsAuthenticated(false);
-      localStorage.removeItem(ADMIN_AUTH_CONFIG.storageKey);
-      localStorage.removeItem(ADMIN_AUTH_CONFIG.timestampKey);
+      setUser(null);
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error('Logout error:', error);
     }
   };
 
   return (
-    <AdminAuthContext.Provider value={{ isAuthenticated, login, logout, isLoading }}>
+    <AdminAuthContext.Provider value={{ isAuthenticated, user, login, logout, isLoading }}>
       {children}
     </AdminAuthContext.Provider>
   );
