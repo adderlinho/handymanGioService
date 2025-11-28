@@ -32,7 +32,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/"
               >
-                {t('nav.public.home')}
+                {t('public.nav.home')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -42,7 +42,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/servicios"
               >
-                {t('nav.public.services')}
+                {t('public.nav.services')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -52,7 +52,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/trabajos-realizados"
               >
-                {t('nav.public.portfolio')}
+                {t('public.nav.portfolio')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -62,7 +62,7 @@ export default function PublicLayout() {
                 }`} 
                 to="/como-funciona"
               >
-                {t('nav.public.howItWorks')}
+                {t('public.nav.howItWorks')}
               </Link>
               <Link 
                 className={`text-sm font-medium transition-colors ${
@@ -72,18 +72,18 @@ export default function PublicLayout() {
                 }`} 
                 to="/contacto"
               >
-                {t('nav.public.contact')}
+                {t('public.nav.contact')}
               </Link>
             </nav>
             <div className="flex items-center gap-4">
               <Link to="/agenda" className="flex min-w-[84px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full bg-accent px-5 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:scale-105 active:scale-95">
                 <span className="material-symbols-outlined text-base">calendar_month</span>
-                <span className="truncate">{t('nav.public.booking')}</span>
+                <span className="truncate">{t('public.nav.booking')}</span>
               </Link>
               <LanguageSwitcher variant="compact" />
               <Link to="/admin" className="hidden md:flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-primary transition-colors">
                 <span className="material-symbols-outlined text-base">admin_panel_settings</span>
-                <span>Admin</span>
+                <span>{t('public.nav.login')}</span>
               </Link>
               <button 
                 className="md:hidden"
@@ -110,7 +110,7 @@ export default function PublicLayout() {
                 to="/"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.public.home')}
+                {t('public.nav.home')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -121,7 +121,7 @@ export default function PublicLayout() {
                 to="/servicios"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.public.services')}
+                {t('public.nav.services')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -132,7 +132,7 @@ export default function PublicLayout() {
                 to="/trabajos-realizados"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.public.portfolio')}
+                {t('public.nav.portfolio')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -143,7 +143,7 @@ export default function PublicLayout() {
                 to="/como-funciona"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.public.howItWorks')}
+                {t('public.nav.howItWorks')}
               </Link>
               <Link 
                 className={`block py-2 text-sm font-medium transition-colors ${
@@ -154,7 +154,7 @@ export default function PublicLayout() {
                 to="/contacto"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {t('nav.public.contact')}
+                {t('public.nav.contact')}
               </Link>
               <div className="border-t border-border-light dark:border-border-dark my-2 pt-2">
                 <Link 
@@ -163,7 +163,7 @@ export default function PublicLayout() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span className="material-symbols-outlined text-base">admin_panel_settings</span>
-                  <span>Panel Admin</span>
+                  <span>{t('public.nav.login')}</span>
                 </Link>
               </div>
             </nav>
@@ -185,20 +185,20 @@ export default function PublicLayout() {
                 <span className="material-symbols-outlined text-primary text-3xl">construction</span>
                 <h3 className="text-xl font-bold">GioService</h3>
               </Link>
-              <p className="text-sm opacity-80">Reparaciones confiables para tu hogar. Electricidad, plomería, pintura y mantenimiento general.</p>
+              <p className="text-sm opacity-80">{t('public.footer.tagline')}</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Servicios</h4>
+              <h4 className="font-semibold mb-4">{t('public.footer.services')}</h4>
               <ul className="space-y-2 text-sm opacity-80">
-                <li><Link to="/servicios" className="hover:text-primary transition-colors">Plomería</Link></li>
-                <li><Link to="/servicios" className="hover:text-primary transition-colors">Electricidad</Link></li>
-                <li><Link to="/servicios" className="hover:text-primary transition-colors">Pintura</Link></li>
-                <li><Link to="/servicios" className="hover:text-primary transition-colors">Carpintería</Link></li>
-                <li><Link to="/servicios" className="hover:text-primary transition-colors">Albañilería</Link></li>
+                <li><Link to="/servicios" className="hover:text-primary transition-colors">{t('service.plumbing')}</Link></li>
+                <li><Link to="/servicios" className="hover:text-primary transition-colors">{t('service.electrical')}</Link></li>
+                <li><Link to="/servicios" className="hover:text-primary transition-colors">{t('service.drywall_paint')}</Link></li>
+                <li><Link to="/servicios" className="hover:text-primary transition-colors">{t('service.carpentry')}</Link></li>
+                <li><Link to="/servicios" className="hover:text-primary transition-colors">{t('service.flooring')}</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Contacto</h4>
+              <h4 className="font-semibold mb-4">{t('public.footer.contact')}</h4>
               <div className="space-y-2 text-sm opacity-80">
                 <p>📞 +1 (847) 505-5576</p>
                 <p>📧 giosinay@gmail.com</p>
@@ -207,7 +207,7 @@ export default function PublicLayout() {
             </div>
           </div>
           <div className="border-t border-opacity-20 mt-8 pt-8 text-center text-sm opacity-60">
-            <p>&copy; 2024 GioService. Todos los derechos reservados.</p>
+            <p>{t('public.footer.rights')}</p>
           </div>
         </div>
       </footer>

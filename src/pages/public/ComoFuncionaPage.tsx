@@ -1,29 +1,32 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../../i18n/LanguageContext';
 
 export default function ComoFuncionaPage() {
+  const { t } = useTranslation();
+  
   const steps = [
     {
       number: '1',
-      title: 'Agenda tu cita',
-      description: 'Completa nuestro formulario online o contáctanos por WhatsApp. Te responderemos en menos de 2 horas.',
+      title: t('public.howItWorks.step1.title'),
+      description: t('public.howItWorks.step1.description'),
       icon: 'calendar_month'
     },
     {
       number: '2',
-      title: 'Evaluación gratuita',
-      description: 'Visitamos tu hogar para evaluar el trabajo y proporcionarte un presupuesto sin compromiso.',
+      title: t('public.howItWorks.step2.title'),
+      description: t('public.howItWorks.step2.description'),
       icon: 'search'
     },
     {
       number: '3',
-      title: 'Trabajo profesional',
-      description: 'Nuestros técnicos certificados realizan el trabajo con materiales de calidad y garantía.',
+      title: t('public.howItWorks.step3.title'),
+      description: t('public.howItWorks.step3.description'),
       icon: 'handyman'
     },
     {
       number: '4',
-      title: 'Satisfacción garantizada',
-      description: 'Revisamos contigo el trabajo terminado y te proporcionamos garantía por nuestros servicios.',
+      title: t('public.howItWorks.step4.title'),
+      description: t('public.howItWorks.step4.description'),
       icon: 'verified'
     }
   ];
@@ -34,11 +37,10 @@ export default function ComoFuncionaPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-text-light dark:text-text-dark mb-4">
-            ¿Cómo funciona?
+            {t('public.howItWorks.title')}
           </h1>
           <p className="text-lg text-text-light/80 dark:text-text-dark/80 max-w-2xl mx-auto">
-            Obtener ayuda profesional para tu hogar es más fácil de lo que piensas. 
-            Sigue estos simples pasos para resolver tus problemas de mantenimiento.
+            {t('public.howItWorks.subtitle')}
           </p>
         </div>
 
@@ -70,28 +72,28 @@ export default function ComoFuncionaPage() {
         {/* Features */}
         <div className="bg-white dark:bg-slate-800 rounded-xl p-8 mb-16">
           <h2 className="text-2xl font-bold text-center mb-8 text-text-light dark:text-text-dark">
-            ¿Por qué elegir GioService?
+            {t('public.howItWorks.features.title')}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <span className="material-symbols-outlined text-primary text-4xl mb-4 block">schedule</span>
-              <h3 className="text-lg font-semibold mb-2">Respuesta rápida</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('public.howItWorks.features.fast.title')}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Te contactamos en menos de 2 horas durante horario laboral
+                {t('public.howItWorks.features.fast.description')}
               </p>
             </div>
             <div className="text-center">
               <span className="material-symbols-outlined text-primary text-4xl mb-4 block">verified_user</span>
-              <h3 className="text-lg font-semibold mb-2">Técnicos certificados</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('public.howItWorks.features.certified.title')}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Personal capacitado y con experiencia comprobada
+                {t('public.howItWorks.features.certified.description')}
               </p>
             </div>
             <div className="text-center">
               <span className="material-symbols-outlined text-primary text-4xl mb-4 block">workspace_premium</span>
-              <h3 className="text-lg font-semibold mb-2">Garantía incluida</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('public.howItWorks.features.warranty.title')}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Todos nuestros trabajos incluyen garantía de satisfacción
+                {t('public.howItWorks.features.warranty.description')}
               </p>
             </div>
           </div>
@@ -100,17 +102,17 @@ export default function ComoFuncionaPage() {
         {/* CTA */}
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4 text-text-light dark:text-text-dark">
-            ¿Listo para comenzar?
+            {t('public.howItWorks.cta.title')}
           </h2>
           <p className="text-text-light/80 dark:text-text-dark/80 mb-6">
-            Agenda tu evaluación gratuita hoy mismo
+            {t('public.howItWorks.cta.subtitle')}
           </p>
           <Link
             to="/agenda"
             className="inline-flex items-center gap-2 bg-accent text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform"
           >
             <span className="material-symbols-outlined">calendar_month</span>
-            Agenda tu visita gratuita
+            {t('public.howItWorks.cta.button')}
           </Link>
         </div>
       </div>

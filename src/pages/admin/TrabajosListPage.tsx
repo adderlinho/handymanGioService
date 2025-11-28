@@ -84,15 +84,15 @@ export default function TrabajosListPage() {
         icon: "🛠️"
       }}
     >
-      <AdminSectionCard title="Filtros y búsqueda">
+      <AdminSectionCard title={t('admin.jobs.list.filtersTitle')}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="sm:col-span-2 lg:col-span-2">
             <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-              Buscar trabajos
+              {t('admin.jobs.list.search')}
             </label>
             <input
               type="text"
-              placeholder="Buscar por cliente, dirección..."
+              placeholder={t('admin.jobs.list.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="block w-full h-11 md:h-12 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm md:text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -100,34 +100,34 @@ export default function TrabajosListPage() {
           </div>
           <div>
             <label className="block text-sm md:text-base font-medium text-slate-800 mb-2">
-              Filtrar por estado
+              {t('admin.jobs.list.filterStatus')}
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as 'all' | 'leads' | 'no-leads')}
               className="block w-full h-11 md:h-12 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm md:text-base text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="all">Todos</option>
-              <option value="leads">Solo leads</option>
-              <option value="no-leads">Sin leads</option>
+              <option value="all">{t('admin.jobs.list.filterAll')}</option>
+              <option value="leads">{t('admin.jobs.list.filterLeads')}</option>
+              <option value="no-leads">{t('admin.jobs.list.filterNoLeads')}</option>
             </select>
           </div>
         </div>
       </AdminSectionCard>
 
-      <AdminSectionCard title={`Lista de trabajos (${filteredJobs.length})`}>
+      <AdminSectionCard title={t('admin.jobs.list.count', { count: filteredJobs.length })}>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto text-sm md:text-base">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Trabajo</th>
-                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Cliente</th>
-                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Ubicación</th>
-                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Servicio</th>
-                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Estado</th>
-                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">Fecha</th>
-                <th className="px-4 py-3 text-right text-xs md:text-sm font-semibold text-slate-600">Total</th>
-                <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-slate-600">Acciones</th>
+                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableJob')}</th>
+                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableClient')}</th>
+                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableLocation')}</th>
+                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableService')}</th>
+                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableStatus')}</th>
+                <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableDate')}</th>
+                <th className="px-4 py-3 text-right text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableTotal')}</th>
+                <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-slate-600">{t('admin.jobs.list.tableActions')}</th>
               </tr>
             </thead>
             <tbody className="bg-white">
@@ -161,7 +161,7 @@ export default function TrabajosListPage() {
                       to={`/admin/trabajos/${job.id}`}
                       className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      👁 Ver
+                      👁 {t('admin.jobs.list.viewButton')}
                     </Link>
                   </td>
                 </tr>
@@ -172,7 +172,7 @@ export default function TrabajosListPage() {
         
         {filteredJobs.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-slate-600">No se encontraron trabajos</p>
+            <p className="text-slate-600">{t('admin.jobs.list.noResults')}</p>
           </div>
         )}
       </AdminSectionCard>

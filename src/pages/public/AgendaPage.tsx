@@ -155,14 +155,14 @@ export default function AgendaPage() {
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Nombre completo *
+                    {t('public.agenda.form.name')} *
                   </p>
                   <input
                     name="customer_name"
                     value={formData.customer_name}
                     onChange={handleChange}
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 placeholder:text-slate-500 dark:placeholder:text-gray-500 px-4 text-base font-normal leading-normal"
-                    placeholder="Ingresa tu nombre completo"
+                    placeholder={t('public.agenda.form.name')}
                     type="text"
                     required
                   />
@@ -172,7 +172,7 @@ export default function AgendaPage() {
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Teléfono / WhatsApp *
+                    {t('public.agenda.form.phone')} *
                   </p>
                   <input
                     name="customer_phone"
@@ -190,7 +190,7 @@ export default function AgendaPage() {
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Correo electrónico
+                    {t('public.agenda.form.email')}
                   </p>
                   <input
                     name="customer_email"
@@ -206,7 +206,7 @@ export default function AgendaPage() {
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Calle y número
+                    {t('public.agenda.form.street')}
                   </p>
                   <input
                     name="address_street"
@@ -222,7 +222,7 @@ export default function AgendaPage() {
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Apto / Unidad
+                    {t('public.agenda.form.unit')}
                   </p>
                   <input
                     name="address_unit"
@@ -238,7 +238,7 @@ export default function AgendaPage() {
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Código postal *
+                    {t('public.agenda.form.zip')} *
                   </p>
                   <input
                     name="zip"
@@ -252,12 +252,12 @@ export default function AgendaPage() {
                 </label>
                 {serviceArea && (
                   <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm text-green-700">
-                    ✓ Zona de servicio: {serviceArea.name}
+                    {t('public.agenda.form.serviceArea.found', { name: serviceArea.name })}
                   </div>
                 )}
                 {zipWarning && (
                   <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded text-sm text-amber-700">
-                    ⚠️ Este código postal puede estar fuera de nuestra área de servicio. Igualmente revisaremos tu solicitud.
+                    {t('public.agenda.form.serviceArea.warning')}
                   </div>
                 )}
               </div>
@@ -265,7 +265,7 @@ export default function AgendaPage() {
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Tipo de servicio *
+                    {t('public.agenda.form.serviceType')} *
                   </p>
                   <select
                     name="service_type"
@@ -274,13 +274,13 @@ export default function AgendaPage() {
                     className="form-select flex w-full min-w-0 flex-1 overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 px-4 text-base font-normal leading-normal"
                     required
                   >
-                    <option value="">Selecciona un servicio</option>
-                    <option value="plumbing">Plomería</option>
-                    <option value="electrical">Electricidad</option>
-                    <option value="drywall_paint">Drywall y Pintura</option>
-                    <option value="carpentry">Carpintería</option>
-                    <option value="flooring">Pisos</option>
-                    <option value="other">Otro</option>
+                    <option value="">{t('public.agenda.form.selectService')}</option>
+                    <option value="plumbing">{t('service.plumbing')}</option>
+                    <option value="electrical">{t('service.electrical')}</option>
+                    <option value="drywall_paint">{t('service.drywall_paint')}</option>
+                    <option value="carpentry">{t('service.carpentry')}</option>
+                    <option value="flooring">{t('service.flooring')}</option>
+                    <option value="other">{t('service.other')}</option>
                   </select>
                 </label>
               </div>
@@ -288,7 +288,7 @@ export default function AgendaPage() {
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Fecha preferida
+                    {t('public.agenda.form.preferredDate')}
                   </p>
                   <input
                     name="scheduled_date"
@@ -303,7 +303,7 @@ export default function AgendaPage() {
               <div>
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Franja horaria preferida
+                    {t('public.agenda.form.timeWindow')}
                   </p>
                   <select
                     name="time_window"
@@ -311,10 +311,10 @@ export default function AgendaPage() {
                     onChange={handleChange}
                     className="form-select flex w-full min-w-0 flex-1 overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 px-4 text-base font-normal leading-normal"
                   >
-                    <option value="">Selecciona una franja</option>
-                    <option value="Morning">Mañana (8:00 AM - 12:00 PM)</option>
-                    <option value="Afternoon">Tarde (12:00 PM - 5:00 PM)</option>
-                    <option value="Evening">Noche (5:00 PM - 8:00 PM)</option>
+                    <option value="">{t('public.agenda.form.selectTimeWindow')}</option>
+                    <option value="Morning">{t('public.agenda.form.timeWindow.morning')}</option>
+                    <option value="Afternoon">{t('public.agenda.form.timeWindow.afternoon')}</option>
+                    <option value="Evening">{t('public.agenda.form.timeWindow.evening')}</option>
                   </select>
                 </label>
               </div>
@@ -322,14 +322,14 @@ export default function AgendaPage() {
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    Descripción del trabajo *
+                    {t('public.agenda.form.description')} *
                   </p>
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
                     className="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary placeholder:text-slate-500 dark:placeholder:text-gray-500 p-4 text-base font-normal leading-normal"
-                    placeholder="Describe brevemente el problema o lo que necesitas."
+                    placeholder={t('public.agenda.form.description')}
                     rows={4}
                     required
                   />
@@ -339,7 +339,7 @@ export default function AgendaPage() {
               <div className="sm:col-span-2">
                 <label className="flex flex-col">
                   <p className="text-slate-900 dark:text-gray-200 text-sm font-medium leading-normal pb-2">
-                    ¿Cómo prefieres que te contactemos?
+                    {t('public.agenda.form.contactPreference')}
                   </p>
                   <select
                     name="contact_preference"
@@ -347,9 +347,9 @@ export default function AgendaPage() {
                     onChange={handleChange}
                     className="form-select flex w-full min-w-0 flex-1 overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary border border-slate-300 dark:border-gray-600 bg-slate-50 dark:bg-slate-900 focus:border-primary h-12 px-4 text-base font-normal leading-normal"
                   >
-                    <option value="phone">Teléfono</option>
-                    <option value="whatsapp">WhatsApp</option>
-                    <option value="email">Correo electrónico</option>
+                    <option value="phone">{t('public.agenda.form.contactPreference.phone')}</option>
+                    <option value="whatsapp">{t('public.agenda.form.contactPreference.whatsapp')}</option>
+                    <option value="email">{t('public.agenda.form.contactPreference.email')}</option>
                   </select>
                 </label>
               </div>
@@ -363,14 +363,14 @@ export default function AgendaPage() {
                 className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors disabled:opacity-50"
               >
                 {loading && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>}
-                {loading ? 'Enviando...' : 'Enviar solicitud'}
+                {loading ? t('public.agenda.form.submitting') : t('public.agenda.form.submit')}
               </button>
             </div>
           </form>
 
           {/* Secondary Contact Section */}
           <div className="mt-8 text-center border-t border-gray-200 dark:border-gray-700 pt-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400">¿Prefieres contactarnos directamente?</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('public.agenda.directContact.title')}</p>
             <a
               className="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 transition-colors"
               href="https://wa.me/18475055576"
@@ -380,7 +380,7 @@ export default function AgendaPage() {
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M16.6 14.2c-.3-.2-1.1-.5-1.3-.6-.2-.1-.3-.1-.5.1-.2.2-.4.5-.5.6-.1.1-.3.2-.5.1-.2-.1-.9-.3-1.7-1-.6-.6-1-1.3-1.2-1.5-.1-.2 0-.3.1-.4s.2-.2.3-.3c.1-.1.2-.2.2-.3.1-.1.1-.3 0-.4-.1-.1-.5-1.1-.6-1.5-.2-.4-.3-.3-.5-.3h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.6 2.5 4 3.5.6.2.9.4 1.2.5.5.2 1 .2 1.3.1.4-.1 1.1-.5 1.3-.9s.2-.8.1-1c-.1-.1-.2-.2-.4-.3zM12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18.2c-4.5 0-8.2-3.7-8.2-8.2S7.5 3.8 12 3.8 20.2 7.5 20.2 12 16.5 20.2 12 20.2z" />
               </svg>
-              <span>Chatea con nosotros</span>
+              <span>{t('public.agenda.directContact.button')}</span>
             </a>
           </div>
         </div>

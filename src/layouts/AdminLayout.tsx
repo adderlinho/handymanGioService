@@ -44,7 +44,7 @@ export default function AdminLayout() {
                 }`} 
                 to="/admin"
               >
-                <span>📊</span> Dashboard
+                <span>📊</span> {t('admin.nav.dashboard')}
               </Link>
               <Link 
                 className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
@@ -54,7 +54,7 @@ export default function AdminLayout() {
                 }`} 
                 to="/admin/trabajos"
               >
-                <span>🛠️</span> Trabajos
+                <span>🛠️</span> {t('admin.nav.jobs')}
               </Link>
               <Link 
                 className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
@@ -64,7 +64,7 @@ export default function AdminLayout() {
                 }`} 
                 to="/admin/trabajadores"
               >
-                <span>👷</span> Trabajadores
+                <span>👷</span> {t('admin.nav.workers')}
               </Link>
               <Link 
                 className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
@@ -74,7 +74,7 @@ export default function AdminLayout() {
                 }`} 
                 to="/admin/clientes"
               >
-                <span>👥</span> Clientes
+                <span>👥</span> {t('admin.nav.clients')}
               </Link>
               <Link 
                 className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
@@ -84,7 +84,7 @@ export default function AdminLayout() {
                 }`} 
                 to="/admin/inventario"
               >
-                <span>📦</span> Inventario
+                <span>📦</span> {t('admin.nav.inventory')}
               </Link>
               <Link 
                 className={`text-sm md:text-base font-medium py-2.5 px-3 rounded-xl transition-colors flex items-center gap-3 ${
@@ -94,7 +94,7 @@ export default function AdminLayout() {
                 }`} 
                 to="/admin/nomina"
               >
-                <span>🧾</span> Nómina
+                <span>🧾</span> {t('admin.nav.payroll')}
               </Link>
             </nav>
 
@@ -102,7 +102,7 @@ export default function AdminLayout() {
               <LanguageSwitcher variant="compact" />
               <Link to="/" className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                 <span>🌐</span>
-                <span className="hidden sm:inline">Sitio Público</span>
+                <span className="hidden sm:inline">{t('admin.header.publicSite')}</span>
               </Link>
               <button 
                 onClick={() => {
@@ -111,10 +111,10 @@ export default function AdminLayout() {
                   navigate('/admin/login');
                 }}
                 className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                title="Cerrar sesión"
+                title={t('admin.header.logout')}
               >
                 <span>🚪</span>
-                <span className="hidden sm:inline">Salir</span>
+                <span className="hidden sm:inline">{t('admin.header.logout')}</span>
               </button>
             </div>
           </div>
@@ -133,7 +133,7 @@ export default function AdminLayout() {
                 to="/admin"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>📊</span> Dashboard
+                <span>📊</span> {t('admin.nav.dashboard')}
               </Link>
               <Link 
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
@@ -144,7 +144,7 @@ export default function AdminLayout() {
                 to="/admin/trabajos"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>🛠️</span> Trabajos
+                <span>🛠️</span> {t('admin.nav.jobs')}
               </Link>
               <Link 
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
@@ -155,7 +155,7 @@ export default function AdminLayout() {
                 to="/admin/trabajadores"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>👷</span> Trabajadores
+                <span>👷</span> {t('admin.nav.workers')}
               </Link>
               <Link 
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
@@ -166,7 +166,7 @@ export default function AdminLayout() {
                 to="/admin/clientes"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>👥</span> Clientes
+                <span>👥</span> {t('admin.nav.clients')}
               </Link>
               <Link 
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
@@ -177,7 +177,7 @@ export default function AdminLayout() {
                 to="/admin/inventario"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>📦</span> Inventario
+                <span>📦</span> {t('admin.nav.inventory')}
               </Link>
               <Link 
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm md:text-base font-semibold transition-colors ${
@@ -188,7 +188,7 @@ export default function AdminLayout() {
                 to="/admin/nomina"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span>🧾</span> Nómina
+                <span>🧾</span> {t('admin.nav.payroll')}
               </Link>
             </nav>
           </div>
